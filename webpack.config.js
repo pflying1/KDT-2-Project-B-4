@@ -1,4 +1,4 @@
-//수동 생성
+// webpack 수동 작성
 const path = require('path');
 
 module.exports = {
@@ -13,12 +13,11 @@ module.exports = {
       },
     ],
   },
-
   resolve: {
-    extension: ['.ts', '.js'],
+    extensions: ['.ts','.js'],
   },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-  }
+  },
 };

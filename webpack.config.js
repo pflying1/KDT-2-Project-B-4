@@ -15,7 +15,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.ts', ',tsx'],
+    extensions: [".ts",".tsx"],
   },
   devServer: {
     static: path.join(__dirname, 'dist'),

@@ -2,7 +2,7 @@ fetch('https://openapi.its.go.kr:9443/cctvInfo?apiKey=584a17201cd54d8b925b869a09
   .then(response => response.json())
   .then(data => {
     // API 응답 데이터 처리
-    const test = Object.entries(data.response.data)
+    // const test = Object.entries(data.response.data)
     console.log( );
    
   })

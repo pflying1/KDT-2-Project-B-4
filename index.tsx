@@ -1,5 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import indexCont from "./IndexCont";
+import IndexCont from "./IndexCont";
 
-ReactDOM.render(<indexCont />, document.getElementById("root"));
+ReactDOM.render(<IndexCont />, document.getElementById("root"));

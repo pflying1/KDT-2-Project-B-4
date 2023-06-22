@@ -16,10 +16,7 @@ const clientConfig = {
         exclude: /node_modules/,
         use: 'babel-loader',
       },
-      // {
-      //   test: /\.css$/,
-      //   use: ['style-loader', 'css-loader'],
-      // },
+
     ],
   },
   resolve: {
@@ -46,7 +43,7 @@ const clientConfig = {
 
 };
 const serverConfig = {
-  entry: './index.ts',
+  entry: './App.ts',
   mode: 'production',
   module: {
     rules: [

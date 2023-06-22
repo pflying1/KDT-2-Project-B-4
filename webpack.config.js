@@ -1,7 +1,7 @@
 const path = require("path")
 
 const clientConfig = {
-  entry : "./develop/src/main.tsx",
+  entry : "./develop/src/Main.tsx",
   mode: "development",
   module: {
     rules: [

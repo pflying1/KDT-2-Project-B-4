@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MongoClient } from 'mongodb';
 import * as dotenv from 'dotenv';
+import * as mongoose from 'mongoose';
 
 @Injectable()
 export class AppService {
@@ -16,7 +17,43 @@ export class AppService {
 
     const url = `mongodb+srv://${username}:${password}@${clusterName}.rlutdef.mongodb.net/?retryWrites=true&w=majority`;
 
-    this.client = new MongoClient(url, {});
+    mongoose
+      .connect(url, {})
+      .then(() => {
+        console.log('MongoDB에 연결되었습니다.');
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    // newCustomer 스키마 정의(앞에서 이미 customer 컬렉션을 생성했으므로)
+    const customerSchema = new mongoose.Schema(
+      {
+        name: 'string',
+        age: 'number',
+        gender: 'string',
+      },
+      {
+        collection: 'newCustomer',
+      },
+    );
+    // 스키마를 모델로 변환
+    const Customer = mongoose.model('Schema', customerSchema);
+    // 모델로 인스턴스 생성
+    const customer1 = new Customer({
+      name: '홍길동',
+      age: '23',
+      gender: '남성',
+    });
+
+    // 생성한 인스턴스(Document)를 DB에 저장
+    customer1
+      .save()
+      .then(() => {
+        console.log(customer1);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
   getHello(): object {
     return {

@@ -21,4 +21,9 @@ export class AppController {
   getTest(): string[] {
     return this.appService.getTest();
   }
+  @Get('main')
+  async main() {
+    const data = await this.appService.getDbData();
+    return data;
+  }
 }

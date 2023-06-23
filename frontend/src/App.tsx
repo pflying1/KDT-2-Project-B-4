@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 function App() {
   const [hello, setHello] = useState()
+  const [helloWorld, setHelloWorld] = useState("")
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,9 +17,25 @@ function App() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3030/hello');
+        const data = await response.json();
+        // const jsonData = JSON.stringify(data)
+        setHelloWorld(data.message);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <div>
       <div>{hello}</div>
+      <div>{helloWorld}</div>
       <div>시작 하세요.</div>
     </div>
   );

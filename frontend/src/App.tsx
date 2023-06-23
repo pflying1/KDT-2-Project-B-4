@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 function App() {
   const [hello, setHello] = useState()
-  fetch('http://localhost:3000/test') // 백엔드 Nest.js 서버의 주소와 포트 번호를 입력하십시오
+  fetch('http://localhost:3030/test') // 백엔드 Nest.js 서버의 주소와 포트 번호를 입력하십시오
   .then(response => response.json())
   .then(data => {
     console.log(data);
@@ -16,7 +16,7 @@ function App() {
   return (
     <div>
       <div>{hello}</div>
-      <div>시작</div>
+      <div>시작 하세요.</div>
     </div>
   );
 }

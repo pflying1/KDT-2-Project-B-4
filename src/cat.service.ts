@@ -5,10 +5,14 @@ import { Cat, CatDocument } from './schemas/cat.schema';
 
 @Injectable()
 export class CatService {
-  constructor(@InjectModel(Cat.name) private catModel: Model<Cat>) {}
+  constructor(@InjectModel(Cat.name) private catModel: Model<CatDocument>) {}
 
-  async create(catData: any): Promise<Cat> {
-    const createdCat = new this.catModel(catData);
+  async create(cat: Cat): Promise<Cat> {
+    const createdCat = new this.catModel(cat);
     return createdCat.save();
+  }
+
+  async findAll(): Promise<Cat[]> {
+    return this.catModel.find().exec();
   }
 }

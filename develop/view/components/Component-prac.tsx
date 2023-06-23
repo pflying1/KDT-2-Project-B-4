@@ -1,4 +1,5 @@
 import React from "react"
+import "../css/Main.css"
 
 const componentPrac = () => {
   return (

@@ -8,6 +8,9 @@ async function bootstrap() {
   // 정적 파일 폴더 경로 설정
   app.use(express.static(join(__dirname, '..', '..', '/frontend/build')));
 
-  await app.listen(3000);
+  // CORS 설정
+  app.enableCors();
+
+  await app.listen(3030);
 }
 bootstrap();

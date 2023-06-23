@@ -2,6 +2,11 @@ import { Controller, Get, Res } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Response } from 'express';
 import { join } from 'path';
+interface User {
+  // 여기에 User 인터페이스 구성 요소를 작성해주세요
+  name: string;
+  // 기타 필요한 속성들
+}
 
 @Controller()
 export class AppController {
@@ -22,8 +27,7 @@ export class AppController {
     return this.appService.getTest();
   }
   @Get('main')
-  async main() {
-    const data = await this.appService.getDbData();
-    return data;
+  async findAll(): Promise<User[]> {
+    return this.appService.findAll();
   }
 }

@@ -6,7 +6,8 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel('User') private userModel: Model<User>) {}
+  // module에서 컬력센 이름을 바꾸어 주었다면 여기서도 똑같이 바꾸어 주어야 한다.
+  constructor(@InjectModel('KwonTest') private userModel: Model<User>) {}
 
   async getAllusers(): Promise<User[]> {
     const users = await this.userModel.find().exec();
@@ -20,7 +21,7 @@ export class UserService {
       pw,
       status: UserStatus.PUBLIC
     });
-
+    // save()메서드를 사용하여 데이터를 DB에 저장 하는거 같다.
     const result = await newUser.save();
     return result;
   }

@@ -6,7 +6,8 @@ import { UserSchema } from './user.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
+    // 여기서 컬력선 이름을 변경해 준다.
+    MongooseModule.forFeature([{ name: 'KwonTest', schema: UserSchema }]),
   ],
   controllers: [UserController],
   providers: [UserService],

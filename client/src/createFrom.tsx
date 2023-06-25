@@ -3,7 +3,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 const CreateForm: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
-    age: ''
+    pw: ''
   });
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +17,7 @@ const CreateForm: React.FC = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch('/input', {
+      const response = await fetch('/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ const CreateForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <input type="text" name="name" onChange={handleInputChange} />
-      <input type="number" name="age" onChange={handleInputChange} />
+      <input type="password" name="pw" onChange={handleInputChange} />
       <button type="submit">Submit</button>
     </form>
   );

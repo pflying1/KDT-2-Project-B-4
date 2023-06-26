@@ -8,9 +8,13 @@ import Navi from './navi'
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+
 root.render(
   <React.StrictMode>
-    <Navi />
+    <div className='root'>
+      <Navi />
+    </div>
   </React.StrictMode>
 );
 

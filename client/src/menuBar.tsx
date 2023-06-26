@@ -4,7 +4,7 @@ import settingLogo from './image/settings.png';
 import markLogo from './image/bookmark.png';
 import './styles.css'
 
-const navi: React.FC = () => {
+const menuBar: React.FC = () => {
 
   return (
     <div className='naviBox'>
@@ -21,4 +21,4 @@ const navi: React.FC = () => {
   )
 }
 
-export default navi
+export default menuBar

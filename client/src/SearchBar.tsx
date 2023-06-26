@@ -15,7 +15,7 @@ const SearchBar = () => {
     width: "290px",
     height: "38px",
     borderRadius : "20px",
-    border: "1px solid black",
+    border: "1px solid #EF7F00",
   }
 
   const menuCss : CSSProperties = {
@@ -34,6 +34,7 @@ const SearchBar = () => {
     background: '#EF7F00',
     width:"100px",
     borderRadius : "20px",
+    border : "none"
   }
   const searchTextCss: CSSProperties = {
     marginLeft: "10px",

@@ -1,7 +1,7 @@
 import React from 'react';
-import homeLogo from './home.png';
-import settingLogo from './settings.png';
-import markLogo from './bookmark.png';
+import homeLogo from './image/home.png';
+import settingLogo from './image/settings.png';
+import markLogo from './image/bookmark.png';
 import './styles.css'
 
 const navi: React.FC = () => {

@@ -15,7 +15,6 @@
   z-index: 1;
 }
 
-
 .naviImage{
   width: 20%;
   height: 100%;
@@ -24,4 +23,21 @@
   justify-content: center;
   z-index: 1;
   position: relative;
+}
+
+.busModalWin{
+  width: 270px;
+  height: 240px;
+  background-color: white;
+  border-radius: 30px; 
+  border: 1px solid #EF7F00;
+}
+
+.busInfoWrap{
+  width: 100%;
+  height: 50px;
+  border: 1px solid #EF7F00;
+  flex-direction: row; 
+  align-items: center; 
+  justify-content: center; 
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User, UserStatus } from './user.model';
-import { v1 as uuid } from 'uuid';
+// import { v1 as uuid } from 'uuid';
 import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
@@ -16,7 +16,8 @@ export class UserService {
     // 객체에 추가 시키기
     const { name, pw } = createUserDto;
     const user: User = {
-      id: uuid(),
+      id: 'aaa',
+      // id: uuid(),
       name,
       pw,
       status: UserStatus.PUBLIC

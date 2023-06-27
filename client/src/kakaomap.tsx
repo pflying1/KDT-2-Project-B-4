@@ -6,7 +6,7 @@ const MapComponent = () => {
 
   useEffect(() => {
     async function fetchMap() {
-      const response = await axios.get(`http://192.168.0.118:3000/map`);
+      const response = await axios.get(`http://localhost:3000/main`);
       if (response.status === 200) {
         setMapData(response.data);
       }

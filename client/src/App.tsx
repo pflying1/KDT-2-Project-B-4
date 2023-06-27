@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import CreateFrom from './component/view/createFrom'
+import Map from './component/service/kakaoMap'
 import MenuBar from './component/view/menuBar'
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
 
         </div>
         <div className='containerBody'>
-          
+          <Map />
         </div>
         <div className='containerFoot'>
           <MenuBar />

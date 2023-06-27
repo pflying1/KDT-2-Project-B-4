@@ -11,6 +11,7 @@ export class UserController {
   getAllUser(): User[] {
     return this.userService.getAllusers();
   }
+  
   @Post()
   createUseer(@Body() createUseerDto: CreateUserDto): User{
     return this.userService.createUseer(createUseerDto);

@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import CreateFrom from './createFrom'
+import CreateFrom from './component/view/createFrom'
 import Map from './kakaoMap'
 function App() {
   return (

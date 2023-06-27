@@ -3,12 +3,14 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import './App.css';
 import Map from './component/service/kakaoMap'
 import MenuBar from './component/view/menuBar'
+import BusModalWin from './component/view/busStopModal';
 import IntroPage from "./component/view/introPageScreen";
 import Nav from './component/view/nav';
 import Header from "./component/view/header";
 function App() {
   const location = useLocation();
   const [pageTitle, setPageTitle] = useState("");
+
   useEffect(() => {
     switch (location.pathname) {
       case "/":
@@ -25,14 +27,14 @@ function App() {
         break;
     }
   }, [location.pathname]);
+
   return (
 
     <div className="App">
-      
       <div className='container'>
-      <Routes>
-        <Route path="/" element={<IntroPage />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<IntroPage />} />
+        </Routes>
         <Header />
         <div className='containerBody'>
           <Routes>

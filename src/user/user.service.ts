@@ -1,9 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User, UserStatus } from './user.model';
-<<<<<<< HEAD
 // import { v1 as uuid } from 'uuid';
-=======
->>>>>>> dd1c9854bcbce19ee5428f2600516de4bcd53d30
 import { CreateUserDto } from './dto/create-user.dto';
 import { v1 as uuid } from 'uuid';
 

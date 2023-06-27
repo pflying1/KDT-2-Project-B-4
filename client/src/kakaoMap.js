@@ -32,7 +32,7 @@ const Map = () => {
   React.useEffect(() => {
     const script = document.createElement('script');
     script.async = true;
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=7453b792577ea05b25c0bff9aaa1db69&autoload=false`;
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=ceec6de44d3f7b655b54bf75e1d12581&autoload=false`; 
     document.head.appendChild(script);
 
     script.onload = () => {

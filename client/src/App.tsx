@@ -15,7 +15,7 @@ function App() {
         </div>
         <div className='containerBody'>
           <Map />
-          <BusModalWin />
+          {/* <BusModalWin /> */}
         </div>
         <div className='containerFoot'>
           <MenuBar />

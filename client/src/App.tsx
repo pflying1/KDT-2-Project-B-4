@@ -9,7 +9,15 @@ function App() {
     <div className="App">
       {/* <CreateFrom /> */}
       <div className='container'>
-        <MenuBar />
+        <div className='containerHead'>
+
+        </div>
+        <div className='containerBody'>
+          
+        </div>
+        <div className='containerFoot'>
+          <MenuBar />
+        </div>
       </div>
     </div>
     

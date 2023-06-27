@@ -6,6 +6,7 @@ import MenuBar from './component/view/menuBar'
 import IntroPage from "./component/view/introPageScreen";
 import Nav from './component/view/nav';
 import Header from "./component/view/header";
+import FavoritesListAll from "./component/view/FavoritesListAll";
 function App() {
   const location = useLocation();
   const [pageTitle, setPageTitle] = useState("");
@@ -37,6 +38,7 @@ function App() {
         <div className='containerBody'>
           <Routes>
             <Route path="/map" element={<Map />} />
+            <Route path="/favorite" element={<FavoritesListAll/>} />
           </Routes>
         </div>
         {[

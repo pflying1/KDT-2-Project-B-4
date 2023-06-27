@@ -1,7 +1,7 @@
 import { Controller,Get,Post,Body } from '@nestjs/common';
 import { UserService } from './user.service';
 import {User, UserStatus} from './user.model';
-import { v1 as uuid} from 'uuid';
+// import { v1 as uuid} from 'uuid';
 import { CreateUserDto } from './dto/create-user.dto';
 @Controller('user')
 export class UserController {

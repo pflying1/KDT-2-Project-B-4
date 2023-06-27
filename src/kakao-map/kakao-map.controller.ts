@@ -1,11 +1,11 @@
 import { Controller, Get, Res } from '@nestjs/common';
 import { Response } from 'express';
  import 'dotenv/config';
-@Controller()
+@Controller('/map')
 export class KakaoMapController {
   constructor() {}
 
-  @Get('/main')
+  @Get()
   async getMap(@Res() res: Response) {
     // 클라이언트 측에서 실행되어야 할 카카오 맵 API 코드
     // 예시: 카카오 맵을 생성하고 지도를 표시하는 코드

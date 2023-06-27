@@ -1,27 +1,20 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const KakaoMapComponent: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+const Kakaomap = () => {
+  const [mapData, setMapData] = useState('');
 
   useEffect(() => {
-    const fetchMap = async () => {
-      try {
-        const response = await axios.get('/main');
-        if (containerRef.current) {
-          containerRef.current.innerHTML = response.data;
-        }
-      } catch (error) {
-        console.error('Failed to fetch map:', error);
+    async function fetchMap() {
+      const response = await axios.get('http://localhost:3000/map');
+      if (response.status === 200) {
+        setMapData(response.data);
       }
-    };
-
+    }
     fetchMap();
   }, []);
 
-  return (
-    <div ref={containerRef}></div>
-  );
+  return <div dangerouslySetInnerHTML={{ __html: mapData }} />;
 };
 
-export default KakaoMapComponent;
+export default Kakaomap;

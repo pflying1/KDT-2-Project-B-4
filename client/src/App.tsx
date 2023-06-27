@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import './App.css';
 import Map from './component/service/kakaoMap'
+import Kakaomap from './kakaomap'
+
 import MenuBar from './component/view/menuBar'
 import IntroPage from "./component/view/introPageScreen";
 import Nav from './component/view/nav';
@@ -36,7 +38,7 @@ function App() {
         <Header />
         <div className='containerBody'>
           <Routes>
-            <Route path="/map" element={<Map />} />
+            <Route path="/map" element={<Kakaomap />} />
           </Routes>
         </div>
         {[

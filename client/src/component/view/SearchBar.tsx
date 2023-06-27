@@ -1,7 +1,7 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
-import menuBox from './img/menu.png';
-import searchBox from './img/search.png';
+import menuBox from './image/menu.png';
+import searchBox from './image/search.png';
 import "./css/SearchBarStyle.css";
 
 const SearchBar = () => {

@@ -5,6 +5,7 @@ import './component/view/css/SearchBarStyle.css'
 import CreateFrom from './component/view/createFrom'
 import Map from './component/service/kakaoMap'
 import MenuBar from './component/view/menuBar'
+import SearchBar from './component/view/SearchBar';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
       {/* <CreateFrom /> */}
       <div className='container'>
         <div className='containerHead'>
-
+          <SearchBar />
         </div>
         <div className='containerBody'>
           <Map />

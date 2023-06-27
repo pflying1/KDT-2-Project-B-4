@@ -28,19 +28,23 @@ function App() {
   return (
 
     <div className="App">
-
+      
       <div className='container'>
+      <Routes>
+        <Route path="/" element={<IntroPage />} />
+      </Routes>
         <Header />
-        <Routes>
-          <Route path="/" element={<IntroPage />} />
-          <Route path="/map" element={<Map />} />
-        </Routes>
+        <div className='containerBody'>
+          <Routes>
+            <Route path="/map" element={<Map />} />
+          </Routes>
+        </div>
         {[
           "/"
         ].includes(location.pathname) ? null : (
           <Nav />
         )}
-    
+
       </div>
     </div>
 

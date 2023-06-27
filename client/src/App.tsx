@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import './App.css';
 import Map from './component/service/kakaoMap'
-import Kakaomap from './kakaomap'
+import Kakaomap from './component/view/kakaomap'
 
 import MenuBar from './component/view/menuBar'
 import IntroPage from "./component/view/introPageScreen";
@@ -36,9 +36,10 @@ function App() {
         <Route path="/" element={<IntroPage />} />
       </Routes>
         <Header />
+      <Kakaomap />
         <div className='containerBody'>
           <Routes>
-            <Route path="/map" element={<Kakaomap />} />
+            {/* <Route path="/map" element={} /> */}
           </Routes>
         </div>
         {[

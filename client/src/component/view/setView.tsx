@@ -9,10 +9,7 @@ const SetView: React.FC = () => {
   const mainMainTwo = ['이', '경', '택', '이', '요'];
 
   return (
-    <div className="root">
-      <div className='header'>
-        설정
-      </div>
+    // <div className="root">
       <div className='main'>
         <div className="mainHeader">{mainHeader[0]}</div>
         <div className='mainWrap'>
@@ -37,10 +34,7 @@ const SetView: React.FC = () => {
           ))}
         </div>
       </div>
-      <div className="footer">
-        <MenuBar />
-      </div>
-    </div>
+    // </div>
   )
 }
 

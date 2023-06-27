@@ -1,0 +1,31 @@
+.mainCss {
+  display : flex;
+  justify-content: center
+} 
+.searchContainerCss {
+  display:flex;
+  justify-content: space-around;
+  flex-direction:row;
+  border-radius : 20px;
+  border: 1px solid #EF7F00;
+  height: 38px
+}
+
+.menuCss {
+  margin-left: 5%;
+}
+.searchInputCss {
+  border : 1px solid white;
+  width: 80%;
+  height: 34px;
+} 
+.searchContainerTextCss {
+  display: flex;
+  justify-content: space-evenly;
+  color: white;
+  align-items: center;
+  background: #EF7F00;
+  width:100px;
+  border-radius : 20px;
+  border : none
+}

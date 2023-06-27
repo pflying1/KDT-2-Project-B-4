@@ -1,29 +1,64 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import './App.css';
-import CreateFrom from './component/view/createFrom'
 import Map from './component/service/kakaoMap'
 import MenuBar from './component/view/menuBar'
+import IntroPage from "./component/view/introPageScreen";
+import Nav from './component/view/nav';
+import Header from "./component/view/header";
 import SetView from './component/view/setView'
 function App() {
+  const location = useLocation();
+  const [pageTitle, setPageTitle] = useState("");
+  useEffect(() => {
+    switch (location.pathname) {
+      case "/":
+        setPageTitle("");
+        break;
+      case "/main":
+        setPageTitle("홈");
+        break;
+      case "/bookMake":
+        setPageTitle("내 정보");
+        break;
+      case "/setView":
+        setPageTitle("설정");
+        break;
+      default:
+        setPageTitle("홈");
+        break;
+    }
+  }, [location.pathname]);
   return (
-    <div className="App">
-      <SetView />
-      {/* <CreateFrom />
-      <div className='container'>
-        <div className='containerHead'>
 
-        </div>
+    <div className="App">
+
+      <div className='container'>
+        <Routes>
+          <Route path="/" element={<IntroPage />} />
+        </Routes>
+        <Header />
         <div className='containerBody'>
-          <Map />
+          <Routes>
+            <Route path='/setView' element={<SetView />} />
+          </Routes>
+          <Routes>
+            <Route path="/map" element={<Map />} />
+          </Routes>
         </div>
-        <div className='containerFoot'>
-          <MenuBar />
-        </div>
-      </div> */}
+        {[
+          "/"
+
+        ].includes(location.pathname) ? null : (
+          <Nav />
+        )}
+
+      </div>
     </div>
 
   );
 }
 
 export default App;
+
+

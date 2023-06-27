@@ -5,30 +5,29 @@ import searchBox from './img/search.png';
 
 const SearchBar = () => {
   const mainCss: CSSProperties = {
-    marginLeft:"15%",
-    marginTop: "5%",
-    position:"fixed"
+    display : "flex",
+    justifyContent: "center"
   } 
   const searchContainerCss: CSSProperties = {
     display:"flex",
+    justifyContent: "space-around",
     flexDirection:"row",
-    width: "290px",
-    height: "38px",
     borderRadius : "20px",
     border: "1px solid #EF7F00",
+    height: "38px"
   }
 
   const menuCss : CSSProperties = {
     marginLeft: "5%",
-    marginTop:"1%",
   }
   const searchInputCss: CSSProperties = {
     border : "1px solid white",
-    width: "150px",
+    width: "80%",
     height: "34px",
   } 
   const searchContainerTextCss: CSSProperties = {
     display: "flex",
+    justifyContent: "space-evenly",
     color: 'white',
     alignItems: 'center',
     background: '#EF7F00',
@@ -36,17 +35,13 @@ const SearchBar = () => {
     borderRadius : "20px",
     border : "none"
   }
-  const searchTextCss: CSSProperties = {
-    marginLeft: "10px",
-    marginRight: "15px"
-  }
   return (
     <div style={mainCss}>
       <div style={searchContainerCss}>
         <img src={menuBox} alt='menu' style={menuCss}></img>
         <input style={searchInputCss} placeholder='정류소 검색'></input>
         <button style={searchContainerTextCss}>
-          <div style={searchTextCss}>검색</div>
+          <div>검색</div>
           <img src={searchBox} alt="search"></img>
         </button>
       </div>

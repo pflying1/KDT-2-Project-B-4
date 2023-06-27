@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import axios from 'axios';
 
-const MapComponent = () => {
-  const [mapData, setMapData] = useState(null);
+const KakaoMapComponent: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    async function fetchMap() {
-      const response = await axios.get(`http://localhost:3000/main`);
-      if (response.status === 200) {
-        setMapData(response.data);
+    const fetchMap = async () => {
+      try {
+        const response = await axios.get('/main');
+        if (containerRef.current) {
+          containerRef.current.innerHTML = response.data;
+        }
+      } catch (error) {
+        console.error('Failed to fetch map:', error);
       }
-    }
+    };
+
     fetchMap();
   }, []);
 
   return (
-    <div>
-      {mapData ? (
-        <img src={mapData} alt="지도" />
-      ) : (
-        <p>지도를 불러오는 중...</p>
-      )}
-    </div>
+    <div ref={containerRef}></div>
   );
 };
-export default MapComponent;
+
+export default KakaoMapComponent;

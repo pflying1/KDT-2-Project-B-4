@@ -39,8 +39,8 @@ const Map: React.FC<MapProps> = () => {
     fetch('/api/apiKey')
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        setApiKey(data.apiKey);
+        console.log(data.apiKey);
+        setApiKey(data.apiKey); // 수정: apiKey 값을 그대로 사용
       })
       .catch((error) => {
         console.error('Failed to fetch apiKey:', error);

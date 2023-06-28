@@ -39,7 +39,6 @@ function App() {
           <Route path="/" element={<IntroPage />} />
         </Routes>
         <Header />
-      <Kakaomap />
         <div className='containerBody'>
           <Routes>
             <Route path="/map" element={<Map />} />

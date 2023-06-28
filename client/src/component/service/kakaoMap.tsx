@@ -29,13 +29,14 @@ import React,{ReactNode} from 'react';
 interface MapProps {
   apiKey?: string;
 }
+
 const Map:  React.FC<MapProps> = ({ apiKey  })  => {
   const mapContainer = React.useRef(null);
 
   React.useEffect(() => {
     const script = document.createElement('script');
     script.async = true;
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=ceec6de44d3f7b655b54bf75e1d12581&autoload=false`; 
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false`; 
     document.head.appendChild(script);
     console.log(apiKey);
     script.onload = () => {

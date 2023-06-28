@@ -40,8 +40,8 @@ function App() {
         </Routes>
         <Header />
         <div className='containerBody'>
-          <Routes>
-            <Route path="/map" element={<Map />} />
+        <Map apiKey={window.REACT_APP_API_KEY} />
+          <Routes>          
             <Route path="/favorite" element={<FavoritesListAll/>} />
           </Routes>
         </div>

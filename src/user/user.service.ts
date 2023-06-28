@@ -14,7 +14,7 @@ export class UserService {
   }
   createUseer(createUserDto: CreateUserDto) {
     // 객체에 추가 시키기
-    const { name, pw } = createUserDto;
+    const { name, pw } = createUserDto; 
     const user: User = {
       id: uuid(),
       name,

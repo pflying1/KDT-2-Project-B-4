@@ -3,8 +3,7 @@ import { AppService } from './app.service';
 import { Response, Request } from 'express';
 import { join } from 'path';
 
-
-@Controller("*")
+@Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
@@ -14,4 +13,3 @@ export class AppController {
     return res.sendFile(filePath);
   }
 }
- 

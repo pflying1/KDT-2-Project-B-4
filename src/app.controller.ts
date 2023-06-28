@@ -1,17 +1,8 @@
 import { Controller, Get, Param, Res, Req, Post, Body } from '@nestjs/common';
-import { AppService } from './app.service';
-import { Response, Request } from 'express';
-import { join } from 'path';
 
 
-@Controller("*")
+@Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
 
-  @Get()
-  serveFile(@Req() req: Request, @Res() res: Response) {
-    const filePath = join(__dirname, '..', 'client', 'build', 'index.html');
-    return res.sendFile(filePath);
-  }
 }
  

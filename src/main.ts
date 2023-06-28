@@ -12,10 +12,13 @@ async function bootstrap() {
   app.useLogger(new Logger('debug'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
-  app.useStaticAssets(join(__dirname, '..', 'client', 'build'));  // React 앱을 제공하기 위한 정적 파일 경로 설정
-  // 로그 레벨을 "debug"로 설정
- 
-  // Body Parser 미들웨어 추가
+
+  // 정적 파일 경로 설정
+  app.use(express.static(join(__dirname, '..', 'client', 'build')));
+
+  // index.html 파일 반환
+  app.use('api/apiKey', );
+
   await app.listen(3000);
 }
 

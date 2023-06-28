@@ -2,13 +2,16 @@ import {  Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-
+import 'dotenv/config'; 
 import { ConfigModule } from '@nestjs/config';
 import { ApiController } from './api/api.controller';
 import { ApiModule } from './api/api.module';
+import { PageController } from './page/page.controller';
+import { PageModule } from './page/page.module';
+
 @Module({
-  imports: [UserModule, ConfigModule.forRoot(), ApiModule],
-  controllers: [AppController,  ApiController],
+  imports: [  ApiModule,ConfigModule.forRoot(), PageModule],
+  controllers: [AppController,  ApiController, PageController],
   providers: [AppService],
 })
 export class AppModule {}

@@ -4,7 +4,7 @@ import 'dotenv/config';
 import { ConfigService } from '@nestjs/config'; // 
 @Controller('api')
 export class ApiController {
-  constructor(private configService: ConfigService) {} // ConfigService를 주입
+  constructor(private configService: ConfigService) { } // ConfigService를 주입
 
   @Get('apiKey')
   getApiKey(@Res() res: Response) {

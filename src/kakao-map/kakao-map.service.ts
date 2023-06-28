@@ -5,9 +5,8 @@ import { AxiosResponse } from 'axios';
 export class KakaoMapService {
   constructor(private httpService: HttpService) {}
   async getStaticMap(center: string, width: number, height: number) {
-    const apiKey = 'ffcbd86c0d827cfd87db0af4db863b9a';
   
-    const url = `https://dapi.kakao.com/v2/maps/staticmap?appkey=${apiKey}&center=${center}&size=${width}x${height}&level=3`;
+    const url = `https://dapi.kakao.com/v2/maps/staticmap?appkey=${process.env.KAKAO_MAP}&center=${center}&size=${width}x${height}&level=3`;
   
     const response: AxiosResponse<ArrayBuffer> = await this.httpService.get(url, {responseType: 'arraybuffer'}).toPromise();
   

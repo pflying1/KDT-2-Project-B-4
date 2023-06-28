@@ -1,9 +1,11 @@
 import { Controller, Get, Res } from '@nestjs/common';
 import { Response } from 'express';
- import 'dotenv/config';
+import 'dotenv/config';
+import { ConfigService } from '@nestjs/config'
+
 @Controller('/map')
 export class KakaoMapController {
-  constructor() {}
+  constructor() { }
 
   @Get()
   async getMap(@Res() res: Response) {
@@ -27,7 +29,7 @@ export class KakaoMapController {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Kakao Map</title>
-        <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_API_KEY&autoload=false"></script>
+        <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.KAKAO_MAP}&autoload=false"></script>
       </head>
       <body>
         <div id="map" style="width: 500px; height: 400px;"></div>
@@ -53,5 +55,20 @@ export class KakaoMapController {
 
     // HTML 파일을 클라이언트로 응답
     res.send(html);
+  }
+
+
+
+}
+
+@Controller('api')
+export class ApiController {
+  constructor(private readonly configService: ConfigService) { }
+
+  @Get('key')
+  getKey(): { apiKey: string } {
+    const apiKey = this.configService.get<string>('KAKAO_MAP');
+    console.log(apiKey)
+    return { apiKey };
   }
 }

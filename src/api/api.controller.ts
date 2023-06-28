@@ -8,8 +8,7 @@ export class ApiController {
 
   @Get('apiKey')
   getApiKey(@Res() res: Response) {
-    const apiKey = this.configService.get('KAKAO_KEY'); // 환경 변수의 값을 가져옵니다.
-    console.log(apiKey);
+    const apiKey = this.configService.get('KAKAO_KEY'); // 환경 
     // apiKey 값을 클라이언트로 응답합니다.
     return res.json({ apiKey });
   }

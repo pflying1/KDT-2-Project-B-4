@@ -16,8 +16,7 @@ async function bootstrap() {
   // 정적 파일 경로 설정
   app.use(express.static(join(__dirname, '..', 'client', 'build')));
 
-  // index.html 파일 반환
-  app.use('api/apiKey', );
+
 
   await app.listen(3000);
 }

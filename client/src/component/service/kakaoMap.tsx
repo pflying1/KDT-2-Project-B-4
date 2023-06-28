@@ -31,7 +31,6 @@ interface MapProps {
 }
 
 const Map: React.FC<MapProps> = () => {
-
   const mapContainer = React.useRef(null);
   const [apiKey, setApiKey] = useState<string | undefined>(undefined);
 
@@ -39,8 +38,7 @@ const Map: React.FC<MapProps> = () => {
     fetch('/api/apiKey')
       .then((response) => response.json())
       .then((data) => {
-
-        setApiKey(data.apiKey); // 수정: apiKey 값을 그대로 사용
+        setApiKey(data.apiKey);
       })
       .catch((error) => {
         console.error('Failed to fetch apiKey:', error);
@@ -48,18 +46,22 @@ const Map: React.FC<MapProps> = () => {
   }, []);
 
   React.useEffect(() => {
-    const script = document.createElement('script');
+    if (!apiKey) return;
+  
+    const script = document.createElement("script");
     script.async = true;
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false`;
     document.head.appendChild(script);
-    console.log(apiKey);
+  
     script.onload = () => {
+      if (!window.kakao.maps) return;
+  
       window.kakao.maps.load(() => {
         const options = {
           center: new window.kakao.maps.LatLng(36.35, 127.385), // 초기 지도 중심 좌표
           level: 3, // 초기 지도 확대 레벨
         };
-
+  
         const map = new window.kakao.maps.Map(mapContainer.current, options);
       });
     };
@@ -69,9 +71,69 @@ const Map: React.FC<MapProps> = () => {
     return <div>Loading...</div>;
   }
 
-  // apiKey 값을 사용하여 지도 컴포넌트를 렌더링합니다.
-  return <div ref={mapContainer} style={{ width: '100%', height: '100%' }} />;
+  return (
+  
+  <div ref={mapContainer} style={{ width: '393px', height: '100%' ,   position: "relative"}} />
+
+  );
 };
 
 export default Map;
+
+
+
+// import React, { useEffect, useState } from 'react';
+
+// interface MapProps {
+//   apiKey?: string;
+// }
+
+// const Map: React.FC<MapProps> = () => {
+
+//   const mapContainer = React.useRef(null);
+//   const [apiKey, setApiKey] = useState<string | undefined>(undefined);
+//   const mapRef = React.useRef(null);
+
+//   useEffect(() => {
+//     fetch('/api/apiKey')
+//       .then((response) => response.json())
+//       .then((data) => {
+
+//         setApiKey(data.apiKey); // 수정: apiKey 값을 그대로 사용
+//       })
+//       .catch((error) => {
+//         console.error('Failed to fetch apiKey:', error);
+//       });
+//   }, []);
+
+//   React.useEffect(() => {
+//     const script = document.createElement('script');
+//     script.async = true;
+//     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false`;
+//     document.head.appendChild(script);
+//     console.log(apiKey);
+//     script.onload = () => {
+//       window.kakao.maps.load(() => {
+//         const options = {
+//           center: new window.kakao.maps.LatLng(36.35, 127.385), // 초기 지도 중심 좌표
+//           level: 3, // 초기 지도 확대 레벨
+//         };
+
+//         const map = new window.kakao.maps.Map(mapContainer.current, options);
+       
+//       });
+//     };
+//   }, [apiKey]);
+
+//   if (!apiKey) {
+//     return <div>Loading...</div>;
+//   }
+//   else {
+
+//     // apiKey 값을 사용하여 지도 컴포넌트를 렌더링합니다.
+//     return <div ref={mapContainer} style={{ width: '100%', height: '100%' }} />;
+//   }
+// };
+
+// export default Map;
 

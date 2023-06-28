@@ -10,7 +10,7 @@ function IntroPage(props: LoadingProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate('/main');
-    }, 2000);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
 

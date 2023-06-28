@@ -39,7 +39,7 @@ function App() {
           <Route path="/" element={<IntroPage />} />
         </Routes>
         <Header />
-        <div className='containerBody'>
+        <div className='containerBody' style={{width: "100%",height: "77%" }}>
         <Map />
           <Routes>          
             <Route path="/favorite" element={<FavoritesListAll/>} />

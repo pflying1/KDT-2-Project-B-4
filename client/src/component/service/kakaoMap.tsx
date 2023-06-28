@@ -24,19 +24,33 @@
 // export default Map;
 
 
-import React,{ReactNode} from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface MapProps {
   apiKey?: string;
 }
 
-const Map:  React.FC<MapProps> = ({ apiKey  })  => {
+const Map: React.FC<MapProps> = () => {
+
   const mapContainer = React.useRef(null);
+  const [apiKey, setApiKey] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    fetch('/api/apiKey')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setApiKey(data.apiKey);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch apiKey:', error);
+      });
+  }, []);
 
   React.useEffect(() => {
     const script = document.createElement('script');
     script.async = true;
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false`; 
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false`;
     document.head.appendChild(script);
     console.log(apiKey);
     script.onload = () => {
@@ -49,9 +63,15 @@ const Map:  React.FC<MapProps> = ({ apiKey  })  => {
         const map = new window.kakao.maps.Map(mapContainer.current, options);
       });
     };
-  }, []);
+  }, [apiKey]);
 
+  if (!apiKey) {
+    return <div>Loading...</div>;
+  }
+
+  // apiKey 값을 사용하여 지도 컴포넌트를 렌더링합니다.
   return <div ref={mapContainer} style={{ width: '100%', height: '100%' }} />;
 };
 
 export default Map;
+

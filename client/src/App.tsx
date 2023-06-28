@@ -9,21 +9,11 @@ import Nav from './component/view/nav';
 import Header from "./component/view/header";
 import FavoritesListAll from "./component/view/FavoritesListAll";
 
-
 function App() {
   const location = useLocation();
   const [pageTitle, setPageTitle] = useState("");
 
 
-  const [apiKey, setApiKey] = useState("");
-
-  useEffect(() => {
-    const initDataScriptTag = document.getElementById("init-data");
-    if (initDataScriptTag) {
-      const initData = JSON.parse(initDataScriptTag.textContent);
-      setApiKey(initData.apiKey);
-    }
-  }, []);
   useEffect(() => {
     switch (location.pathname) {
       case "/":
@@ -50,7 +40,7 @@ function App() {
         </Routes>
         <Header />
         <div className='containerBody'>
-        <Map apiKey={apiKey} />
+        <Map />
           <Routes>          
             <Route path="/favorite" element={<FavoritesListAll/>} />
           </Routes>

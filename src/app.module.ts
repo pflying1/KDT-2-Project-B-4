@@ -2,13 +2,13 @@ import {  Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-import { KakaoMapController } from './kakao-map/kakao-map.controller';
-import { KakaoMapService } from './kakao-map/kakao-map.service';
-import { KakaoMapModule } from './kakao-map/kakao-map.module';
-import { HttpModule } from '@nestjs/axios';
+
+import { ConfigModule } from '@nestjs/config';
+import { ApiController } from './api/api.controller';
+import { ApiModule } from './api/api.module';
 @Module({
-  imports: [UserModule, KakaoMapModule,HttpModule],
-  controllers: [AppController, KakaoMapController],
-  providers: [AppService, KakaoMapService],
+  imports: [UserModule, ConfigModule.forRoot(), ApiModule],
+  controllers: [AppController,  ApiController],
+  providers: [AppService],
 })
 export class AppModule {}

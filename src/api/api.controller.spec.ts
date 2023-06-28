@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { KakaoMapController } from './kakao-map.controller';
+import { ApiController } from './api.controller';
 
-describe('KakaoMapController', () => {
-  let controller: KakaoMapController;
+describe('ApiController', () => {
+  let controller: ApiController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [KakaoMapController],
+      controllers: [ApiController],
     }).compile();
 
-    controller = module.get<KakaoMapController>(KakaoMapController);
+    controller = module.get<ApiController>(ApiController);
   });
 
   it('should be defined', () => {

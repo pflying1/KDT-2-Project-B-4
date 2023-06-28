@@ -26,12 +26,12 @@
 
 import React from 'react';
 
-type GeocoderResult = {
-  y: number;
-  x: number;
-};
+// type GeocoderResult = {
+//   y: number;
+//   x: number;
+// };
 
-type GeocoderStatus = 'OK' | 'ERROR';
+// type GeocoderStatus = 'OK' | 'ERROR';
 const Map = () => {
   const mapContainer = React.useRef(null);
 
@@ -51,10 +51,9 @@ const Map = () => {
         const map = new window.kakao.maps.Map(mapContainer.current, options);
         let geocoder = new window.kakao.maps.services.Geocoder();
 
-        let coo:number[] = [];
+        let coo = [];
         // 주소로 좌표를 검색합니다
-        geocoder.addressSearch('대전 엑스포로', function(  result: GeocoderResult[],
-          status: GeocoderStatus){
+        geocoder.addressSearch('대전 엑스포로', function(  result, status){
 
             // 정상적으로 검색이 완료됐으면 
             if (status === window.kakao.maps.services.Status.OK) {
@@ -63,6 +62,11 @@ const Map = () => {
                 coo.push(coords.La)
                 coo.push(coords.Ma)
 
+                var marker = new window.kakao.maps.Marker({
+                  map: map,
+                  position: coords
+                });
+                marker.setMap(map)
                 // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
                 //map.setCenter(coords);
             } 
@@ -83,11 +87,11 @@ const Map = () => {
 
 
         // 결과값으로 받은 위치를 마커로 표시합니다
-        var marker = new window.kakao.maps.Marker({
-          map: map,
-          position: coo
-        });
-        marker.setMap(map)
+        // var marker = new window.kakao.maps.Marker({
+        //   map: map,
+        //   position: coo
+        // });
+        // marker.setMap(map)
 
       });
     };

@@ -8,6 +8,8 @@ import MenuBar from './component/view/menuBar'
 import IntroPage from "./component/view/introPageScreen";
 import Nav from './component/view/nav';
 import Header from "./component/view/header";
+
+const apiKey = process.env.KAKAO_MAP;
 function App() {
   const location = useLocation();
   const [pageTitle, setPageTitle] = useState("");
@@ -39,7 +41,7 @@ function App() {
       <Kakaomap />
         <div className='containerBody'>
           <Routes>
-            {/* <Route path="/map" element={} /> */}
+          <Route path="/map" element={apiKey ? <Map apiKey={apiKey}/> : null} />
           </Routes>
         </div>
         {[

@@ -8,6 +8,8 @@ import IntroPage from "./component/view/introPageScreen";
 import Nav from './component/view/nav';
 import Header from "./component/view/header";
 import FavoritesListAll from "./component/view/FavoritesListAll";
+import Traf from './component/service/traffic'
+
 function App() {
   const location = useLocation();
   const [pageTitle, setPageTitle] = useState("");
@@ -41,6 +43,7 @@ function App() {
           <Routes>
             <Route path="/map" element={<Map />} />
             <Route path="/favorite" element={<FavoritesListAll/>} />
+            <Route path="/test" element={<Traf/>} />
           </Routes>
         </div>
         {[

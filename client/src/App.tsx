@@ -8,6 +8,8 @@ import IntroPage from "./component/view/introPageScreen";
 import Nav from './component/view/nav';
 import Header from "./component/view/header";
 import FavoritesListAll from "./component/view/FavoritesListAll";
+
+const apiKey = process.env.KAKAO_MAP;
 function App() {
   const location = useLocation();
   const [pageTitle, setPageTitle] = useState("");

@@ -4,7 +4,7 @@ import { Response, Request } from 'express';
 import { join } from 'path';
 
 
-@Controller("*")
+@Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 

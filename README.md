@@ -1,9 +1,9 @@
 # 4조 오합지존
 
 ---
+<span style="color:red">> 프로젝트명 : BTS (Bus Tracker System)
+> </span>
 
-> 프로젝트명 : BTS (Bus Tracker System)
-> 
 
 ---
 

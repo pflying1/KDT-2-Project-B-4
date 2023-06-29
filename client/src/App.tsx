@@ -8,7 +8,7 @@ import IntroPage from "./component/view/introPageScreen";
 import Nav from './component/view/nav';
 import Header from "./component/view/header";
 import FavoritesListAll from "./component/view/FavoritesListAll";
-
+import BusLocationData from "./component/service/busLocation";
 function App() {
   const location = useLocation();
   const [pageTitle, setPageTitle] = useState("");
@@ -43,6 +43,7 @@ function App() {
         <Map />
           <Routes>          
             <Route path="/favorite" element={<FavoritesListAll/>} />
+            <Route path="/buslocation" element={<BusLocationData/>} />
           </Routes>
         </div>
         {[

@@ -23,7 +23,7 @@ interface IChat {
   message: string;
 }
 
-const App = () => {
+const SocketApp = () => {
   const [chats, setChats] = useState<IChat[]>([]);
   const [message, setMessage] = useState<string>('');
   const chatContainerEl = useRef<HTMLDivElement>(null);
@@ -85,4 +85,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default SocketApp;

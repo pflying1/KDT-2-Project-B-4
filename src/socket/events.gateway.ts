@@ -1,20 +1,31 @@
 import {MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer, OnGatewayConnection, OnGatewayInit, OnGatewayDisconnect} from '@nestjs/websockets';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
+import { Logger } from '@nestjs/common';
 
 @WebSocketGateway(3000, {
   namespace: 'chat'})
-
-export class EventsGateway 
+export class EventsGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-  @WebSocketServer() nsp: namespace;
+  constructor() {}
+  
+  @WebSocketServer() server: Server;
+  private logger: Logger = new Logger('EventsGateway');
 
-  // 초기화 이후에 실행
-  afterInit() {}
+  @SubscribeMessage('events')
+  handleEvent(@MessageBody() data: string): string {
+    return data;
+  }
 
-  // 소켓이 연결되면 실행
-  handleConnection(@ConnectedSocket() socket: Socket) {}
+  afterInit(server: Server) {
+    this.logger.log('웹소켓 서버 초기화 ✅');
+  }
 
-  // 소켓 연결이 끊기면 실행
-  handleDisconnect(@ConnectedSocket() socket: Socket) {}
+  handleDisconnect(client: Socket) {
+    this.logger.log(`Client Disconnected : ${client.id}`);
+  }
+
+  handleConnection(client: Socket, ...args: any[]) {
+    this.logger.log(`Client Connected : ${client.id}`);
+  }
 }

@@ -61,6 +61,8 @@ const Map: React.FC<MapProps> = () => {
         };
 
         const map = new window.kakao.maps.Map(mapContainer.current, options);
+        
+        map.addOverlayMapTypeId(window.kakao.maps.MapTypeId.TRAFFIC);
       });
     };
   }, [apiKey]);

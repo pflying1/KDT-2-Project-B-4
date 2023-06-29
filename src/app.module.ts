@@ -8,9 +8,10 @@ import { ApiController } from './api/api.controller';
 import { ApiModule } from './api/api.module';
 import { PageController } from './page/page.controller';
 import { PageModule } from './page/page.module';
+import { EventsModule } from './socket/event.module';
 
 @Module({
-  imports: [  ApiModule,ConfigModule.forRoot(), PageModule],
+  imports: [  ApiModule,ConfigModule.forRoot(),EventsModule, PageModule],
   controllers: [AppController,  ApiController, PageController],
   providers: [AppService],
 })

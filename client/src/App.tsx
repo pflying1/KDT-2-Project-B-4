@@ -43,7 +43,7 @@ function App() {
         <Map />
           <Routes>          
             <Route path="/favorite" element={<FavoritesListAll/>} />
-            <Route path="/buslocation" element={<BusLocationData/>} />
+            {/* <Route path="/buslocation" element={<BusLocationData/>} /> */}
           </Routes>
         </div>
         {[

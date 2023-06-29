@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import dotenv from 'dotenv';
-dotenv.config();
 
 interface BusData {
   ServiceResult: {
@@ -33,10 +31,9 @@ interface BusData {
 
 const BusLocationData: React.FC = () => {
   const [data, setData] = useState<BusData>();
-  const url= process.env.BUSLOCATION_URL
 
   useEffect(() => {
-    fetch(url)
+    fetch('http://localhost:3000/bus')
       .then(response => response.json())
       .then((data: BusData) => setData(data))
       .catch((error) => console.log(error))

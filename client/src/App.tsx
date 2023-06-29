@@ -35,14 +35,14 @@ function App() {
     <div className="App">
       <div className='container'>
         <Routes>
-          {/* <Route path="/" element={<IntroPage />} /> */}
-            <Route path="/" element={<BusLocationData/>} />
+          <Route path="/" element={<IntroPage />} />
         </Routes>
         <Header />
         <div className='containerBody'>
           <Routes>
             <Route path="/map" element={<Map />} />
             <Route path="/favorite" element={<FavoritesListAll/>} />
+            <Route path="/buslocation" element={<BusLocationData/>} />
           </Routes>
         </div>
         {[

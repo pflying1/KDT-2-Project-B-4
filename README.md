@@ -1,12 +1,13 @@
 # 4조 오합지존
 
 ---
-<span style="color:red">> 프로젝트명 : BTS (Bus Tracker System)
-> </span>
+<span style="color:red"> 
+프로젝트명 : BTS (Bus Tracker System)
+ </span>
 
 
 ---
-
+<span style="color:blue">이 텍스트는 빨간색으로 표시됩니다.</span>
 ## 구성인원
 
 | 구성 | 이름 |

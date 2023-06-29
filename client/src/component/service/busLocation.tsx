@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+// useBusLocationData.ts
+import { useEffect, useState } from "react";
+import busLocationMarker from "./busLocationMarker";
 
 interface BusData {
   ServiceResult: {
@@ -9,7 +11,7 @@ interface BusData {
       itemCnt: string;
       itemPageCnt: string;
     };
-    msgBody: { 
+    msgBody: {
       itemList: [{
         ARR_TIME: number;
         BUS_NODE_ID: number;
@@ -23,35 +25,32 @@ interface BusData {
         STRE_DT: number;
         TOTAL_DIST: number;
         ud_type: number;
-      }] 
+      }];
     };
-  }
+  };
 }
 
-
-const BusLocationData: React.FC = () => {
+const BusLocationData = () => {
   const [data, setData] = useState<BusData>();
 
   useEffect(() => {
     fetch('/api/bus')
       .then(response => response.json())
-      .then((data: BusData) => setData(data))
-      .catch((error) => console.log(error))
-  }, [])
+      .then((data: BusData) => {
+        console.log(data.ServiceResult.msgBody.itemList);
 
+        data.ServiceResult.msgBody.itemList.forEach((busLocationInfo) => {
+          // busLocationMarker(busLocationInfo.GPS_LATI, busLocationInfo.GPS_LONG, map);
+        });
+      })
+      .catch((error) => console.log(error));
+  }, []);
   if (!data) {
     return <div>Loading...</div>;
   }
+  const latiAndLong = data?.ServiceResult?.msgBody?.itemList || []
 
-  return (
-    <div>
-      {data.ServiceResult.msgBody.itemList.map((item) => (
-        <div key={item.BUS_NODE_ID}>
-          {item.ARR_TIME}
-        </div>
-      ))}
-    </div>
-  )
-}
+  return latiAndLong;
+};
 
-export default BusLocationData;
+export default BusLocationData

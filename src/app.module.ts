@@ -12,10 +12,13 @@ import { BusLocationService } from './bus-location/bus-location.service';
 import { BusLocationController } from './bus-location/bus-location.controller';
 import { BusLocationModule } from './bus-location/bus-location.module';
 import { HttpModule } from '@nestjs/axios';
+import { BusStopModule } from './bus-stop/bus-stop.module';
+import { BusStopController } from './bus-stop/bus-stop.controller';
+import { BusStopService } from './bus-stop/bus-stop.service';
 
 @Module({
-  imports: [HttpModule,ApiModule,ConfigModule.forRoot(),BusLocationModule,PageModule],
-  controllers: [AppController,  ApiController, BusLocationController,PageController],
-  providers: [AppService, BusLocationService],
+  imports: [HttpModule,ApiModule,ConfigModule.forRoot(),BusLocationModule,BusStopModule,PageModule ],
+  controllers: [AppController,  ApiController, BusLocationController,BusStopController,PageController],
+  providers: [AppService, BusLocationService, BusStopService],
 })
 export class AppModule {}

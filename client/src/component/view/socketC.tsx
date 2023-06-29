@@ -32,8 +32,7 @@ const SocketApp = () => {
     const messageHandler = (chat: IChat) =>
       setChats((prevChats) => [...prevChats, chat]);
 
-    socket.on('message', messageHandler);
-
+    socket.on('events', messageHandler);
     return () => {
       socket.off('message', messageHandler);
     };
@@ -43,7 +42,7 @@ const SocketApp = () => {
       e.preventDefault();
       if (!message) return alert('메시지를 입력해 주세요.');
 
-      socket.emit('message', message, (chat: IChat) => {
+      socket.emit('events', message, (chat: IChat) => {
         setChats((prevChats) => [...prevChats, chat]);
         setMessage('');
       });
@@ -54,11 +53,14 @@ const SocketApp = () => {
     const { value } = event.target;
     setMessage(value);
   };
+  console.log("ddddd: ", chats)
+
   return (
     <>
       <h1>WebSocket Chat</h1>
       <ChatContainer ref={chatContainerEl}>
         {chats.map((chat, index) => (
+          
           <MessageBox
             key={index}
             className={classNames({

@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { parseString } from 'xml2js';
 import { useEffect, useState } from 'react';
 
 const apiKey = 'i7Cd%2BE5PV6rYTmSC4CrnvP8fJVN0f6uDLp%2BO6ZIPUMEHE5eOBUlBUbibOnABF3JFT6LgLkerWvmMzp3%2F8rFwYA%3D%3D';
@@ -11,35 +9,26 @@ const GpsData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(apiUrl, {
+        const response = await fetch('http://openapitraffic.daejeon.go.kr/api/rest/busRouteInfo/getStaionByRouteAll?serviceKey=i7Cd%2BE5PV6rYTmSC4CrnvP8fJVN0f6uDLp%2BO6ZIPUMEHE5eOBUlBUbibOnABF3JFT6LgLkerWvmMzp3%2F8rFwYA%3D%3D&reqPage=1', {
+          mode: 'no-cors',
           headers: {
             'Authorization': `Bearer ${apiKey}`,
           },
         });
-        const xmlData = response.data;
+        const xmlData = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlData, 'application/xml');
 
-        parseString(xmlData, (err, result) => {
-          if (err) {
-            console.error(err);
-            return;
-          }
+        const itemList = xmlDoc.getElementsByTagName('itemList');
+        const newData = [];
 
-          const jsonData = result;
-          const newData = [];
+        for (let i = 0; i < itemList.length; i++) {
+          const latitude = itemList[i].getElementsByTagName('GPS_LATI')[0].textContent;
+          const longitude = itemList[i].getElementsByTagName('GPS_LONG')[0].textContent;
+          newData.push([latitude, longitude]);
+        }
 
-          for (
-            let i = 0;
-            i < jsonData.ServiceResult.msgBody[0].itemList.length;
-            i++
-          ) {
-            newData.push([
-              jsonData.ServiceResult.msgBody[0].itemList[i].GPS_LATI,
-              jsonData.ServiceResult.msgBody[0].itemList[i].GPS_LONG,
-            ]);
-          }
-
-          setGpsData(newData);
-        });
+        setGpsData(newData);
       } catch (error) {
         console.error(error);
       }

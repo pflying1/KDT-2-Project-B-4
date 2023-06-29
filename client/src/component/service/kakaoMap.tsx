@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Data from './busStopData';
+import GpsData from './busStopData';
 interface MapProps {
   apiKey?: string;
 }
@@ -8,7 +8,6 @@ const Map: React.FC<MapProps> = () => {
 
   const mapContainer = React.useRef(null);
   const [apiKey, setApiKey] = useState<string | undefined>(undefined);
-  console.log(Data)
   useEffect(() => {
     fetch('/api/apiKey')
       .then((response) => response.json())
@@ -28,6 +27,8 @@ const Map: React.FC<MapProps> = () => {
     { lat: 36.37, lng: 127.387 },
   ];
   // console.log(GpsData);
+  const Data = GpsData()
+  console.log("넘어온 데이터는 : " + Data)
   const createMarkers = (map: any) => {
     locations.forEach((location) => {
       const marker = new window.kakao.maps.Marker({

@@ -117,7 +117,7 @@
 // export default Map;
 
 import React from 'react';
-
+import GpsData from './busStopData';
 const Map = () => {
   const mapContainer = React.useRef(null);
 
@@ -127,7 +127,7 @@ const Map = () => {
     { lat: 36.36, lng: 127.386 },
     { lat: 36.37, lng: 127.387 },
   ];
-
+  console.log(GpsData);
   const createMarkers = (map) => {
     locations.forEach((location) => {
       const marker = new window.kakao.maps.Marker({

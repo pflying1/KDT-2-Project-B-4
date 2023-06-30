@@ -124,15 +124,17 @@ const Map: React.FC<MapProps> = () => {
         // const busLocationInfo = BusLocationData();
         // busLocationMarker(36.350412, 127.384548, map);
         // busLocationMarker(busLocationInfo.GPS_LATI, busLocationInfo.GPS_LONG, map)
-
-        fetch('http://localhost:3000/api/stop')
-        .then((response) => response.json())
-        .then((data: BusStopData) => {
-          data.ServiceResult.msgBody.itemList.map((busStopInfo) => {
-            busStopMarker(busStopInfo.GPS_LATI, busStopInfo.GPS_LONG, map);
-          });
-        })
-        .catch((error) => console.log(error));
+        for(let i = 0; i<10; i++){
+          
+          fetch('http://localhost:3000/api/stop')
+          .then((response) => response.json())
+          .then((data: BusStopData) => {
+            data.ServiceResult.msgBody.itemList.map((busStopInfo) => {
+              busStopMarker(busStopInfo.GPS_LATI, busStopInfo.GPS_LONG, map);
+            });
+          })
+          .catch((error) => console.log(error));
+        }
       });
     
       

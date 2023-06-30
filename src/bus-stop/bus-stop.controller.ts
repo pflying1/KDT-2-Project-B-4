@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { BusStopService } from './bus-stop.service';
-import {connectToDatabase} from '../../database.config';
+
 import { BusStop } from './bus-stop.schema';
 
 import dotenv from 'dotenv';
@@ -19,8 +19,8 @@ export class BusStopController {
     console.log(result);
     count++;
 
-    const busStop = await new BusStop(Object.entries(result.ServiceResult.msgBody.itemList[0])[1][0],Object.entries(result.ServiceResult.msgBody.itemList[0])[1][1]);
-    await busStop.save();
+    // const busStop = await new BusStop(Object.entries(result.ServiceResult.msgBody.itemList[0])[1][0],Object.entries(result.ServiceResult.msgBody.itemList[0])[1][1]);
+    // await busStop.save();
 
 
     return result;

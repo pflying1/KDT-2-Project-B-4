@@ -10,6 +10,7 @@ import Header from "./component/view/header";
 import FavoritesListAll from "./component/view/FavoritesListAll";
 import SocketApp from "./component/view/socketC";
 import BusLocationData from "./component/service/busLocation";
+import BusSocket from './component/service/busSocket'
 function App() {
   const location = useLocation();
   const [pageTitle, setPageTitle] = useState("");
@@ -43,7 +44,7 @@ function App() {
         <div className='containerBody'>
         <Map />
           <Routes>      
-            <Route path="/chat" element={<SocketApp />} />
+            <Route path="/api/buslocation/socket" element={<BusSocket />} />
           </Routes>
           <Routes>          
             <Route path="/favorite" element={<FavoritesListAll/>} />
@@ -53,7 +54,8 @@ function App() {
         {[
           "/"
         ].includes(location.pathname) ? null : (
-          <Nav />
+          // <Nav />
+          <div></div>
         )}
 
       </div>

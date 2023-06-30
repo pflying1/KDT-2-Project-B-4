@@ -16,9 +16,10 @@ import { BusStopModule } from './bus-stop/bus-stop.module';
 import { BusStopController } from './bus-stop/bus-stop.controller';
 import { BusStopService } from './bus-stop/bus-stop.service';
 import { EventsModule } from './socket/event.module';
+import { BusSocketModule } from './bus-socket/bus-socket.module';
 
 @Module({
-  imports: [HttpModule,ApiModule,ConfigModule.forRoot(),BusLocationModule,BusStopModule,EventsModule,PageModule ],
+  imports: [HttpModule,ApiModule,ConfigModule.forRoot(),BusLocationModule,BusStopModule,EventsModule,BusSocketModule,PageModule ],
   controllers: [AppController,  ApiController, BusLocationController,BusStopController,PageController],
   providers: [AppService, BusLocationService, BusStopService],
 })

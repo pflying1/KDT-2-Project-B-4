@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
+import markNull from './image/bookmarknull.png'
+import markPull from './image/bookmarkPull.png'
 import './css/busStopModalStyles.css';
-import mark from './image/bookmarknull.png'
-
+import axios from 'axios';
 
 //-------------------------------------
 const cnt = 10; //버스 개수
@@ -14,7 +15,7 @@ let busDiv = '지선'
 let busTime = '6'
 let busStopCount = '4'
 //-------------------------------------
-
+let mark:string;
 
 interface BusChildProps {
   number: string;
@@ -52,13 +53,44 @@ const BusChild: React.FC<BusChildProps> = ({ number, div, time, count }) => {
   );
 };
 
-const busModal: React.FC = () => {
+const BusModal: React.FC = () => {
+  const userID = localStorage.getItem('userID');
+  console.log("모달에서 유저값 ", userID)
+
+  const [toggle, setToggle] = useState(false);
+
+  const handleImageClick = async () => {
+    if(toggle){
+      setToggle(false)
+    }
+    else{
+      setToggle(true)
+    }
+
+    try {
+      const response = await axios.post('/favor', {
+        user: userID,
+        favor: toggle
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if(toggle){
+    mark = markPull
+  }
+  else{
+    mark = markNull
+  }
+
   return (
     <div className="busModalWin">
       <div className="titleWrap">
         <div className="titleArea">
           <p className="title">{busStopName}</p>
-          <img src={mark} alt="markNull" />
+          <img src={mark} alt="bookMark" onClick={handleImageClick} />
         </div>
         <div className="titleArea">
           <p className="busText">{busStopNumber}</p>
@@ -84,4 +116,4 @@ const busModal: React.FC = () => {
   );
 };
 
-export default busModal
+export default BusModal

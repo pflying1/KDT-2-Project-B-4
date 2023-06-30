@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import busLocationMarker from './busLocationMarker';
 import busStopMarker from './busStopMarker';
 import BusLocationData from './busLocation';
+import uuid from "react-uuid"
+
 interface BusData {
   ServiceResult: {
     msgHeader: {
@@ -61,6 +63,8 @@ interface MapProps {
   apiKey?: string;
 }
 
+
+
 const Map: React.FC<MapProps> = () => {
 
   const mapContainer = React.useRef(null);
@@ -68,6 +72,14 @@ const Map: React.FC<MapProps> = () => {
   const [mapData, setMapData] = useState<string | undefined>(undefined)
 
   useEffect(() => {
+    let userID = localStorage.getItem('userID');
+    if (!userID) {
+      const newUserID = uuid();
+      localStorage.setItem('userID', newUserID);
+      userID = localStorage.getItem('userID');
+      console.log("ID값 없어서 새로 만들어짐: ", userID)
+    }
+
     fetch('/api/apiKey')
       .then((response) => response.json())
       .then((data) => {
@@ -100,7 +112,7 @@ const Map: React.FC<MapProps> = () => {
     script.async = true;
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=ceec6de44d3f7b655b54bf75e1d12581&autoload=false`;
     document.head.appendChild(script);
-    console.log(apiKey);
+    // console.log(apiKey);
     script.onload = () => {
       window.kakao.maps.load(() => {
         const options = {

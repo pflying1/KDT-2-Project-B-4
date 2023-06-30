@@ -15,7 +15,7 @@ async function bootstrap() {
 
   // 정적 파일 경로 설정
   app.use(express.static(join(__dirname, '..', 'client', 'build')));
-
+  // app.useWebSocketAdapter(new IoAdapter(app));
 
 
   await app.listen(3000);

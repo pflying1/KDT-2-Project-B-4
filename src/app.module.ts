@@ -15,9 +15,10 @@ import { HttpModule } from '@nestjs/axios';
 import { BusStopModule } from './bus-stop/bus-stop.module';
 import { BusStopController } from './bus-stop/bus-stop.controller';
 import { BusStopService } from './bus-stop/bus-stop.service';
+import { EventsModule } from './socket/event.module';
 
 @Module({
-  imports: [HttpModule,ApiModule,ConfigModule.forRoot(),BusLocationModule,BusStopModule,PageModule ],
+  imports: [HttpModule,ApiModule,ConfigModule.forRoot(),BusLocationModule,BusStopModule,EventsModule,PageModule ],
   controllers: [AppController,  ApiController, BusLocationController,BusStopController,PageController],
   providers: [AppService, BusLocationService, BusStopService],
 })

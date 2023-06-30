@@ -9,7 +9,7 @@ const handleSearch = async (): Promise<void> => {
   const inputValue: string = (document.querySelector('.searchInputCss') as HTMLInputElement).value;
 
   try {
-    const response = await axios.get('http://localhost:3000/search/submit', {
+    const response = await axios.get('http://localhost:3000/search/', {
       params: {
         input: inputValue,
       },
@@ -27,7 +27,7 @@ const SearchBar = () => {
       <div className="searchContainerCss">
         <img src={menuBox} alt='menu' className="menuCss" />
         <input className="searchInputCss" placeholder='정류소 검색' />
-        <button className="searchContainerTextCss" onClick={handleSearch}>
+        <button className="searchContainerTextCss" onClick={handleSearch} type='submit'>
           <div>검색</div>
           <img src={searchBox} alt="search" />
         </button>

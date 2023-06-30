@@ -20,15 +20,13 @@ const ChatContainer = styled.div`
 const MessageBox = styled.div`
   display: flex;
   flex-direction: column;
-
+  justyfy-content: center;
+  align-items: center;
 
   &.my_message {
-    align-self: flex-end;
-
 
     .message {
       background: yellow;
-      align-self: flex-end;
     }
   }
 
@@ -50,7 +48,7 @@ const Message = styled.span`
 
 const MessageForm = styled.form`
   display: flex;
-  margin-top: 24px;
+  margin-top: 20px;
 
 
   input {

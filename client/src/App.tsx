@@ -9,7 +9,7 @@ import Nav from './component/view/nav';
 import Header from "./component/view/header";
 import FavoritesListAll from "./component/view/FavoritesListAll";
 import SocketApp from "./component/view/socketC";
-
+import BusLocationData from "./component/service/busLocation";
 function App() {
   const location = useLocation();
   const [pageTitle, setPageTitle] = useState("");
@@ -47,6 +47,7 @@ function App() {
           </Routes>
           <Routes>          
             <Route path="/favorite" element={<FavoritesListAll/>} />
+            {/* <Route path="/buslocation" element={<BusLocationData/>} /> */}
           </Routes>
         </div>
         {[

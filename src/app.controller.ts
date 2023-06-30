@@ -5,4 +5,3 @@ import { Controller, Get, Param, Res, Req, Post, Body } from '@nestjs/common';
 export class AppController {
 
 }
- 

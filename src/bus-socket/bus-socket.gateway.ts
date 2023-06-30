@@ -12,12 +12,14 @@ import {
 import { Server, Socket } from "socket.io";
 import axios from "axios";
 import { parseStringPromise } from "xml2js";
+import { BusSocketService } from './bus-socket.service'
 import dotenv from "dotenv";
 dotenv.config();
 
 @WebSocketGateway({ namespace: "api/buslocation/socket" })
 export class EventsGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+  constructor(private busSocketService: BusSocketService) {}
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger("EventsGateway");
 
@@ -45,6 +47,8 @@ export class EventsGateway
       this.server
         .to(socketId)
         .emit("busevents", { id: socketId, data: jsonData });
+        await axios.post("http://localhost:3000/api/bus", { data: jsonData });
+        this.busSocketService.saveData(jsonData);
       return { id: socketId, data: jsonData };
     } catch (error) {
       console.error("Error processing events:", error.message);

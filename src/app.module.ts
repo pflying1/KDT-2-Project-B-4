@@ -17,10 +17,11 @@ import { BusStopController } from './bus-stop/bus-stop.controller';
 import { BusStopService } from './bus-stop/bus-stop.service';
 import { EventsModule } from './socket/event.module';
 import { BusSocketModule } from './bus-socket/bus-socket.module';
-
+import { BusSocketController } from './bus-socket/bus-socket.controller';
+import { BusSocketService } from './bus-socket/bus-socket.service';
 @Module({
   imports: [HttpModule,ApiModule,ConfigModule.forRoot(),BusLocationModule,BusStopModule,EventsModule,BusSocketModule,PageModule ],
-  controllers: [AppController,  ApiController, BusLocationController,BusStopController,PageController],
-  providers: [AppService, BusLocationService, BusStopService],
+  controllers: [AppController,  ApiController, BusLocationController,BusStopController,BusSocketController,PageController],
+  providers: [AppService, BusLocationService, BusStopService, BusSocketService],
 })
 export class AppModule {}

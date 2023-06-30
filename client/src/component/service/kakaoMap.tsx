@@ -66,6 +66,8 @@ const Map: React.FC<MapProps> = () => {
   const mapContainer = React.useRef(null);
   const [apiKey, setApiKey] = useState<string | undefined>(undefined);
   const [mapData, setMapData] = useState<string | undefined>(undefined)
+        const [bussLocationData, setBussLocationData] = useState<BusData>();
+
 
   useEffect(() => {
     fetch('/api/apiKey')
@@ -115,9 +117,13 @@ const Map: React.FC<MapProps> = () => {
         fetch('http://localhost:3000/api/bus')
         .then((response) => response.json())
         .then((data: BusData) => {
-          data.ServiceResult.msgBody.itemList.map((busLocationInfo) => {
-            busLocationMarker(busLocationInfo.GPS_LATI, busLocationInfo.GPS_LONG, map);
-          });
+          setBussLocationData(data)
+          // 값이 이미 할당된 경우에만 사용
+          if (bussLocationData) {
+            bussLocationData.ServiceResult.msgBody.itemList.map((busLocationInfo) => {
+              busLocationMarker(busLocationInfo.GPS_LATI, busLocationInfo.GPS_LONG, map);
+            });
+          }
         })
         .catch((error) => console.log(error));
         //버스 위치 마커 모듈

@@ -7,7 +7,7 @@ dotenv.config();
 export class BusLocationController {
   constructor(private readonly busLocationService: BusLocationService) {}
 
-  @Get('bus')
+  @Get('buss')
   async getConvertedData(): Promise<any> {
     const url = process.env.BUSLOCATION_URL;
     const result = await this.busLocationService.getBusLocation(url);

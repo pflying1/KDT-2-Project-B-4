@@ -34,7 +34,7 @@ const SocketApp = () => {
 
     socket.on('events', messageHandler);
     return () => {
-      socket.off('message', messageHandler);
+      socket.off('events', messageHandler);
     };
   }, []);
   const onSendMessage = useCallback(

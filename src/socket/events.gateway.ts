@@ -15,6 +15,7 @@ export class EventsGateway
 
   @SubscribeMessage('events')
   handleEvent(@MessageBody() data: string): string {
+    console.log("서버:: ", data)
     return data;
   }
   // handleEvent(@MessageBody() data: string): string {

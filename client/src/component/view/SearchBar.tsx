@@ -14,7 +14,7 @@ const SearchBar = () => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
 
-    if (obj.name === value) {
+    if (obj.name.includes(value)) {
       setInputValue(value);
       setResult(obj.age);
     } else {

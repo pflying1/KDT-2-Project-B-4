@@ -7,24 +7,40 @@ import React, { useEffect, useState } from 'react';
  * @param map 마커를 지도에 표시합니다. map이라고 꼭넣어주세요.
  */
 
-const busLocationMarker = (lati:number,long:number,map:string|undefined) => {
-  
-  const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다    
-  imageSize = new window.kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
-  imageOption = {offset: new window.kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-    
-  // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-  const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
-      markerPosition = new window.kakao.maps.LatLng(lati,long); // 마커가 표시될 위치입니다
+const busLocationMarker = (lati: number, long: number, map: string | undefined) => {
+
+  // 마커를 표시할 위치입니다 
+  const position = new window.kakao.maps.LatLng(lati, long);
 
   // 마커를 생성합니다
   const marker = new window.kakao.maps.Marker({
-      position: markerPosition, 
-      image: markerImage // 마커이미지 설정 
+    position: position,
+    clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
   });
-  // 마커가 지도 위에 표시되도록 설정합니다
-  marker.setMap(map);  
+
+  // 아래 코드는 위의 마커를 생성하는 코드에서 clickable: true 와 같이
+  // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+  // marker.setClickable(true);
+
+  // 마커를 지도에 표시합니다.
+  marker.setMap(map);
+
+  // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
+  const iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+  // 인포윈도우를 생성합니다
+  const infowindow = new window.kakao.maps.InfoWindow({
+    content: iwContent,
+    removable: iwRemoveable
+  });
+
+  // 마커에 클릭이벤트를 등록합니다
+  window.kakao.maps.event.addListener(marker, 'click', function () {
+    // 마커 위에 인포윈도우를 표시합니다
+    infowindow.open(map, marker);
+  });
 }
 
-export default busLocationMarker 
+export default busLocationMarker
 

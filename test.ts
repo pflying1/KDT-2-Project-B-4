@@ -1,101 +1,68 @@
-// import axios from 'axios'; //axios는 fetch와 비슷하지만 별도의 설치 필요, HTTP요쳥을 보냄
-// import { parseString } from 'xml2js'; //XML을 js객체로 변환하는 라이브러리
-// import React, { useEffect, useState } from 'react';
-
-// const apiKey = 'i7Cd%2BE5PV6rYTmSC4CrnvP8fJVN0f6uDLp%2BO6ZIPUMEHE5eOBUlBUbibOnABF3JFT6LgLkerWvmMzp3%2F8rFwYA%3D%3D';
-// const apiUrl = 'http://openapitraffic.daejeon.go.kr/api/rest/busRouteInfo/getStaionByRouteAll?serviceKey=i7Cd%2BE5PV6rYTmSC4CrnvP8fJVN0f6uDLp%2BO6ZIPUMEHE5eOBUlBUbibOnABF3JFT6LgLkerWvmMzp3%2F8rFwYA%3D%3D&reqPage=1';
-
-
-
-
-//   axios.get(apiUrl, { //axios.get 메서드를 사용하여 'apiURL'에 GET요쳥을 보냄
-//     headers: {
-//       'Authorization': `Bearer ${apiKey}` // API 키를 인증 헤더에 포함
-//     }
-//   })
-//     .then(response => {
-//       const xmlData = response.data; // XML 데이터 가져오기
-
-//       parseString(xmlData, (err, result) => { // parseString을 사용하여 xmlData파싱, 파싱결과는 콜백함수의 'result' 매개변수로 전달, 에러가 발생하면 에러를 출력하고 함수 종료
-//         if (err) {
-//           console.error(err);
-//           return;
-//         }
-
-//         const jsonData = result; // XML을 JavaScript 객체로 변환한 데이터
-//         // 데이터 처리
-
-//         const gpsData = []
-
-//         for (let i = 0; i < jsonData.ServiceResult.msgBody[0].itemList.length; i++) {
-//          gpsData.push(jsonData.ServiceResult.msgBody[0].itemList[i].GPS_LATI, jsonData.ServiceResult.msgBody[0].itemList[i].GPS_LONG)
-//         }
-//         console.log(gpsData)
-//         return gpsData;
-//         // console.log(jsonData.ServiceResult.msgBody[0].itemList[0].GPS_LONG)
-
-//       });
-//     })
-//     .catch(error => {
-//       // 에러 처리
-//       console.error(error);
-//     });
-
-
 
 
 import axios from 'axios';
+import mongoose from 'mongoose';
+import fs from 'fs';
 import { parseString } from 'xml2js';
+// MongoDB 연결 설정
+mongoose.connect('mongodb://localhost/mydatabase', {
 
-const apiKey = 'i7Cd%2BE5PV6rYTmSC4CrnvP8fJVN0f6uDLp%2BO6ZIPUMEHE5eOBUlBUbibOnABF3JFT6LgLkerWvmMzp3%2F8rFwYA%3D%3D';
-const apiUrl = 'http://openapitraffic.daejeon.go.kr/api/rest/busRouteInfo/getStaionByRouteAll?serviceKey=i7Cd%2BE5PV6rYTmSC4CrnvP8fJVN0f6uDLp%2BO6ZIPUMEHE5eOBUlBUbibOnABF3JFT6LgLkerWvmMzp3%2F8rFwYA%3D%3D&reqPage=1';
+});
 
-const getGpsData = async () => {
-  try {
-    const response = await axios.get(apiUrl, {
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-      },
-    });
-    const xmlData = response.data;
+// MongoDB 스키마 정의
+const dataSchema = new mongoose.Schema({
+  BUSSTOP_ENG_NM: String,
+  BUSSTOP_NM: String,
+  BUSSTOP_SEQ: Number,
+  BUSSTOP_TP: Number,
+  BUS_NODE_ID: String,
+  BUS_STOP_ID: String,
+  GPS_LATI: String,
+  GPS_LONG: String,
+  ROAD_NM: String,
+  ROAD_NM_ADDR: String,
+  ROUTE_CD: String,
+  TOTAL_DIST: Number,
+});
 
-    return new Promise((resolve, reject) => {
-      parseString(xmlData, (err, result) => {
-        if (err) {
-          reject(err);
+// MongoDB 모델 생성
+const DataModel = mongoose.model('Data', dataSchema);
+for(let i = 0; i < 1; i++) {
+// 외부 API에서 데이터 가져오기
+axios.get(`http://openapitraffic.daejeon.go.kr/api/rest/busRouteInfo/getStaionByRouteAll?serviceKey=i7Cd%2BE5PV6rYTmSC4CrnvP8fJVN0f6uDLp%2BO6ZIPUMEHE5eOBUlBUbibOnABF3JFT6LgLkerWvmMzp3%2F8rFwYA%3D%3D&reqPage=${i}`)
+  .then(response => {
+    const xmlData = response.data; // XML 데이터
+
+    parseString(xmlData, (error, result) => {
+      if (error) {
+        console.error('Error parsing XML:', error);
+        return;
+      }
+
+      const jsonData = JSON.stringify(result, null, 2); // JSON 문자열로 변환
+
+      fs.writeFile('data.json', jsonData, 'utf8', (error) => {
+        if (error) {
+          console.error('Error writing JSON file:', error);
+        } else {
+          console.log('JSON file saved successfully.');
         }
-
-        const jsonData = result;
-        const gpsData = [];
-
-        for (
-          let i = 0;
-          i < jsonData.ServiceResult.msgBody[0].itemList.length;
-          i++
-        ) {
-          gpsData.push([
-            jsonData.ServiceResult.msgBody[0].itemList[i].GPS_LATI,
-            jsonData.ServiceResult.msgBody[0].itemList[i].GPS_LONG,
-          ]);
-        }
-
-        resolve(gpsData);
-        console.log(gpsData)
-        return gpsData;
       });
-    });
-  } catch (error) {
-    console.error(error);
-  }
-};
 
-// getGpsData()
-//   .then((gpsData) => {
-//     console.log(gpsData);
-//     return gpsData;
-//   })
-//   .catch((error) => {
-//     console.error(error);
-//   });
-const a = getGpsData()
-// console.log(a)
+      console.log(jsonData); // JSON 데이터 출력
+    });
+        // console.log(JSON.parse(jsonData));
+    // MongoDB에 데이터 저장
+    // DataModel.create(jsonData, (error, data) => {
+    //   if (error) {
+    //     console.error('Error saving data to MongoDB:', error);
+    //   } else {
+    //     console.log('Data saved to MongoDB:', data);
+    //   }
+    //   mongoose.disconnect(); // 연결 종료
+    // });
+  })
+  .catch(error => {
+    console.error('Error fetching data from API:', error);
+  }
+  );}

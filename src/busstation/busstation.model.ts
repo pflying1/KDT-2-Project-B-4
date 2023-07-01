@@ -6,17 +6,15 @@ export type BusStopDocument = Bus & Document;
 @Schema({ collection: 'newBusStop' })
 export class Bus {
   @Prop()
-  BUSSTOP: string;
+  BUSSTOP_SEQ: string;
   @Prop()
-  BUS_NODE_ID: string;
+  BUSSTOP_TP: string;
   @Prop()
-  BUS_STOP_ID: string;
+  ROAD_NM: string;
   @Prop()
-  GPS_LATI: number;
+  ROAD_NM_ADDR: string;
   @Prop()
-  GPS_LONG: number;
-  @Prop()
-  ROUTE_CD: string;
+  TOTAL_DIST: string;
 }
 
 export const BusStopSchema = SchemaFactory.createForClass(Bus);

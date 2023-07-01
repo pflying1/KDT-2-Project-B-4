@@ -8,11 +8,10 @@ export class BusstationService {
     @InjectModel(Bus.name) private readonly busstopModel: Model<BusStopDocument>,
   ) {}
 
-
-
   async findAllBusStops(): Promise<Bus[]> {
-    console.log('이건 service',this.busstopModel.find().exec())
-    return this.busstopModel.find().exec();
+    const rawData = await this.busstopModel.find().exec();
+    console.log('rawData:', rawData);
+ return rawData;
   }
 
 }

@@ -4,9 +4,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Bus,BusStopDocument} from './busstation.model';
 @Injectable()
 export class BusstationService {
-  constructor(@InjectModel('busstop') private busstation: Model<BusStopDocument>) {}
+  constructor(
+    @InjectModel(Bus.name) private readonly busstopModel: Model<BusStopDocument>,
+  ) {}
+
+
+
   async findAllBusStops(): Promise<Bus[]> {
-    return this.busstation.find().exec();
+    console.log('이건 service',this.busstopModel.find().exec())
+    return this.busstopModel.find().exec();
   }
 
 }

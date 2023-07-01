@@ -1,21 +1,23 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+export type BusStopDocument = Bus & Document;
+
 @Schema()
-export class busstop extends Document {
+export class Bus {
   @Prop()
-  BUSSTOP_NM: string;
+  BUSSTOP: string;
   @Prop()
   BUS_NODE_ID: string;
   @Prop()
   BUS_STOP_ID: string;
   @Prop()
-  GPS_LATI: string;
+  GPS_LATI: number;
   @Prop()
-  GPS_LONG: string;
+  GPS_LONG: number;
   @Prop()
   ROUTE_CD: string;
-
 }
 
-export const busstationModel = SchemaFactory.createForClass(busstop);
+export const BusStopSchema = SchemaFactory.createForClass(Bus);
+

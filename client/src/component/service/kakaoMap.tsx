@@ -30,33 +30,45 @@ interface BusData {
   };
 }
 
+// interface BusStopData {
+//   ServiceResult: {
+//     msgHeader: {
+//       currentPage: string;
+//       headerCd: string;
+//       headerMsg: string;
+//       itemCnt: string;
+//       itemPageCnt: string;
+//     };
+//     msgBody: {
+//       itemList: [{
+//         BUSSTOP_ENG_NM: string;
+//         BUSSTOP_NM: string;
+//         BUSSTOP_SEQ: string;
+//         BUSSTOP_TP: string;
+//         BUS_NODE_ID: string;
+//         BUS_STOP_ID: string;
+//         GPS_LATI: number;
+//         GPS_LONG: number;
+//         ROAD_NM: string;
+//         ROAD_NM_ADDR: string;
+//         ROUTE_CD: string;
+//         TOTAL_DIST: string;
+//       }];
+//     };
+//   };
+// }
+//새오운 버전
 interface BusStopData {
-  ServiceResult: {
-    msgHeader: {
-      currentPage: string;
-      headerCd: string;
-      headerMsg: string;
-      itemCnt: string;
-      itemPageCnt: string;
-    };
-    msgBody: {
-      itemList: [{
-        BUSSTOP_ENG_NM: string;
-        BUSSTOP_NM: string;
-        BUSSTOP_SEQ: string;
-        BUSSTOP_TP: string;
-        BUS_NODE_ID: string;
-        BUS_STOP_ID: string;
-        GPS_LATI: number;
-        GPS_LONG: number;
-        ROAD_NM: string;
-        ROAD_NM_ADDR: string;
-        ROUTE_CD: string;
-        TOTAL_DIST: string;
-      }];
-    };
-  };
+  BUSSTOP_ENG_NM: string[];
+  BUSSTOP_NM: string[];
+  BUS_NODE_ID: string[];
+  BUS_STOP_ID: string[];
+  GPS_LATI: number[];
+  GPS_LONG: number[];
+  ROUTE_CD: string[];
+  _id: string;
 }
+
 interface MapProps {
   apiKey?: string;
 }
@@ -124,17 +136,33 @@ const Map: React.FC<MapProps> = () => {
         // const busLocationInfo = BusLocationData();
         // busLocationMarker(36.350412, 127.384548, map);
         // busLocationMarker(busLocationInfo.GPS_LATI, busLocationInfo.GPS_LONG, map)
-        for(let i = 0; i<10; i++){
+       
           
-          fetch('http://localhost:3000/api/stop')
+          fetch('http://localhost:3000/busstation')
           .then((response) => response.json())
-          .then((data: BusStopData) => {
-            data.ServiceResult.msgBody.itemList.map((busStopInfo) => {
-              busStopMarker(busStopInfo.GPS_LATI, busStopInfo.GPS_LONG, map);
+          .then((data) => {
+            // data.ServiceResult.msgBody.itemList.map((busStopInfo) => {
+            //   busStopMarker(busStopInfo.GPS_LATI, busStopInfo.GPS_LONG, map);
+            //   console.log('busStopInfo',busStopInfo);
+            //   console.log('data.ServiceResult.msgBody.itemList.map',data);
+
+            // });
+            // const itemList = data.ServiceResult.msgBody.itemList;
+            // itemList.forEach((busStopInfo) => {
+            //   // 데이터 가공 또는 출력 로직을 추가합니다.
+            // });
+            // console.log('이건 정류장 요청',itemList);
+            
+            data.forEach((item: BusStopData)=> {
+              const gpsLati = item.GPS_LATI[0]; // GPS_LATI 값 추출
+              const gpsLong = item.GPS_LONG[0]; // GPS_LONG 값 추출
+              busStopMarker(gpsLati, gpsLong,map); // 함수 호출
             });
+            console.log(data)
+
           })
           .catch((error) => console.log(error));
-        }
+        
       });
     
       

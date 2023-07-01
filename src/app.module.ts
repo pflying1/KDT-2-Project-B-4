@@ -15,11 +15,13 @@ import { HttpModule } from '@nestjs/axios';
 import { BusStopModule } from './bus-stop/bus-stop.module';
 import { BusStopController } from './bus-stop/bus-stop.controller';
 import { BusStopService } from './bus-stop/bus-stop.service';
-import { EventsModule } from './socket/event.module';
-
+import { MongooseModule } from '@nestjs/mongoose';
+import { BusstationModule } from './busstation/busstation.module';
+import { BusstationService } from './busstation/busstation.service';
+// import { BusStop } from './busstation/busstation.model';
 @Module({
-  imports: [HttpModule,ApiModule,ConfigModule.forRoot(),BusLocationModule,BusStopModule,EventsModule,PageModule ],
-  controllers: [AppController,  ApiController, BusLocationController,BusStopController,PageController],
-  providers: [AppService, BusLocationService, BusStopService],
+  imports: [ MongooseModule.forRoot('mongodb+srv://adminID:adminPW@project4.uk45ojb.mongodb.net/bus'),HttpModule,ApiModule,ConfigModule.forRoot(),BusLocationModule,BusStopModule,BusstationModule ,PageModule],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

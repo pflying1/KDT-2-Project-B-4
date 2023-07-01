@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type BusStopDocument = Bus & Document;
 
-@Schema()
+@Schema({ collection: 'newBusStop' })
 export class Bus {
   @Prop()
   BUSSTOP: string;

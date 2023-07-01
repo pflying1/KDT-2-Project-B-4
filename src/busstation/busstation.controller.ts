@@ -4,13 +4,13 @@ import { Bus} from './busstation.model';
 
 @Controller('busstation')
 export class BusstationController {
-constructor(private busstationService: BusstationService){}
+  constructor(private readonly busstationService: BusstationService) {}
 
-
-@Get()
-  async getAllBusstations(): Promise<Bus[]> {
-    console.log('서버콘트롤러',this.busstationService.findAllBusStops()[0]);
-    return this.busstationService.findAllBusStops();
+  @Get()
+  async findAllBusStops(): Promise<Bus[]> {
+    const data = await this.busstationService.findAllBusStops();
+    console.log('서버 컨트롤러:', data);
+    return data;
   }
 
 }

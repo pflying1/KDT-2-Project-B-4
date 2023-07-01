@@ -14,7 +14,7 @@ const busData = JSON.parse(jsonData);
 
     // DB 및 컬렉션 선택
     const db = client.db('bus');
-    const collection = db.collection('newBusStop');
+    const collection = db.collection('newBusStopVer2');
 
     // 각 버스 정류장 데이터 저장
     const result = await collection.insertMany(busData);

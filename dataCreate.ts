@@ -6,7 +6,7 @@ const fetchData = async () => {
   try {
     let allData = [];
 
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 11; i <= 40; i++) {
       const response = await axios.get(
         `http://openapitraffic.daejeon.go.kr/api/rest/busRouteInfo/getStaionByRouteAll?serviceKey=W2ZNx9bVB6N8TT8yiKOEeL28g%2By01Tt7ywJzAE%2FrdaL6dEzjW2Cp5s52C0ZtD2JiNNtpyGLw8Z7aaThuRoJQhA%3D%3D&reqPage=${i}`
       );

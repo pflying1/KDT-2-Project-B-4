@@ -24,9 +24,9 @@ export class EventsGateway
 
   @SubscribeMessage('sendNodeId')
   handleMessage(@MessageBody() nodeid:{nodeid:string}){
-    if(nodeid.nodeid){
-      console.log(nodeid.nodeid)
-    }
+    fetch(`http://openapitraffic.daejeon.go.kr/api/rest/arrive/getArrInfoByStopID?serviceKey=i7Cd%2BE5PV6rYTmSC4CrnvP8fJVN0f6uDLp%2BO6ZIPUMEHE5eOBUlBUbibOnABF3JFT6LgLkerWvmMzp3%2F8rFwYA%3D%3D&BusStopID=${nodeid}`)
+    .then()
+    .then()
   }
 
   //서버에 api 저장하는 로직

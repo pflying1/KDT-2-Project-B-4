@@ -159,10 +159,10 @@ const Map: React.FC<MapProps> = () => {
               const gpsLati = item.GPS_LATI[0]; // GPS_LATI 값 추출
               const gpsLong = item.GPS_LONG[0]; // GPS_LONG 값 추출
               const nodeId = item.BUS_NODE_ID[0]; // GPS_LONG 값 추출
-              setnodeId(nodeId)
-              busStopMarker({ lati: gpsLati, long: gpsLong, map: map, nodeId: nodeId }); // 함수 호출
+              busStopMarker(gpsLati, gpsLong, map, nodeId ); // 함수 호출
             });
             console.log(data)
+            setnodeId(data.BUS_NODE_ID[0])
 
           })
           .catch((error) => console.log(error));
@@ -173,17 +173,11 @@ const Map: React.FC<MapProps> = () => {
     };
   }, [apiKey]);
 
-  useEffect(() => {
-    const [socket, setSocket] = useState<Socket | null>(null);
-    const [urlData, setUrlData] = useState<string | null>(null);
-    const [url] = useState<string>(""); 
-  
+  React.useEffect(() => {
     const socketInstance = io("http://localhost:3000/api/buslocation/socket");
-    
-    setSocket(socketInstance);
+
     // 이벤트 핸들러 설정
     socketInstance.on("busevents", (data: string) => {
-      setUrlData(data);
       console.log("busevents on: ", data);
     });
 

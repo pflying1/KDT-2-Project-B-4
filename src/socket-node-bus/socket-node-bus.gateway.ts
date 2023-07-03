@@ -12,18 +12,25 @@ import {
 import { Server, Socket } from "socket.io";
 import axios from "axios";
 import { parseStringPromise } from "xml2js";
-import { BusSocketService } from './bus-socket.service'
 import dotenv from "dotenv";
 dotenv.config();
 
 @WebSocketGateway({ namespace: "api/buslocation/socket" })
 export class EventsGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-  constructor(private busSocketService: BusSocketService) {}
+  // constructor(private busSocketService: BusSocketService) {}
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger("EventsGateway");
 
-  async fetchXmlApiAndConvertToJson(url: string): Promise<any> {
+  @SubscribeMessage('sendNodeId')
+  handleMessage(@MessageBody() nodeid:{nodeid:string}){
+    if(nodeid.nodeid){
+      console.log(nodeid.nodeid)
+    }
+  }
+
+  //서버에 api 저장하는 로직
+  /* async fetchXmlApiAndConvertToJson(url: string): Promise<any> {
     try {
       const response = await axios.get(url);
       if (response.status !== 200) {
@@ -39,9 +46,10 @@ export class EventsGateway
       console.error("Error fetching external API:", error.message);
       throw error;
     }
-  }
+  } */
 
-  async handleEvent(socketId: string, url: string) {
+  //서버에 api 저장하는 로직
+ /*  async handleEvent(socketId: string, url: string) {
     try {
       const jsonData = await this.fetchXmlApiAndConvertToJson(url);
       this.server
@@ -55,7 +63,7 @@ export class EventsGateway
       this.server.to(socketId).emit("error", { message: error.message });
       return null;
     }
-  }
+  } */
 
   afterInit(server: Server) {
     this.logger.log("웹소켓 서버 초기화 ✅");
@@ -68,25 +76,5 @@ export class EventsGateway
 
   handleDisconnect(client: Socket) {
     this.logger.log(`Client Disconnected: ${client.id}`);
-  }
-
-  @SubscribeMessage("start")
-  async startRequest(@ConnectedSocket() client: Socket) {
-     // 즉시 API 요청 처리
-    this.handleEvent(client.id, process.env.BUSLOCATION_URL);
-    const interval = setInterval(() => {
-      this.handleEvent(client.id, process.env.BUSLOCATION_URL);
-    }, 30000);
-    client.data.interval = interval; // 클라이언트에 interval을 할당합니다.
-  }
-
-  @SubscribeMessage("stop")
-  async stopRequest(@ConnectedSocket() client: Socket) {
-    if (client.data.interval) {
-      // 즉시 API 요청 중지
-      this.handleEvent(client.id, null);
-      clearInterval(client.data.interval);
-      delete client.data.interval;
-    }
   }
 }

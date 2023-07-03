@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import busLocationMarker from './busLocationMarker';
 import busStopMarker from './busStopMarker';
-import BusLocationData from './busLocation';
+import { io, Socket } from "socket.io-client";
+
 interface BusData {
   ServiceResult: {
     msgHeader: {
@@ -77,7 +78,8 @@ const Map: React.FC<MapProps> = () => {
 
   const mapContainer = React.useRef(null);
   const [apiKey, setApiKey] = useState<string | undefined>(undefined);
-  const [mapData, setMapData] = useState<string | undefined>(undefined)
+  const [mapData, setMapData] = useState<string | undefined>(undefined);
+  const [nodeId, setnodeId] = useState("");
 
   useEffect(() => {
     fetch('/api/apiKey')
@@ -136,7 +138,7 @@ const Map: React.FC<MapProps> = () => {
         // const busLocationInfo = BusLocationData();
         // busLocationMarker(36.350412, 127.384548, map);
         // busLocationMarker(busLocationInfo.GPS_LATI, busLocationInfo.GPS_LONG, map)
-       
+        
           
           fetch('http://localhost:3000/busstation')
           .then((response) => response.json())
@@ -157,8 +159,8 @@ const Map: React.FC<MapProps> = () => {
               const gpsLati = item.GPS_LATI[0]; // GPS_LATI 값 추출
               const gpsLong = item.GPS_LONG[0]; // GPS_LONG 값 추출
               const nodeId = item.BUS_NODE_ID[0]; // GPS_LONG 값 추출
-              busStopMarker(gpsLati, gpsLong,map,nodeId); // 함수 호출
-              console.log(busStopMarker(gpsLati, gpsLong,map,nodeId));
+              setnodeId(nodeId)
+              busStopMarker({ lati: gpsLati, long: gpsLong, map: map, nodeId: nodeId }); // 함수 호출
             });
             console.log(data)
 
@@ -170,7 +172,35 @@ const Map: React.FC<MapProps> = () => {
       
     };
   }, [apiKey]);
+
+  useEffect(() => {
+    const [socket, setSocket] = useState<Socket | null>(null);
+    const [urlData, setUrlData] = useState<string | null>(null);
+    const [url] = useState<string>(""); 
   
+    const socketInstance = io("http://localhost:3000/api/buslocation/socket");
+    
+    setSocket(socketInstance);
+    // 이벤트 핸들러 설정
+    socketInstance.on("busevents", (data: string) => {
+      setUrlData(data);
+      console.log("busevents on: ", data);
+    });
+
+    socketInstance.on("error", (error: { message: string }) => {
+      console.error("Error receiving data:", error.message);
+    });
+
+    if (nodeId) {
+      socketInstance.emit("sendnodeId", { nodeId });
+    }
+
+    // 클린업 함수를 통해 소켓 인스턴스 제거
+    return () => {
+      socketInstance.disconnect();
+    };
+  }, [nodeId]);
+
 /*   useEffect(() => {
     fetch('http://localhost:3000/api/bus')
       .then(response => response.json())

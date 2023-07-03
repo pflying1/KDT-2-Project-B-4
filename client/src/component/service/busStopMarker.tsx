@@ -38,86 +38,78 @@ interface BusStopData {
     };
   };
 }
+interface busStopMarkerType {
+  lati: number;
+  long: number; 
+  map: string;
+  nodeid: string | undefined;
+}
 
-const busLocationMarker = (lati: number, long: number, map: string, nodeid: string | undefined) => {
+const BusStopMarker: React.FC<busStopMarkerType> = ({lati,long,map,nodeid}) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [urlData, setUrlData] = useState<IUrl | null>(null);
-  const [url] = useState<string>("");
+  const [url] = useState<string>(""); 
+
+  useEffect(() => {
+    // 마커를 표시할 위치입니다 
+    const position = new window.kakao.maps.LatLng(lati, long);
+
+    // 마커를 생성합니다
+    const marker = new window.kakao.maps.Marker({
+      position: position,
+      clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+    });
+
+    // 아래 코드는 위의 마커를 생성하는 코드에서 clickable: true 와 같이
+    // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+    // marker.setClickable(true);
+
+    // 마커를 지도에 표시합니다.
+    marker.setMap(map);
+
+    // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
+    const iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+      iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+    // 인포윈도우를 생성합니다
+    const infowindow = new window.kakao.maps.InfoWindow({
+      content: iwContent,
+      removable: iwRemoveable
+    });
+
+    // 마커에 클릭이벤트를 등록합니다
+    window.kakao.maps.event.addListener(marker, 'click', function () {
+      // 마커 위에 인포윈도우를 표시합니다
+      infowindow.open(map, marker);
+    
+    });
+  },[lati,long,map]);
 
   useEffect(() => {
     const socketInstance = io("http://localhost:3000/api/buslocation/socket");
+    
     setSocket(socketInstance);
+    // 이벤트 핸들러 설정
+    socketInstance.on("busevents", (data: IUrl) => {
+      setUrlData(data);
+      console.log("busevents on: ", data);
+    });
 
-        // 이벤트 핸들러 설정
-        socketInstance.on("busevents", (data: IUrl) => {
-          setUrlData(data);
-          console.log("busevents on: ", data);
-        });
-    
-        socketInstance.on("error", (error: { message: string }) => {
-          console.error("Error receiving data:", error.message);
-        });
-    
-        // 클린업 함수를 통해 소켓 인스턴스 제거
-        return () => {
-          socketInstance.disconnect();
-        };
-      }, [url]);
-      console.log(JSON.stringify(urlData, null, 2))
-    
-      const startRequest = () => {
-        if (socket) {
-          socket.emit("start");
-        }
-      };
-    
-      const stopRequest = () => {
-        if (socket) {
-          socket.emit("stop");
-        }
-      };
-  // 마커를 표시할 위치입니다 
-  const position = new window.kakao.maps.LatLng(lati, long);
+    socketInstance.on("error", (error: { message: string }) => {
+      console.error("Error receiving data:", error.message);
+    });
 
-  // 마커를 생성합니다
-  const marker = new window.kakao.maps.Marker({
-    position: position,
-    clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
-  });
+    if (nodeid) {
+      socketInstance.emit("sendNodeId", { nodeid });
+    }
 
-  // 아래 코드는 위의 마커를 생성하는 코드에서 clickable: true 와 같이
-  // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
-  // marker.setClickable(true);
+    // 클린업 함수를 통해 소켓 인스턴스 제거
+    return () => {
+      socketInstance.disconnect();
+    };
+  }, [nodeid]);
 
-  // 마커를 지도에 표시합니다.
-  marker.setMap(map);
-
-  // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-  const iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-    iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
-
-  // 인포윈도우를 생성합니다
-  const infowindow = new window.kakao.maps.InfoWindow({
-    content: iwContent,
-    removable: iwRemoveable
-  });
-
-  // 마커에 클릭이벤트를 등록합니다
-  window.kakao.maps.event.addListener(marker, 'click', function () {
-    // 마커 위에 인포윈도우를 표시합니다
-    infowindow.open(map, marker);
-
-  });
-  return (
-    <div>
-      <button onClick={startRequest}>1번 버튼 (API 요청 시작)</button>
-      <button onClick={stopRequest}>2번 버튼 (API 요청 중지)</button>
-      <div>
-        {urlData && <pre>{JSON.stringify(urlData, null, 2)}</pre>}
-      </div>
-    </div>
-  );
+  return null;
 }
-
-export default busLocationMarker
+export default BusStopMarker
 

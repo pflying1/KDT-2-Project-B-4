@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
-
+import busMarker from './busLocationMarker';
 const socket = io('http://localhost:3000/busSocket'); // Socket.IO 서버에 연결합니다.
 /**
  * 버스 위치를 나타내는 마커 모듈입니다.
@@ -65,8 +65,15 @@ const busLocationMarker = (lati: number, long: number, busName: string, busNodeI
   
     if (!responseHandlerRegistered) {
       socket.on('response', (response) => {
-        console.log('서버 응답:', response);
-        // 추가적인 작업을 수행할 수 있습니다.
+        if (response && response[1]) {
+          for (let i = 0; i < response[1].length; i++) {
+            console.log('response[1][i].GPS_LATI', response[1][i].GPS_LATI);
+            console.log('response[1][i].GPS_LONG', response[1][i].GPS_LONG);
+            busMarker(response[1][i].GPS_LATI, response[1][i].GPS_LONG, map);
+          }
+          console.log('서버 응답:', response[1][0].GPS_LATI);
+          // 추가적인 작업을 수행할 수 있습니다.
+        }
       });
       responseHandlerRegistered = true;
     }

@@ -1,4 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
+import classNames from 'classnames';
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+
 /**
  * 버스 위치를 나타내는 마커 모듈입니다.
  *
@@ -8,9 +18,16 @@ import React, { useEffect, useState } from 'react';
  * @param busName
  * @param map 마커를 지도에 표시합니다. map이라고 꼭넣어주세요.
  */
+const socket = io('http://localhost:3000/bus');
+const SocketBus = () => {
+  // const [message, setMessage] = useState<string>('');
+  socket.on('events', socket => {
+    console.log('받은 메시지: ', socket)
+  })
+  socket.emit('events', 'hi')
+}
 
-const busLocationMarker = (lati: number, long: number, busName: string, busNodeId: number, map: string | undefined) => {
-  console.log("버스 정류장 아이디" + busNodeId);
+const BusLocationMarker = (lati: number, long: number, busName: string, busNodeId: number, map: string | undefined) => {
   // 마커를 표시할 위치입니다 
   const position = new window.kakao.maps.LatLng(lati, long);
 
@@ -42,8 +59,9 @@ const busLocationMarker = (lati: number, long: number, busName: string, busNodeI
   window.kakao.maps.event.addListener(marker, 'click', function () {
     // 마커 위에 인포윈도우를 표시합니다
     infowindow.open(map, marker);
+    SocketBus();
   });
 }
 
-export default busLocationMarker
+export default BusLocationMarker
 

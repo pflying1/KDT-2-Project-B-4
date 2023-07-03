@@ -40,7 +40,6 @@ function App() {
         <Routes>
           <Route path="/" element={<IntroPage />} />
         </Routes>
-        <SearchBar/>
         <Header />
         <div className='containerBody'>
         <Map />

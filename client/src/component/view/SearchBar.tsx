@@ -20,7 +20,7 @@ const SearchBar = () => {
   console.log(filterdData)
 
   const resultComponents: ReactNode[] = filterdData.map((item, index) =>
-    <p key={index}>{item}</p>
+    <p key={index} className='resultComponent'>{item}</p>
   )
 
   //value 실제 값
@@ -54,18 +54,10 @@ const SearchBar = () => {
         </button>
       </div>
       <div className={isHidden ? "hiddenSearchListCss hidden" : "hiddenSearchListCss"}>
-        <p style={styles.size}>결과: {result}</p>
-        <div style={styles.size}> {resultComponents}</div>
+        <div className='hiddenSearchListInnerCss'> {resultComponents}</div>
       </div>
     </div>
   );
 }
 
 export default SearchBar;
-
-const styles = {
-  size: {
-    fontSize: 5,
-
-  }
-}

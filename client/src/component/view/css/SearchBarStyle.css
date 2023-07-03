@@ -1,6 +1,7 @@
 .mainCss {
   display: flex;
   justify-content: center;
+  max-height: 156px;
 }
 
 .searchContainerCss {
@@ -35,21 +36,27 @@
 
 .hiddenSearchListCss.hidden {
   display: none;
+max-height: inherit;
 
 }
 
 .hiddenSearchListCss {
 
-  height:80%;
   background-color: white;
   border-bottom-right-radius: 15px;
   border-bottom-left-radius: 15px;
+  overflow: auto;
 
+}
+
+.hiddenSearchListInnerCss {
+  border-color: #EF7F00;
+  background-color: white;
 }
 
 
 .resultComponent {
-  color: blue;
+  color: #EF7F00;
   font-size: 5;
   margin: 0;
 }

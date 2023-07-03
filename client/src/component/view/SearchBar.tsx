@@ -3,7 +3,7 @@ import React, { useState, ChangeEvent } from 'react';
 import menuBox from './image/menu.png';
 import searchBox from './image/search.png';
 import "./css/SearchBarStyle.css";
-
+import data from '../../data.json'
 
 const SearchBar = () => {
   const [isHidden, setIsHidden] = useState(true);
@@ -29,6 +29,10 @@ const SearchBar = () => {
     }
   };
 
+  console.log(data)
+
+  // const dataArr: string[] = JSON.parse(data) as string[];
+
   const obj = {
     name: '예준',
     age: '25',
@@ -48,7 +52,7 @@ const SearchBar = () => {
           <img src={searchBox} alt="search" />
         </button>
       </div>
-      <div className={isHidden ? "hiddenSearchListCss hidden" : "hiddenSearchListCss" }>
+      <div className={isHidden ? "hiddenSearchListCss hidden" : "hiddenSearchListCss"}>
         <p>현재 입력값: {inputValue}</p>
         <p>결과: {result}</p>
       </div>

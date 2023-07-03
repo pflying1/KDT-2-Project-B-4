@@ -19,9 +19,9 @@ const SearchBar = () => {
   const filterdData = data.filter(item => item.includes(inputValue));
   console.log(filterdData)
 
-  // const resultComponents: ReactNode[] = filterdData.map((item, index) => 
-  //   <p key={index}>{item}</p>
-  // )
+  const resultComponents: ReactNode[] = filterdData.map((item, index) =>
+    <p key={index}>{item}</p>
+  )
 
   //value 실제 값
   //inputvalue 동기화 역할
@@ -54,12 +54,18 @@ const SearchBar = () => {
         </button>
       </div>
       <div className={isHidden ? "hiddenSearchListCss hidden" : "hiddenSearchListCss"}>
-        <p>현재 입력값: {inputValue}</p>
-        <p>결과: {result}</p>
-        {/* <div> {resultComponents}</div> */}
+        <p style={styles.size}>결과: {result}</p>
+        <div style={styles.size}> {resultComponents}</div>
       </div>
     </div>
   );
 }
 
 export default SearchBar;
+
+const styles = {
+  size: {
+    fontSize: 5,
+
+  }
+}

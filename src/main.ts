@@ -6,7 +6,7 @@ import * as bodyParser from 'body-parser';
 import * as path from 'path';
 import * as express from 'express';
 import { Logger } from '@nestjs/common';
-
+import { IoAdapter } from '@nestjs/platform-socket.io';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useLogger(new Logger('debug'));
@@ -16,7 +16,7 @@ async function bootstrap() {
   // 정적 파일 경로 설정
   app.use(express.static(join(__dirname, '..', 'client', 'build')));
   // app.useWebSocketAdapter(new IoAdapter(app));
-
+  app.useWebSocketAdapter(new IoAdapter(app)); 
 
   await app.listen(3000);
 }

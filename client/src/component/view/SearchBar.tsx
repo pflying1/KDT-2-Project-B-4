@@ -5,8 +5,6 @@ import searchBox from './image/search.png';
 import "./css/SearchBarStyle.css";
 import data from '../../data.json'
 
-console.log(data[1])
-
 const SearchBar = () => {
   const [isHidden, setIsHidden] = useState(true);
   const [inputValue, setInputValue] = useState('');
@@ -17,7 +15,6 @@ const SearchBar = () => {
   //filterData안에는 필터링된 여러 값들이 있음
 
   const filterdData = data.filter(item => item.includes(inputValue));
-  console.log(filterdData)
 
   const resultComponents: ReactNode[] = filterdData.map((item, index) =>
     <p key={index} className='resultComponent'>{item}</p>

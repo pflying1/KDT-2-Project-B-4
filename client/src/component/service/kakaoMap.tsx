@@ -141,17 +141,7 @@ const Map: React.FC<MapProps> = () => {
           fetch('http://localhost:3000/busstation')
           .then((response) => response.json())
           .then((data) => {
-            // data.ServiceResult.msgBody.itemList.map((busStopInfo) => {
-            //   busStopMarker(busStopInfo.GPS_LATI, busStopInfo.GPS_LONG, map);
-            //   console.log('busStopInfo',busStopInfo);
-            //   console.log('data.ServiceResult.msgBody.itemList.map',data);
-
-            // });
-            // const itemList = data.ServiceResult.msgBody.itemList;
-            // itemList.forEach((busStopInfo) => {
-            //   // 데이터 가공 또는 출력 로직을 추가합니다.
-            // });
-            // console.log('이건 정류장 요청',itemList);
+  
             
             data.forEach((item: BusStopData)=> {
               const gpsLati = item.GPS_LATI[0]; // GPS_LATI 값 추출

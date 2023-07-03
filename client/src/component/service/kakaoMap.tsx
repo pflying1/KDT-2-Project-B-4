@@ -124,14 +124,7 @@ const Map: React.FC<MapProps> = () => {
         // 함수를 호출하여 여러 개의 마커 생성
         // createMarkers(map);
         setMapData(map)
-        fetch('http://localhost:3000/api/bus')
-          .then((response) => response.json())
-          .then((data: BusData) => {
-            data.ServiceResult.msgBody.itemList.map((busLocationInfo) => {
-              busLocationMarker(busLocationInfo.GPS_LATI, busLocationInfo.GPS_LONG, map);
-            });
-          })
-          .catch((error) => console.log(error));
+ 
         //버스 위치 마커 모듈
         // const busLocationInfo = BusLocationData();
         // busLocationMarker(36.350412, 127.384548, map);

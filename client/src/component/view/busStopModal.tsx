@@ -48,7 +48,7 @@ const BusChild: React.FC<BusChildProps> = ({ number, div, time, count }) => {
     <div className="busInfo">
       <div className='busDiv' style={{ backgroundColor: colorVal }}>{div}</div>
       <div className='busNumber'>{number}</div>
-      <div style={{ color: timeVal }}>{time}분 ({count}정거장 전)</div>
+      <div style={{ color: timeVal,fontSize: '10pt' }}>{time}분 ({count}정거장 전)</div>
     </div>
   );
 };

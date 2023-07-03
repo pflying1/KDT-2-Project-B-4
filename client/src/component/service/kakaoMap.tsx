@@ -156,7 +156,9 @@ const Map: React.FC<MapProps> = () => {
             data.forEach((item: BusStopData)=> {
               const gpsLati = item.GPS_LATI[0]; // GPS_LATI 값 추출
               const gpsLong = item.GPS_LONG[0]; // GPS_LONG 값 추출
-              busStopMarker(gpsLati, gpsLong,map); // 함수 호출
+              const nodeId = item.BUS_NODE_ID[0]; // GPS_LONG 값 추출
+              busStopMarker(gpsLati, gpsLong,map,nodeId); // 함수 호출
+              console.log(busStopMarker(gpsLati, gpsLong,map,nodeId));
             });
             console.log(data)
 

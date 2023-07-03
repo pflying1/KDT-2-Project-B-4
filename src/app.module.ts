@@ -19,8 +19,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { BusstationModule } from './busstation/busstation.module';
 import { BusstationService } from './busstation/busstation.service';
 // import { BusStop } from './busstation/busstation.model';
+import { SocketNodeBusModule } from './socket-node-bus/socket-node-bus.module';
 @Module({
-  imports: [ MongooseModule.forRoot('mongodb+srv://adminID:adminPW@project4.uk45ojb.mongodb.net/bus'),HttpModule,ApiModule,ConfigModule.forRoot(),BusLocationModule,BusStopModule,BusstationModule ,PageModule],
+  imports: [ MongooseModule.forRoot('mongodb+srv://adminID:adminPW@project4.uk45ojb.mongodb.net/bus'),HttpModule,ApiModule,ConfigModule.forRoot(),BusLocationModule,BusStopModule,BusstationModule, SocketNodeBusModule ,PageModule],
   controllers: [AppController],
   providers: [AppService],
 })

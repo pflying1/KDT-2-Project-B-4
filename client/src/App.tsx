@@ -41,7 +41,15 @@ function App() {
         </Routes>
         <Header />
         <div className='containerBody'>
-        <Map />
+          <Routes>
+            <Route path="/main" element={
+              <>
+                <Map /> 
+                <BusModalWin />
+              </>
+            } />
+          </Routes>
+        {/* <Map /> */}
           <Routes>      
             <Route path="/chat" element={<SocketApp />} />
           </Routes>

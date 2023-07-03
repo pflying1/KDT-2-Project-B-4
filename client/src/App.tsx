@@ -10,6 +10,7 @@ import Header from "./component/view/header";
 import FavoritesListAll from "./component/view/FavoritesListAll";
 import SocketApp from "./component/view/socketC";
 import BusLocationData from "./component/service/busLocation";
+import SearchBar from "./component/view/SearchBar";
 function App() {
   const location = useLocation();
   const [pageTitle, setPageTitle] = useState("");
@@ -39,6 +40,7 @@ function App() {
         <Routes>
           <Route path="/" element={<IntroPage />} />
         </Routes>
+        <SearchBar/>
         <Header />
         <div className='containerBody'>
         <Map />

@@ -1,6 +1,6 @@
 .mainCss {
   display: flex;
-  justify-content: center
+  justify-content: center;
 }
 
 .searchContainerCss {
@@ -51,4 +51,5 @@
 .resultComponent {
   color: blue;
   font-size: 5;
+  margin: 0;
 }

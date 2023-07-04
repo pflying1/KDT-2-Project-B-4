@@ -4,6 +4,7 @@ import './App.css';
 import Map from './component/service/kakaoMap'
 import MenuBar from './component/view/menuBar'
 import BusModalWin from './component/view/busStopModal';
+import SearchBar from "./component/view/SearchBar";
 import IntroPage from "./component/view/introPageScreen";
 import Nav from './component/view/nav';
 import Header from "./component/view/header";
@@ -37,33 +38,30 @@ function App() {
 
     <div className="App">
       <div className='container'>
-        <Routes>
-          <Route path="/" element={<IntroPage />} />
-        </Routes>
-        <Header />
-        <div className='containerBody'>
-          <Routes>
-            <Route path="/main" element={
-              <>
-                <Map /> 
-                {/* <BusModalWin /> */}
-              </>
-            } />
-          </Routes>
-        {/* <Map /> */}
-          <Routes>      
-            <Route path="/chat" element={<SocketApp />} />
-          </Routes>
-          <Routes>          
-            <Route path="/favorite" element={<FavoritesListAll/>} />
-            {/* <Route path="/buslocation" element={<BusLocationData/>} /> */}
-          </Routes>
-        </div>
-        {[
-          "/"
-        ].includes(location.pathname) ? null : (
+        {location.pathname === "/" ? (
+          <IntroPage />
+        ) : location.pathname === "/main" ? (
+          <>
+          <SearchBar />
+          <Map />
+          <MenuBar />
+          </>
+        ) : (
+          <>
+          <Header />
+          <div className='containerBody'>
+            <Routes>      
+              <Route path="/chat" element={<SocketApp />} />
+            </Routes>
+            <Routes>          
+              <Route path="/favorite" element={<FavoritesListAll/>} />
+            </Routes>
+          </div>
           <Nav />
+          </>
         )}
+        
+        
 
       </div>
     </div>

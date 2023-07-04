@@ -8,8 +8,8 @@ interface ServiceResult {
     itemList?: string;
   };
 }
-let firstlist = [];
-let secondlist = [];
+// let firstlist = [];
+// let secondlist = [];
 @Injectable()
 export class SocketBusServerService {
   constructor(
@@ -20,6 +20,8 @@ export class SocketBusServerService {
 
 
   async getDataFromExternalApi(payload: any): Promise<any> {
+    let firstlist = [];
+    let secondlist = [];
     // 외부 API에 첫 번째 요청을 보내고 데이터를 가져옵니다.
     const firstApiUrl = `http://openapitraffic.daejeon.go.kr/api/rest/arrive/getArrInfoByStopID?serviceKey=i7Cd%2BE5PV6rYTmSC4CrnvP8fJVN0f6uDLp%2BO6ZIPUMEHE5eOBUlBUbibOnABF3JFT6LgLkerWvmMzp3%2F8rFwYA%3D%3D&BusStopID=${payload.data}`;
     const firstApiResponse = await this.httpService.get(firstApiUrl).toPromise();
@@ -28,6 +30,7 @@ export class SocketBusServerService {
     for (let i = 0; i < json.ServiceResult.msgBody.itemList.length; i++) {
       firstlist.push(Object.entries(json.ServiceResult.msgBody.itemList[i])[10])
     }
+    console.log(firstlist)
     // 첫 번째 API의 결과를 가공하여 두 번째 API 호출에 필요한 데이터를 추출합니다.
 
     // 예시: itemList의 첫 번째 아이템의 itemId를 추출
@@ -40,6 +43,8 @@ export class SocketBusServerService {
       const json = await parseStringPromise(secondApiData, { explicitArray: false, trim: true }) as { ServiceResult: ServiceResult };
       secondlist.push(json.ServiceResult.msgBody.itemList);
     }
+    console.log(secondlist)
+
     // 필요한 가공 작업을 수행합니다.
     // const processedData = // 가공 작업 수행
 

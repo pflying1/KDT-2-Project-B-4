@@ -80,6 +80,14 @@ const busLocationMarker = (lati: number, long: number, busName: string, busNodeI
 
     infowindow.open(map, marker);
   });
+  // function closeInfoWindow() {
+  //   infowindow.close(); // 인포윈도우를 닫습니다.
+  //   marker.setMap(null); // 마커를 지도에서 제거합니다.
+  // }
+  
+  // // x 버튼 클릭 이벤트에 closeInfoWindow 함수를 연결합니다.
+  // const closeButton = infowindow.getContent().querySelector('.close') as HTMLElement;
+  // closeButton.addEventListener('click', closeInfoWindow)
 }
 
 export default busLocationMarker

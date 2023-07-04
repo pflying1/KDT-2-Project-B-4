@@ -3,6 +3,17 @@ import { Model } from 'mongoose';
 import { InjectModel, raw } from '@nestjs/mongoose';
 import { Bus, BusStopDocument } from './busstation.model';
 import { Bus2, Bus2Document } from './bus2.model';
+
+// interface Service {
+
+
+//   BUS_NODE_ID: string[];
+//   BUS_STOP_ID: string[];
+//   GPS_LATI: string[];
+//   GPS_LONG: string[];
+//   ROUTE_CD: string[];
+
+// }
 @Injectable()
 export class BusstationService {
   // 두개의 모델링 파일을 주입 하여 데이터 베이스의 컬렉션 2개를 한번에 조회 한다.
@@ -23,12 +34,13 @@ export class BusstationService {
     // console.log(typeof(value))
     const busStops2 = await this.bus2Model.find({ BUSSTOP_NM: value })
     // console.log('rawData:', rawData);
-    const GPSLATI = "GPS_LATI"
-    console.log(rawData[0][GPSLATI])
+    const GPSLONG = "GPS_LONG"
+    // console.log(rawData[0])
+    // const GPSLATI = rawData[0]? rawData[0];
     // console.log(rawData["GPS_LATI"])
     // console.dir(busStops2)
 
 
-    return busStops2;
+    return [...rawData, ...busStops2];
   }
 }

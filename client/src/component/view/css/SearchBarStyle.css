@@ -1,6 +1,9 @@
+.mainContainerCss{
+  margin:0
+}
 .mainCss {
   display: flex;
-  max-height: 156px;
+  max-height: 30px;
 }
 
 .searchContainerCss {
@@ -49,7 +52,8 @@ max-height: inherit;
 }
 
 .hiddenSearchListInnerCss {
-  border-color: #EF7F00;
+  position: relative;
+  /* border-color: #EF7F00; */
   background-color: white;
 }
 

@@ -37,23 +37,24 @@ const SearchBar = () => {
   }
 
   return (
+    <div >
+      <div className='mainContainerCss'>
+        <div className="searchContainerCss">
+          <img src={menuBox} alt='menu' className="menuCss" />
+          <input className="searchInputCss" placeholder='정류소 검색'
+            onChange={onChange}
+            type='text' value={inputValue} />
 
-    <div className="mainCss">
-      <div className="searchContainerCss">
-        <img src={menuBox} alt='menu' className="menuCss" />
-        <input className="searchInputCss" placeholder='정류소 검색'
-          onChange={onChange}
-          type='text' value={inputValue} />
-
-        <button className="searchContainerTextCss" >
-          <div>검색</div>
-          <img src={searchBox} alt="search" />
-        </button>
+          <button className="searchContainerTextCss" >
+            <div>검색</div>
+            <img src={searchBox} alt="search" />
+          </button>
+        </div>
       </div>
-      <div className={isHidden ? "hiddenSearchListCss hidden" : "hiddenSearchListCss"}>
-        <div className='hiddenSearchListInnerCss'> {resultComponents}</div>
+        <div className={isHidden ? "hiddenSearchListCss hidden" : "hiddenSearchListCss"}>
+          <div className='hiddenSearchListInnerCss'> {resultComponents}</div>
+        </div>
       </div>
-    </div>
   );
 }
 

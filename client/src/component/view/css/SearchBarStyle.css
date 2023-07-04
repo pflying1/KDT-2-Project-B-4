@@ -1,7 +1,10 @@
 .mainCss {
   display: flex;
+  flex-direction: column;
+
   max-height: 156px;
-  
+  position: fixed;
+  z-index: 3;
 }
 
 .searchContainerCss {
@@ -12,8 +15,7 @@
   border-radius: 20px;
   border: 1px solid #EF7F00;
   height: 40px;
-  position: fixed;
-  z-index: 3;
+  
 }
 
 .menuCss {

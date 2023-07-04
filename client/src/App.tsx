@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import './App.css';
 import Map from './component/service/kakaoMap'
-import BusModalWin from './component/view/busStopModal';
-import SearchBar from "./component/view/SearchBar";
-import MenuBar from "./component/view/menuBar";
 import IntroPage from "./component/view/introPageScreen";
 import Nav from './component/view/nav';
 import Header from "./component/view/header";
@@ -54,8 +51,8 @@ function App() {
         "/"
       ].includes(location.pathname) ? null : (
         <>
-        <Header />
         <Nav />
+        <Header />
         </>
       )}
 

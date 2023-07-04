@@ -1,10 +1,15 @@
-import React from "react";
-
+import React, { useState } from "react";
 import SearchBar from "./SearchBar";
+
 const Header: React.FC = () => {
+  const [postData, setPostData] = useState<BusStopData[]>([]);
+  function handleDataChange(data: BusStopData[]) {
+
+  }
+
   return (
     <div className="containerHead">
-      <SearchBar />
+      <SearchBar onPostDataChange={handleDataChange} />
     </div>
   );
 };

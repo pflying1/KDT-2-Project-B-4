@@ -5,7 +5,25 @@ import searchBox from './image/search.png';
 import "./css/SearchBarStyle.css";
 import data from '../../data.json'
 
-const SearchBar = () => {
+
+interface SearchBarProps {
+  postData: BusStopData[];
+  onPostDataChange: (data: BusStopData[]) => void;
+}
+
+interface BusStopData {
+  BUSSTOP_ENG_NM: string[];
+  BUSSTOP_NM: string[];
+  BUS_NODE_ID: number[];
+  BUS_STOP_ID: string[];
+  GPS_LATI: number[];
+  GPS_LONG: number[];
+  ROUTE_CD: string[];
+  _id: string;
+}
+
+
+const SearchBar = (props: SearchBarProps) => {
   const [isHidden, setIsHidden] = useState(true);
   const [inputValue, setInputValue] = useState('');
   const [result, setResult] = useState<string[]>([]);
@@ -13,16 +31,6 @@ const SearchBar = () => {
   const [postData, setPostData] = useState<BusStopData[]>([]);
 
 
-  interface BusStopData {
-    BUSSTOP_ENG_NM: string[];
-    BUSSTOP_NM: string[];
-    BUS_NODE_ID: number[];
-    BUS_STOP_ID: string[];
-    GPS_LATI: number[];
-    GPS_LONG: number[];
-    ROUTE_CD: string[];
-    _id: string;
-  }
 
   //data내에 inpuvalue와 일치하는 요소 찾기
   //filterData안에는 필터링된 여러 값들이 있음
@@ -50,7 +58,7 @@ const SearchBar = () => {
       }
     })
       .then((response: Response) => response.json())
-      .then((data: BusStop[]) => setPostData(data))
+      .then((data: BusStopData[]) => { props.onPostDataChange(data) })
       .catch((error) => console.log(error))
 
   }
@@ -97,5 +105,6 @@ const SearchBar = () => {
     </div>
   );
 }
+
 
 export default SearchBar;

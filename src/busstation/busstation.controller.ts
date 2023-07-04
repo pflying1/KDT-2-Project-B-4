@@ -16,7 +16,7 @@ export class BusstationController {
   @Post('search')
   async searchBusStops(@Body('value') value: string): Promise<Bus[]> {
     const data = await this.busstationService.searchBusStops(value);
-    console.log('서버 컨트롤러:', data);
+    console.log('서버 컨트롤러:', value);
     return data;
   }
 

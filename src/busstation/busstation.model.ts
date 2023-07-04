@@ -16,7 +16,8 @@ export class Bus {
   @Prop()
   TOTAL_DIST: string;
   @Prop()
-  BUSSTOP_NM : string
+  BUSSTOP_ENG_NM:string;
+
 }
 
 export const BusStopSchema = SchemaFactory.createForClass(Bus);

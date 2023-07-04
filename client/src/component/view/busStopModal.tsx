@@ -24,6 +24,11 @@ interface BusChildProps {
   count: string;
 }
 
+interface BusProps {
+  busStopName: string;
+  busStopNumber: string;
+}
+
 const BusChild: React.FC<BusChildProps> = ({ number, div, time, count }) => {
   let colorVal;
   let timeVal;
@@ -53,8 +58,10 @@ const BusChild: React.FC<BusChildProps> = ({ number, div, time, count }) => {
   );
 };
 
-const BusModal: React.FC = () => {
+const BusModal: React.FC<BusProps> = ({busStopName, busStopNumber}) => {
+// const BusModal: React.FC = () => {
   const userID = localStorage.getItem('userID');
+  console.log("모달에서 받은 값: ", busStopName, busStopNumber)
   console.log("모달에서 유저값 ", userID)
 
   const [toggle, setToggle] = useState(false);

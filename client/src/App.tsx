@@ -45,7 +45,7 @@ function App() {
             <Route path="/main" element={
               <>
                 <Map /> 
-                <BusModalWin />
+                {/* <BusModalWin /> */}
               </>
             } />
           </Routes>

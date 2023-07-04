@@ -18,14 +18,17 @@ export class BusstationService {
   }
 
   async searchBusStops(value: string): Promise<Bus[] & Bus2[]> {
-    const rawData = await this.busstopModel.find({BUSSTOP_NM: value});
+    // console.log(value)
+    const rawData = await this.busstopModel.find({ BUSSTOP_NM: value });
     // console.log(typeof(value))
     const busStops2 = await this.bus2Model.find({ BUSSTOP_NM: value })
     // console.log('rawData:', rawData);
-    console.dir(rawData)
+    const GPSLATI = "GPS_LATI"
+    console.log(rawData[0][GPSLATI])
+    // console.log(rawData["GPS_LATI"])
+    // console.dir(busStops2)
 
 
-    // console.log(value)
     return busStops2;
   }
 }

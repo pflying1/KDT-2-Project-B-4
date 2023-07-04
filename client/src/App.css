@@ -53,8 +53,8 @@
   width: 393px;
   height: 85px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center;  align-items: center; */
+  z-index: 1;
 }
 
 /* 화면 몸통 */

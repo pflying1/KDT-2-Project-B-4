@@ -1,12 +1,13 @@
 .mainCss {
-  display : flex;
-  justify-content: center
-} 
+  display: flex;
+  max-height: 156px;
+}
+
 .searchContainerCss {
-  display:flex;
+  display: flex;
   justify-content: space-around;
-  flex-direction:row;
-  border-radius : 20px;
+  flex-direction: row;
+  border-radius: 20px;
   border: 1px solid #EF7F00;
   height: 38px
 }
@@ -14,18 +15,48 @@
 .menuCss {
   margin-left: 5%;
 }
+
 .searchInputCss {
-  border : 1px solid white;
+  border: 1px solid white;
   width: 80%;
   height: 34px;
-} 
+}
+
 .searchContainerTextCss {
   display: flex;
   justify-content: space-evenly;
   color: white;
   align-items: center;
   background: #EF7F00;
-  width:100px;
-  border-radius : 20px;
-  border : none
+  width: 100px;
+  border-radius: 20px;
+  border: none
+}
+
+.hiddenSearchListCss.hidden {
+  display: none;
+  max-height: inherit;
+
+}
+
+.hiddenSearchListCss {
+
+  background-color: white;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  overflow: auto;
+
+}
+
+.hiddenSearchListInnerCss {
+  border-color: #EF7F00;
+  background-color: white;
+  cursor: pointer;
+}
+
+
+.resultComponent {
+  color: #EF7F00;
+  font-size: 5;
+  margin: 0;
 }

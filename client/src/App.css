@@ -55,8 +55,8 @@
   height: 10%;
   border: 1px solid rgb(0, 255, 55);
   display: flex;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center;  align-items: center; */
+  z-index: 1;
 }
 
 /* 화면 몸통 */

@@ -17,4 +17,10 @@ export class BusstationService {
  return [...rawData,...busStops2];
   }
 
+  async searchBusStops(): Promise<Bus[] & Bus2[]> {
+    const rawData = await this.busstopModel.find().exec();
+    const busStops2 = await this.bus2Model.find().exec();
+    console.log('rawData:', rawData);
+ return [...rawData,...busStops2];
+  }
 }

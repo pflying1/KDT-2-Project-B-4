@@ -68,7 +68,17 @@ interface BusStopData {
   ROUTE_CD: string[];
   _id: string;
 }
-
+interface response {
+  header?: string;
+  body?: {
+    items?:{
+      item?: string;
+    }
+    numOfRows?:string;
+    pageNo?:string;
+    totalCount?:string;
+  };
+}
 interface MapProps {
   apiKey?: string;
 }

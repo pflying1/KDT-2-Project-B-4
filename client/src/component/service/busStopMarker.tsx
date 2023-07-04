@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import busMarker from './busLocationMarker';
+import { Console } from 'console';
 const socket = io('http://localhost:3000/busSocket'); // Socket.IO 서버에 연결합니다.
 /**
  * 버스 위치를 나타내는 마커 모듈입니다.
@@ -14,6 +15,8 @@ const socket = io('http://localhost:3000/busSocket'); // Socket.IO 서버에 연
 
 
  let responseHandlerRegistered = false;
+ let responseHandleNumberofbuses = false;
+//  let numberOfBuses:number
 const busLocationMarker = (lati: number, long: number, busName: string, busNodeId: number, map: string | undefined) => {
   console.log("버스 정류장 아이디" + busNodeId);
   // 마커를 표시할 위치입니다 
@@ -73,11 +76,12 @@ const busLocationMarker = (lati: number, long: number, busName: string, busNodeI
       socket.emit('buttonClicked', { data: numbersOnly });
     }, 60000);
 
-    if (!responseHandlerRegistered) {
+/*     if (!responseHandlerRegistered) {
       socket.on('response', (response) => {
         console.log('새로운 응답 도착:', response);
         if (response && response[1]) {
           for (let i = 0; i < response[1].length; i++) {
+            // numberOfBuses=response[1][0].GPS_LATI.length
             console.log('response[1][i].GPS_LATI', response[1][i].GPS_LATI);
             console.log('response[1][i].GPS_LONG', response[1][i].GPS_LONG);
             busMarker(response[1][i].GPS_LATI, response[1][i].GPS_LONG, map);
@@ -87,7 +91,36 @@ const busLocationMarker = (lati: number, long: number, busName: string, busNodeI
         }
       });
       responseHandlerRegistered = true;
+    } */
+    if (!responseHandlerRegistered) {
+      socket.on('response', (response) => {
+        console.log('새로운 응답 도착:', response);
+        if (response && response[1]) {
+          for (let i = 0; i < response[1].length; i++) {
+            // numberOfBuses=response[1][0].GPS_LATI.length
+            console.log('response[1][i].GPS_LATI', response[1][i].gpslati);
+            console.log('response[1][i].GPS_LONG', response[1][i].gpslong);
+            busMarker(response[1][i].gpslati, response[1][i].gpslong, map);
+          }
+          console.log('서버 응답:', response[1][0].gpslati);
+          // 추가적인 작업을 수행할 수 있습니다.
+        }
+      });
+      responseHandlerRegistered = true;
     }
+/*     if (!responseHandleNumberofbuses) {
+      socket.on('numberofbuses', (response) => {
+        console.log('새로운 응답 도착:', response);
+        if (response) {
+          console.log(response)
+          numberOfBuses = response
+          console.log('서버 응답:', response);
+          // 추가적인 작업을 수행할 수 있습니다.
+        }
+      });
+      responseHandleNumberofbuses = true;
+    } */
+    // console.log('버스수:',numberOfBuses)
 
     infowindow.open(map, marker);
   });

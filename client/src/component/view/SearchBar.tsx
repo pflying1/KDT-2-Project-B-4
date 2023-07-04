@@ -9,7 +9,19 @@ const SearchBar = () => {
   const [isHidden, setIsHidden] = useState(true);
   const [inputValue, setInputValue] = useState('');
   const [result, setResult] = useState<string[]>([]);
+  //post로 받아온 data 안에
+  const [postData, setPostData] = useState<BusStop[]>([]);
 
+
+  interface BusStop{
+    _id : object;
+    BUSSTOP_NM : string[];
+    BUS_NODE_ID : string[];
+    BUS_STOP_ID : string[]
+    GPS_LATI : string[];
+    GPS_LOGN : string[];
+    ROUTE_CD: string[];
+  }
 
   //data내에 inpuvalue와 일치하는 요소 찾기
   //filterData안에는 필터링된 여러 값들이 있음
@@ -22,6 +34,10 @@ const SearchBar = () => {
 
   }
 
+  // const handlePrintData = () => {
+  //   console.log(postData[0]._id);
+  // }
+
   const submitValue = () => {
     const url = "http://localhost:3000/busstation/search"
     const reqBody = { value: inputValue }
@@ -32,8 +48,10 @@ const SearchBar = () => {
         'Content-Type': 'application/json',
       }
     })
-      .then((response) => console.log(response))
+      .then((response: Response) => response.json())
+      .then((data: BusStop[]) => setPostData(data))
       .catch((error) => console.log(error))
+
   }
 
   const resultComponents: ReactNode[] = filterdData.map((item, index) =>
@@ -58,14 +76,13 @@ const SearchBar = () => {
   }
 
   return (
-
     <div className="mainCss">
       <div className="searchContainerCss">
         <img src={menuBox} alt='menu' className="menuCss" />
         <input className="searchInputCss" placeholder='정류소 검색'
           onChange={onChange}
           type='text' value={inputValue} />
-
+        {/* <button onClick={handlePrintData}>데이터 출력</button> */}
         <button
           onClick={() => { submitValue() }}
           className="searchContainerTextCss" >

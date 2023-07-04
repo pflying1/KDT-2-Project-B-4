@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
 import busMarker from './busLocationMarker';
+import busDeleteMarker from './busDeleteMarker';
 
 const socket = io('http://localhost:3000/busSocket'); // Socket.IO 서버에 연결합니다.
 /**
@@ -49,7 +50,7 @@ const busStopMarker = (lati: number, long: number, busName: string, busNodeId: n
     // console.log('이거는 in', infowindow.a);
     // console.log('이거는 in', infowindow.a.innerText);
     let coordinates: any = [];
-
+    let count = 0;
 
     function extractNumbersFromString(str: string): string {
       const regex = /\d+/g;
@@ -70,23 +71,29 @@ const busStopMarker = (lati: number, long: number, busName: string, busNodeId: n
 
     setInterval(() => {
       socket.emit('buttonClicked', { data: numbersOnly });
-    }, 60000);
+    }, 10000);
 
     if (!responseHandlerRegistered) {
+
       socket.on('response', (response) => {
         console.log('새로운 응답 도착:', response);
-        if (response && response[1]) {
-
-          for (let i = 0; i < response[1].length; i++) {
-            console.log('response[1][i].GPS_LATI', response[1][i].GPS_LATI);
-            console.log('response[1][i].GPS_LONG', response[1][i].GPS_LONG);
-            coordinates.push(response[1][i].GPS_LATI, response[1][i].GPS_LONG);
-            busMarker(response[1][i].GPS_LATI, response[1][i].GPS_LONG, map);
-          }
-          console.log('서버 응답:', response[1][0].GPS_LATI);
-          return coordinates;
-          // 추가적인 작업을 수행할 수 있습니다.
+        // if (response && response[1]) {
+        for (let i = 0; i < response.length; i++) {
+          console.log('response[i][0]', response[i][0]);
+          console.log('response[1][1]', response[i][1]);
+          busMarker(response[i][0], response[i][1], map, 0);
+          coordinates.push([response[i][0], response[i][1]]);
+          // if (i + 1 === response.length) {
+          //   count = 1;
+          //   console.log("지워지는 버스: "+response[i][2])
+          //   for(let j = 0; j < i)
+          //   busMarker(response[i][0], response[i][1], map, 1);
+          // }
         }
+        for (let j = 0; j < response.length-1; j++) {
+          busMarker(response[j][0], response[j][1], map, 1);
+        }
+        return coordinates;
       });
       responseHandlerRegistered = true;
     }

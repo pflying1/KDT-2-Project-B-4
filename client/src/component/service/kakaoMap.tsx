@@ -61,7 +61,7 @@ interface BusData {
 interface BusStopData {
   BUSSTOP_ENG_NM: string[];
   BUSSTOP_NM: string[];
-  BUS_NODE_ID: string[];
+  BUS_NODE_ID: number[];
   BUS_STOP_ID: string[];
   GPS_LATI: number[];
   GPS_LONG: number[];
@@ -124,21 +124,14 @@ const Map: React.FC<MapProps> = () => {
         // 함수를 호출하여 여러 개의 마커 생성
         // createMarkers(map);
         setMapData(map)
-        fetch('http://localhost:3000/api/bus')
-        .then((response) => response.json())
-        .then((data: BusData) => {
-          data.ServiceResult.msgBody.itemList.map((busLocationInfo) => {
-            busLocationMarker(busLocationInfo.GPS_LATI, busLocationInfo.GPS_LONG, map);
-          });
-        })
-        .catch((error) => console.log(error));
+ 
         //버스 위치 마커 모듈
         // const busLocationInfo = BusLocationData();
         // busLocationMarker(36.350412, 127.384548, map);
         // busLocationMarker(busLocationInfo.GPS_LATI, busLocationInfo.GPS_LONG, map)
-       
-          
-          fetch('http://localhost:3000/busstation')
+
+
+        fetch('http://localhost:3000/busstation')
           .then((response) => response.json())
           .then((data) => {
             // data.ServiceResult.msgBody.itemList.map((busStopInfo) => {
@@ -152,36 +145,38 @@ const Map: React.FC<MapProps> = () => {
             //   // 데이터 가공 또는 출력 로직을 추가합니다.
             // });
             // console.log('이건 정류장 요청',itemList);
-            
-            data.forEach((item: BusStopData)=> {
+
+            data.forEach((item: BusStopData) => {
               const gpsLati = item.GPS_LATI[0]; // GPS_LATI 값 추출
               const gpsLong = item.GPS_LONG[0]; // GPS_LONG 값 추출
-              busStopMarker(gpsLati, gpsLong,map); // 함수 호출
+              const gpsBusName = item.BUSSTOP_NM[0]
+              const gpsBusNodeId = item.BUS_NODE_ID[0];
+              busStopMarker(gpsLati, gpsLong, gpsBusName, gpsBusNodeId, map); // 함수 호출
             });
             console.log(data)
 
           })
           .catch((error) => console.log(error));
-        
+
       });
-    
-      
+
+
     };
   }, [apiKey]);
-  
-/*   useEffect(() => {
-    fetch('http://localhost:3000/api/bus')
-      .then(response => response.json())
-      .then((data: BusData) => {
-      console.log(data.ServiceResult.msgBody.itemList);
 
-      data.ServiceResult.msgBody.itemList.map((busLocationInfo) => {
-      busLocationMarker(busLocationInfo.GPS_LATI, busLocationInfo.GPS_LONG, mapData);
-      });
-    })
-    .catch((error) => console.log(error));
-  }, []); */
-    
+  /*   useEffect(() => {
+      fetch('http://localhost:3000/api/bus')
+        .then(response => response.json())
+        .then((data: BusData) => {
+        console.log(data.ServiceResult.msgBody.itemList);
+  
+        data.ServiceResult.msgBody.itemList.map((busLocationInfo) => {
+        busLocationMarker(busLocationInfo.GPS_LATI, busLocationInfo.GPS_LONG, mapData);
+        });
+      })
+      .catch((error) => console.log(error));
+    }, []); */
+
   if (!apiKey) {
     return <div>Loading...</div>;
   }

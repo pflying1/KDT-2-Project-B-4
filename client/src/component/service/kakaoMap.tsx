@@ -205,6 +205,7 @@ import io from 'socket.io-client';
 import uuid from 'react-uuid';
 // import busStopMarker from './busStopMarker';
 import BusModal from '../view/busStopModal';
+import ReactDOM from 'react-dom';
 const socket = io('http://localhost:3000/busSocket');
 
 interface BusStopData {
@@ -290,26 +291,26 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                 // const iwContent = <BusModal busStopName={busStopName} busStopNumber={busNodeId.toString()} />;
 //     const iwRemoveable = true;
 
-const infowindow = new window.kakao.maps.InfoWindow({
-  content: `
-  <div class="busModalWin" style=
-    "width: 190px;height: 110px;  background-color: white;
-    border-radius: 30px; 
-    border: 1px solid #EF7F00;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items:flex-start;
-    padding: 1% 0 1% 0; " >
-    <p className="title">${gpsBusName}</p>
-    <div className="titleArea">
-    <p className="busText">${gpsBusNodeId}</p>
-    <p className="busText">{busWay}</p>
-  </div>
-`,
-  removable: true,
-  zIndex: 10,
-});
+// const infowindow = new window.kakao.maps.InfoWindow({
+//   content: `
+//   <div class="busModalWin" style=
+//     "width: 190px;height: 110px;  background-color: white;
+//     border-radius: 30px; 
+//     border: 1px solid #EF7F00;
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: space-evenly;
+//     align-items:flex-start;
+//     padding: 1% 0 1% 0; " >
+//     <p className="title">${gpsBusName}</p>
+//     <div className="titleArea">
+//     <p className="busText">${gpsBusNodeId}</p>
+//     <p className="busText">{busWay}</p>
+//   </div>
+// `,
+//   removable: true,
+//   zIndex: 10,
+// });
 
 
                 // const infowindow = new window.kakao.maps.InfoWindow({
@@ -319,7 +320,25 @@ const infowindow = new window.kakao.maps.InfoWindow({
 
                 // 마커에 클릭이벤트를 등록합니다
                 window.kakao.maps.event.addListener(marker, 'click', function () {
-                  infowindow.open(map, marker);
+                  <BusModal busStopName={gpsBusName} busStopNumber={gpsBusName.toString()} />;
+                  const busModalElement = document.createElement('div');
+ReactDOM.render(
+  <BusModal busStopName={gpsBusName} busStopNumber={gpsBusName.toString()} />,
+  busModalElement
+);
+
+const infowindow = new window.kakao.maps.InfoWindow({
+  content: busModalElement,
+  removable: true,
+  zIndex: 10,
+});
+
+window.kakao.maps.event.addListener(marker, 'click', function () {
+  infowindow.open(map, marker);
+  setTimeout(() => {
+    infowindow.close();
+  }, 3000);
+});
 
                   // // 클릭한 버스 정류장 번호
                   // const numbersOnly = gpsBusNodeId.replace(/\D/g, '');

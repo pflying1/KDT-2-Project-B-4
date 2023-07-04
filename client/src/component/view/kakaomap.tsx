@@ -47,7 +47,7 @@ const MapComponent: React.FC = () => {
 
   return (
     <div>
-      <div id="map" style={{ width: '500px', height: '400px' }}>
+      <div id="map" style={{ width: '852px', height: '400px' }}>
         {testa}
       </div>
     </div>

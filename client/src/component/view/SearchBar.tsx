@@ -10,17 +10,18 @@ const SearchBar = () => {
   const [inputValue, setInputValue] = useState('');
   const [result, setResult] = useState<string[]>([]);
   //post로 받아온 data 안에
-  const [postData, setPostData] = useState<BusStop[]>([]);
+  const [postData, setPostData] = useState<BusStopData[]>([]);
 
 
-  interface BusStop{
-    _id : object;
-    BUSSTOP_NM : string[];
-    BUS_NODE_ID : string[];
-    BUS_STOP_ID : string[]
-    GPS_LATI : string[];
-    GPS_LOGN : string[];
+  interface BusStopData {
+    BUSSTOP_ENG_NM: string[];
+    BUSSTOP_NM: string[];
+    BUS_NODE_ID: number[];
+    BUS_STOP_ID: string[];
+    GPS_LATI: number[];
+    GPS_LONG: number[];
     ROUTE_CD: string[];
+    _id: string;
   }
 
   //data내에 inpuvalue와 일치하는 요소 찾기

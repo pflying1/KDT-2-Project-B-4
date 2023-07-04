@@ -41,7 +41,6 @@
 .container{
   width: 393px;
   height: 852px;
-  border: 1px solid rgb(0, 0, 0);
   background-color: rgb(204, 204, 204, 0.5);
   display: flex;
   flex-direction: column;
@@ -51,9 +50,8 @@
 
 /* 화면 상단부 */
 .containerHead{
-  width: 100%;
-  height: 10%;
-  border: 1px solid rgb(0, 255, 55);
+  width: 393px;
+  height: 85px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,16 +59,14 @@
 
 /* 화면 몸통 */
 .containerBody{
-  width: 100%;
-  height: 77%;
-  border: 1px solid rgb(4, 142, 255);
+  width: 393px;
+  height: 657px;
 }
 
 /* 화면 하단부 */
 .containerFoot{
-  width: 100%;
-  height: 13%;
-  border: 1px solid rgb(255, 0, 64);
+  width: 393px;
+  height: 110px;
   display: flex;
   justify-content: center;
   align-items: center;

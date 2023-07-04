@@ -16,9 +16,9 @@
   padding: 1% 0 1% 0;
 
 
-  position: fixed;
-  bottom: 300px;
-  left: 400px;
+  position: relative;
+  bottom: 100px;
+  left: 100px;
 }
 
 

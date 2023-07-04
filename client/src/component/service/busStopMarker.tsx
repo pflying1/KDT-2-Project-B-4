@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import busMarker from './busLocationMarker';
 import BusModal from '../view/busStopModal';
+import ReactDOM from 'react-dom';
 const socket = io('http://localhost:3000/busSocket'); // Socket.IO 서버에 연결합니다.
 /**
  * 버스 위치를 나타내는 마커 모듈입니다.
@@ -9,21 +10,29 @@ const socket = io('http://localhost:3000/busSocket'); // Socket.IO 서버에 연
  * @param lati 위도입니다.
  * @param long 경도입니다.
  * @param busNodeId
- * @param busStopName
+ * @param busName
  * @param map 마커를 지도에 표시합니다. map이라고 꼭넣어주세요.
  */
 
 
  let responseHandlerRegistered = false;
-const busLocationMarker = (lati: number, long: number, busStopName: string , busNodeId: number, map: string | undefined) => {
+const busLocationMarker = (lati: number, long: number, busName: string , busNodeId: number, map: string | undefined) => {
   console.log("버스 정류장 아이디" + busNodeId);
-  // 마커를 표시할 위치입니다 
+  
+  let imageSrc = 'https://cdn-icons-png.flaticon.com/512/5390/5390754.png'; // 마커이미지의 주소입니다  
+  let imageSize = new window.kakao.maps.Size(30, 30);
+  
+  let imageOption = {offset: new window.kakao.maps.Point(15, 15)}; 
+    
+  let markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+
   const position = new window.kakao.maps.LatLng(lati, long);
 
   // 마커를 생성합니다
   const marker = new window.kakao.maps.Marker({
     position: position,
-    clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+    clickable: true, // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+    image: markerImage
   });
 
   // 서버로부터 응답을 받습니다.
@@ -36,12 +45,12 @@ const busLocationMarker = (lati: number, long: number, busStopName: string , bus
   marker.setMap(map);
 
   // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-  // const iwContent = `<div>버스정류소 : ${busNodeId}</div> 
-  // <div> 정류소 이름: ${busName}</div>`, // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-  //   iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
-  let busStopNumber = `${busNodeId}`
-  const iwContent = BusModal({busStopName, busStopNumber}), 
-    iwRemoveable = true;
+  const iwContent = `<div>버스정류소 : ${busNodeId}</div> 
+  <div> 정류소 이름: ${busName}</div>`, // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+  // let busStopNumber = `${busNodeId}`
+  // const iwContent = BusModal({busStopName, busStopNumber}), 
+  //   iwRemoveable = true;
 
   // 인포윈도우를 생성합니다
   const infowindow = new window.kakao.maps.InfoWindow({
@@ -93,14 +102,10 @@ const busLocationMarker = (lati: number, long: number, busStopName: string , bus
       });
       responseHandlerRegistered = true;
     }
-
-  //   let content = BusModal;
-  //   var customOverlay = new window.kakao.maps.CustomOverlay({
-  //     position: position,
-  //     content: content   
-  // });
-
     infowindow.open(map, marker);
+
+
+    
   });
 }
 

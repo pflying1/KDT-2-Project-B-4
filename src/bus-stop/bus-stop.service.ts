@@ -19,7 +19,7 @@ export class BusStopService {
 
 
   async getBusStop(url: string): Promise<{ ServiceResult: ServiceResult }> {
-    // for (let i = 0; i < 2; i++) {
+    
       const headers = {
         'Authorization': 'Bearer your-access-token', // 액세스 토큰 대체
         'Content-Type': 'application/xml',
@@ -30,16 +30,6 @@ export class BusStopService {
     const data = response.data;
     const json = await parseStringPromise(data, { explicitArray: false, trim: true }) as { ServiceResult: ServiceResult };
     
-
-    // const busStopData = {
-    //   name: Object.entries(json.ServiceResult.msgBody.itemList[0])[1],
-    //   // ...
-    // };
-  
-  // Save JSON data to MongoDB
-
-  console.log(Object.entries(json.ServiceResult.msgBody.itemList[0])[1]);
-  
     return json;
     // }
   }

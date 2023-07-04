@@ -18,12 +18,21 @@ import { BusStopService } from './bus-stop/bus-stop.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BusstationModule } from './busstation/busstation.module';
 import { BusstationService } from './busstation/busstation.service';
+<<<<<<< HEAD
 // import { BusStop } from './busstation/busstation.model';import { FavorModule } from './favor/favor.module';
 import { FavorService } from './favor/favor.service';
 import { FavorModule } from './favor/favor.module';
 
 @Module({
   imports: [ MongooseModule.forRoot('mongodb+srv://adminID:adminPW@project4.uk45ojb.mongodb.net/bus'),HttpModule,ApiModule,FavorModule,ConfigModule.forRoot(),BusLocationModule,BusStopModule,BusstationModule ,PageModule],
+=======
+// import { BusStop } from './busstation/busstation.model';
+import { SocketBusModule } from './socket-bus/socket-bus.module';
+import { SocketBusServerGateway } from './socket-bus-server/socket-bus-server.gateway';
+import { SocketModule } from './socket-bus-server/socket-bus-server.module';
+@Module({
+  imports: [ MongooseModule.forRoot('mongodb+srv://adminID:adminPW@project4.uk45ojb.mongodb.net/bus'),HttpModule,ApiModule,ConfigModule.forRoot(),BusLocationModule,BusStopModule,BusstationModule ,SocketBusModule, SocketModule , PageModule],
+>>>>>>> origin/KwonYeJun/issue27
   controllers: [AppController],
   providers: [AppService],
 })

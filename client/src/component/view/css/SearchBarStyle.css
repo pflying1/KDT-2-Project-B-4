@@ -1,31 +1,38 @@
-.mainCss {
+.searchMainCss {
   display: flex;
   flex-direction: column;
-
-  max-height: 156px;
+  align-items: center;
+  max-height: 170px;
   position: fixed;
+  top: 10px;
   z-index: 3;
 }
 
 .searchContainerCss {
-  width: 390px;
+  width: 380px;
+  height: 40px;
+  /* width: 100%;
+  height: 20%; */
   display: flex;
   justify-content: space-around;
   flex-direction: row;
+  background-color: white;
   border-radius: 20px;
   border: 1px solid #EF7F00;
-  height: 40px;
+  z-index: 1;
   
 }
 
 .menuCss {
-  margin-left: 5%;
+  width: 10%;
+  margin: 0 2% 0 3%;
 }
 
 .searchInputCss {
   border: 1px solid white;
   width: 80%;
-  height: 34px;
+  height: 80%;
+  text-align: center;
 }
 
 .searchContainerTextCss {
@@ -34,28 +41,32 @@
   color: white;
   align-items: center;
   background: #EF7F00;
-  width: 100px;
+  width: 25%;
   border-radius: 20px;
   border: none
 }
 
 .hiddenSearchListCss.hidden {
   display: none;
-max-height: inherit;
+  max-height: inherit;
 
 }
 
 .hiddenSearchListCss {
-
+  width: 375px;
   background-color: white;
   border-bottom-right-radius: 15px;
   border-bottom-left-radius: 15px;
-  overflow: auto;
+  border: 1px solid #EF7F00;
 
+  padding-top: 2%;
+  padding-bottom: 2%;
+  overflow: auto;
+  position: relative;
+  bottom: 10px;
 }
 
 .hiddenSearchListInnerCss {
-  border-color: #EF7F00;
   background-color: white;
 }
 
@@ -63,5 +74,25 @@ max-height: inherit;
 .resultComponent {
   color: #EF7F00;
   font-size: 5;
-  margin: 0;
+  margin: 1%;
+}
+
+.hiddenSearchListCss::-webkit-scrollbar{
+  width: 10px;
+  /* display: none; */
+}
+/* 스크롤바 막대 설정*/
+.hiddenSearchListCss::-webkit-scrollbar-thumb{
+  background-color: #EF7F00;
+  border-radius: 10px; 
+  margin: 30px;
+}
+
+.hiddenSearchListCss::-webkit-scrollbar-button:vertical:end:decrement {
+  display: block;
+  width: 3%;
+}
+.hiddenSearchListCss::-webkit-scrollbar-button:vertical:start:increment {
+    display: block;
+    height: 5%;
 }

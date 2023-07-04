@@ -76,8 +76,9 @@ const BusModal: React.FC = () => {
 
     try {
       const response = await axios.post('/favor', {
+        busStopID: busStopNumber,
+        busStopName: busStopNumber,
         user: userID,
-        favor: toggle
       });
       console.log(response.data);
     } catch (error) {

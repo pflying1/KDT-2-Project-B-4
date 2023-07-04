@@ -8,9 +8,11 @@ export type UserFavorDocument = UserFavor & Document;
 @Schema({ collection: 'UserFavorDB' })
 export class UserFavor {
   @Prop()
-  busStop: string
-  @Prop({ type: [Boolean], default: [] })
-  user: boolean[]
+  busStopID: string
+  @Prop()
+  busStopName: string
+  @Prop()
+  user: string[]
 
 }
 

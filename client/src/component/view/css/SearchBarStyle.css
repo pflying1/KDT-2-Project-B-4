@@ -35,7 +35,7 @@
 
 .hiddenSearchListCss.hidden {
   display: none;
-max-height: inherit;
+  max-height: inherit;
 
 }
 
@@ -51,6 +51,7 @@ max-height: inherit;
 .hiddenSearchListInnerCss {
   border-color: #EF7F00;
   background-color: white;
+  cursor: pointer;
 }
 
 

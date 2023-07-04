@@ -16,8 +16,14 @@ const SearchBar = () => {
 
   const filterdData = data.filter(item => item.includes(inputValue));
 
+  const handleChangeValue = (clickedItem:React.MouseEvent<HTMLParagraphElement, MouseEvent>) => {
+    const value = clickedItem.currentTarget.textContent || '';
+    setInputValue(value);
+  
+  }
+
   const resultComponents: ReactNode[] = filterdData.map((item, index) =>
-    <p key={index} className='resultComponent'>{item}</p>
+    <p key={index} className='resultComponent' onClick={handleChangeValue}>{item}</p>
   )
 
   //value 실제 값
@@ -30,6 +36,7 @@ const SearchBar = () => {
       setIsHidden(false)
       setResult(filterdData)
     }
+
     else {
       setIsHidden(true)
       setResult([]);

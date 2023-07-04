@@ -68,12 +68,16 @@ export class SocketBusServerService {
     // 첫 번째 API의 결과를 가공하여 두 번째 API 호출에 필요한 데이터를 추출합니다.
     console.log('firstlist', firstlist);
     console.log('firstlist[0]', firstlist[0]);
-    console.log('firstlist[0][0]', firstlist[0][0]);
+    console.log('firstlist[0][2]', firstlist[0][2]);
+    console.log('firstlist[1][1]', firstlist[1][1]);
+    console.log('firstlist[2][1]', firstlist[2][1]);
+    console.log('firstlist[1][1]', firstlist[1][0]);
+
     console.log('firstlist.length', firstlist.length);
 
 
     for (let i = 0; i < firstlist.length; i++) {
-      const thirdApiUrl = `https://apis.data.go.kr/1613000/BusLcInfoInqireService/getRouteAcctoBusLcList?serviceKey=joKaZp3MojMlG5ctM0OwBqz7tYkkTyJM4FX3Rg3LRKO%2BWTWWEUsE0Q3TH0HAtz%2FRKQMHyLvtcCR9QCLT8ZOUEQ%3D%3D&pageNo=1&numOfRows=10&_type=xml&cityCode=25&routeId=${firstlist[0][i]}`;
+      const thirdApiUrl = `https://apis.data.go.kr/1613000/BusLcInfoInqireService/getRouteAcctoBusLcList?serviceKey=joKaZp3MojMlG5ctM0OwBqz7tYkkTyJM4FX3Rg3LRKO%2BWTWWEUsE0Q3TH0HAtz%2FRKQMHyLvtcCR9QCLT8ZOUEQ%3D%3D&pageNo=1&numOfRows=10&_type=xml&cityCode=25&routeId=${firstlist[i][1]}`;
       const secondApiResponse = await this.httpService.get(thirdApiUrl).toPromise();
       const secondApiData = secondApiResponse.data;
       const json = await parseStringPromise(secondApiData, { explicitArray: false, trim: true }) as { response: response };

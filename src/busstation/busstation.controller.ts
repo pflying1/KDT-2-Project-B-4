@@ -1,10 +1,11 @@
-import { Controller,Get } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { BusstationService } from './busstation.service';
-import { Bus} from './busstation.model';
+import { Bus } from './busstation.model';
+import { Query } from 'mongoose';
 
 @Controller('busstation')
 export class BusstationController {
-  constructor(private readonly busstationService: BusstationService) {}
+  constructor(private readonly busstationService: BusstationService) { }
 
   @Get()
   async findAllBusStops(): Promise<Bus[]> {
@@ -13,9 +14,9 @@ export class BusstationController {
     return data;
   }
 
-  @Get('search')
-  async searchBusStops(): Promise<Bus[]> {
-    const data = await this.busstationService.searchBusStops();
+  @Post('search')
+  async searchBusStops(@Body('value') value: string): Promise<Bus[]> {
+    const data = await this.busstationService.searchBusStops(value);
     console.log('서버 컨트롤러:', data);
     return data;
   }

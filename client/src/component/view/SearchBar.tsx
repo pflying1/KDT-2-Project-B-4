@@ -16,10 +16,23 @@ const SearchBar = () => {
 
   const filterdData = data.filter(item => item.includes(inputValue));
 
-  const handleChangeValue = (clickedItem:React.MouseEvent<HTMLParagraphElement, MouseEvent>) => {
+  const handleChangeValue = (clickedItem: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => {
     const value = clickedItem.currentTarget.textContent || '';
     setInputValue(value);
-  
+
+  }
+
+  const submitValue = () => {
+    const url = "http://localhost:3000/busstation/search"
+    fetch(url, {
+      method: 'POST', // POST 방식으로 전송하거나 필요에 따라 수정
+      body: JSON.stringify({ value: inputValue }), // JSON 형식으로 데이터 전송. 필요에 따라 수정
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error))
   }
 
   const resultComponents: ReactNode[] = filterdData.map((item, index) =>
@@ -52,7 +65,9 @@ const SearchBar = () => {
           onChange={onChange}
           type='text' value={inputValue} />
 
-        <button className="searchContainerTextCss" >
+        <button
+          onClick={() => { submitValue() }}
+          className="searchContainerTextCss" >
           <div>검색</div>
           <img src={searchBox} alt="search" />
         </button>

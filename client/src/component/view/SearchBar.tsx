@@ -24,9 +24,10 @@ const SearchBar = () => {
 
   const submitValue = () => {
     const url = "http://localhost:3000/busstation/search"
+    const reqBody = { value: inputValue }
     fetch(url, {
       method: 'POST', // POST 방식으로 전송하거나 필요에 따라 수정
-      body: JSON.stringify({ value: inputValue }), // JSON 형식으로 데이터 전송. 필요에 따라 수정
+      body: JSON.stringify(reqBody), // JSON 형식으로 데이터 전송. 필요에 따라 수정
       headers: {
         'Content-Type': 'application/json',
       }

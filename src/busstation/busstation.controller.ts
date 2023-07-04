@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { BusstationService } from './busstation.service';
 import { Bus } from './busstation.model';
-import { Query } from 'mongoose';
 
 @Controller('busstation')
 export class BusstationController {

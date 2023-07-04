@@ -58,7 +58,8 @@ const SearchBar = () => {
       }
     })
       .then((response: Response) => response.json())
-      .then((data: BusStopData[]) => { props.onPostDataChange(data) })
+      .then((data: BusStopData[]) => { console.log(data) })
+      // props.onPostDataChange(data)
       .catch((error) => console.log(error))
 
   }

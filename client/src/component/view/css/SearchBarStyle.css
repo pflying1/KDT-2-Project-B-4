@@ -1,7 +1,4 @@
 .mainContainerCss{
-  margin:0
-}
-.mainCss {
   display: flex;
   max-height: 30px;
 }

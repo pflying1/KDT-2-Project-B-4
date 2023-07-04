@@ -8,8 +8,9 @@ interface ServiceResult {
     itemList?: string;
   };
 }
-// let firstlist = [];
-// let secondlist = [];
+
+let firstlist = [];
+let secondlist = [];
 @Injectable()
 export class SocketBusServerService {
   constructor(
@@ -23,6 +24,9 @@ export class SocketBusServerService {
     let firstlist = [];
     let secondlist = [];
     // 외부 API에 첫 번째 요청을 보내고 데이터를 가져옵니다.
+    firstlist = [];
+    secondlist = [];
+    console.log('이건 서비스쪽 ', payload.data);
     const firstApiUrl = `http://openapitraffic.daejeon.go.kr/api/rest/arrive/getArrInfoByStopID?serviceKey=i7Cd%2BE5PV6rYTmSC4CrnvP8fJVN0f6uDLp%2BO6ZIPUMEHE5eOBUlBUbibOnABF3JFT6LgLkerWvmMzp3%2F8rFwYA%3D%3D&BusStopID=${payload.data}`;
     const firstApiResponse = await this.httpService.get(firstApiUrl).toPromise();
     const data = firstApiResponse.data;
@@ -32,6 +36,7 @@ export class SocketBusServerService {
     }
     console.log(firstlist)
     // 첫 번째 API의 결과를 가공하여 두 번째 API 호출에 필요한 데이터를 추출합니다.
+    console.log('firstlist', firstlist);
 
     // 예시: itemList의 첫 번째 아이템의 itemId를 추출
 
@@ -49,7 +54,9 @@ export class SocketBusServerService {
     // const processedData = // 가공 작업 수행
 
     // 최종적으로 가공된 데이터를 반환합니다.
+    console.log('secondlist', secondlist);
     return secondlist;
+
   }
 
 

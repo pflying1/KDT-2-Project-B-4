@@ -12,6 +12,8 @@ const socket = io('http://localhost:3000/busSocket'); // Socket.IO 서버에 연
  * @param busName
  * @param map 마커를 지도에 표시합니다. map이라고 꼭넣어주세요.
  */
+
+
  let responseHandlerRegistered = false;
 const busLocationMarker = (lati: number, long: number, busName: string, busNodeId: number, map: string | undefined) => {
   // 마커를 표시할 위치입니다 
@@ -22,9 +24,9 @@ const busLocationMarker = (lati: number, long: number, busName: string, busNodeI
     position: position,
     clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
   });
- 
-    // 서버로부터 응답을 받습니다.
-  
+
+  // 서버로부터 응답을 받습니다.
+
   // 아래 코드는 위의 마커를 생성하는 코드에서 clickable: true 와 같이
   // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
   // marker.setClickable(true);
@@ -48,6 +50,8 @@ const busLocationMarker = (lati: number, long: number, busName: string, busNodeI
     // 마커 위에 인포윈도우를 표시합니다
     // console.log('이거는 in', infowindow.a);
     // console.log('이거는 in', infowindow.a.innerText);
+
+
     function extractNumbersFromString(str: string): string {
       const regex = /\d+/g;
       const numbers = str.match(regex);
@@ -60,11 +64,18 @@ const busLocationMarker = (lati: number, long: number, busName: string, busNodeI
     }
     const numbersOnly = extractNumbersFromString(infowindow.a.innerText);
     // 클릭한 버스 정류장 번호
-    console.log('버정 번호',numbersOnly); // 출력: 8001091
+    console.log('버정 번호', numbersOnly); // 출력: 8001091
+    // socket.emit('button', { data: 'test' });
+    
     socket.emit('buttonClicked', { data: numbersOnly });
-  
+
+    setInterval(() => {
+      socket.emit('buttonClicked', { data: numbersOnly });
+    }, 60000);
+
     if (!responseHandlerRegistered) {
       socket.on('response', (response) => {
+        console.log('새로운 응답 도착:', response);
         if (response && response[1]) {
           for (let i = 0; i < response[1].length; i++) {
             console.log('response[1][i].GPS_LATI', response[1][i].GPS_LATI);

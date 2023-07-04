@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import busMarker from './busLocationMarker';
 
@@ -13,9 +12,8 @@ const socket = io('http://localhost:3000/busSocket'); // Socket.IO 서버에 연
  * @param map 마커를 지도에 표시합니다. map이라고 꼭넣어주세요.
  */
 
-
- let responseHandlerRegistered = false;
-const busLocationMarker = (lati: number, long: number, busName: string, busNodeId: number, map: string | undefined) => {
+let responseHandlerRegistered = false;
+const busStopMarker = (lati: number, long: number, busName: string, busNodeId: number, map: string | undefined) => {
   // 마커를 표시할 위치입니다 
   const position = new window.kakao.maps.LatLng(lati, long);
 
@@ -50,6 +48,7 @@ const busLocationMarker = (lati: number, long: number, busName: string, busNodeI
     // 마커 위에 인포윈도우를 표시합니다
     // console.log('이거는 in', infowindow.a);
     // console.log('이거는 in', infowindow.a.innerText);
+    let coordinates: any = [];
 
 
     function extractNumbersFromString(str: string): string {
@@ -66,7 +65,7 @@ const busLocationMarker = (lati: number, long: number, busName: string, busNodeI
     // 클릭한 버스 정류장 번호
     console.log('버정 번호', numbersOnly); // 출력: 8001091
     // socket.emit('button', { data: 'test' });
-    
+
     socket.emit('buttonClicked', { data: numbersOnly });
 
     setInterval(() => {
@@ -77,17 +76,22 @@ const busLocationMarker = (lati: number, long: number, busName: string, busNodeI
       socket.on('response', (response) => {
         console.log('새로운 응답 도착:', response);
         if (response && response[1]) {
+
           for (let i = 0; i < response[1].length; i++) {
             console.log('response[1][i].GPS_LATI', response[1][i].GPS_LATI);
             console.log('response[1][i].GPS_LONG', response[1][i].GPS_LONG);
+            coordinates.push(response[1][i].GPS_LATI, response[1][i].GPS_LONG);
             busMarker(response[1][i].GPS_LATI, response[1][i].GPS_LONG, map);
           }
           console.log('서버 응답:', response[1][0].GPS_LATI);
+          return coordinates;
           // 추가적인 작업을 수행할 수 있습니다.
         }
       });
       responseHandlerRegistered = true;
     }
+    console.log("coord", coordinates)
+    //배열 출력 완료 되면 for문 실행해서 busMarker(, , null)적용해보기
 
     infowindow.open(map, marker);
   });
@@ -95,11 +99,11 @@ const busLocationMarker = (lati: number, long: number, busName: string, busNodeI
   //   infowindow.close(); // 인포윈도우를 닫습니다.
   //   marker.setMap(null); // 마커를 지도에서 제거합니다.
   // }
-  
+
   // // x 버튼 클릭 이벤트에 closeInfoWindow 함수를 연결합니다.
   // const closeButton = infowindow.getContent().querySelector('.close') as HTMLElement;
   // closeButton.addEventListener('click', closeInfoWindow)
 }
 
-export default busLocationMarker
+export default busStopMarker
 

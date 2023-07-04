@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 /**
  * 버스 위치를 나타내는 마커 모듈입니다.
  *

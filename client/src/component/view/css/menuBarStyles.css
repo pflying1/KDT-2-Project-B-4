@@ -9,6 +9,9 @@
   justify-content: space-around; 
   border-radius: 40px; 
   border: 1px solid #EF7F00;
+  /* z-index: 2;
+  position: relative;
+  bottom: 300px; */
 }
 
 .naviImage{

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import MenuBar from './menuBar'
 
 interface MapData {
   latitude: number;
@@ -46,9 +47,12 @@ const MapComponent: React.FC = () => {
   }, [mapData]);
 
   return (
-    <div>
-      <div id="map" style={{ width: '500px', height: '400px' }}>
+    <div >
+      <div style={{width: '100%', height: '100%'}}>
         {testa}
+      </div>
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%' }}>
+        <MenuBar />
       </div>
     </div>
   );

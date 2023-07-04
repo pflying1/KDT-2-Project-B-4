@@ -75,7 +75,7 @@ const busLocationMarker = (lati: number, long: number, busStopName: string , bus
 
     setInterval(() => {
       socket.emit('buttonClicked', { data: numbersOnly });
-    }, 60000);
+    }, 10000);
 
     if (!responseHandlerRegistered) {
       socket.on('response', (response) => {

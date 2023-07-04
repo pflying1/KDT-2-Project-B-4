@@ -6,7 +6,6 @@ import markLogo from './image/bookmark.png';
 import './css/menuBarStyles.css'
 export default function Navigation() {
   return (
-    <div className='containerFoot'>
       <div className='naviBox'>
         <div className='naviImage'>
           <Link to="/bookMake">
@@ -24,6 +23,5 @@ export default function Navigation() {
           </Link>
         </div>
       </div>
-    </div>
   );
 }

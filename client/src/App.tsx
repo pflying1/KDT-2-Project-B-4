@@ -11,7 +11,6 @@ import Header from "./component/view/header";
 import FavoritesListAll from "./component/view/FavoritesListAll";
 import SocketApp from "./component/view/socketC";
 import BusLocationData from "./component/service/busLocation";
-import SearchBar from "./component/view/SearchBar";
 function App() {
   const location = useLocation();
   const [pageTitle, setPageTitle] = useState("");
@@ -37,34 +36,31 @@ function App() {
   return (
 
     <div className="App">
-      <div className='container'>
-        {location.pathname === "/" ? (
-          <IntroPage />
-        ) : location.pathname === "/main" ? (
-          <>
-          <SearchBar />
-          <Map />
-          {/* <MenuBar /> */}
-          </>
-        ) : (
-          <>
-          <Header />
-          <div className='containerBody'>
-            <Routes>      
-              <Route path="/chat" element={<SocketApp />} />
-            </Routes>
-            <Routes>          
-              <Route path="/favorite" element={<FavoritesListAll/>} />
-            </Routes>
-          </div>
-          <Nav />
-          </>
-        )}
-        
-        
+    <div className='container'>
+      <Routes>
+        <Route path="/" element={<IntroPage />} />
+      </Routes>
+      <Routes>
+        <Route path="/main" element={<Map />} />
+      </Routes>
+      <Routes>      
+        <Route path="/chat" element={<SocketApp />} />
+      </Routes>
+      <Routes>          
+        <Route path="/favorite" element={<FavoritesListAll/>} />
+        {/* <Route path="/buslocation" element={<BusLocationData/>} /> */}
+      </Routes>
+      {[
+        "/"
+      ].includes(location.pathname) ? null : (
+        <>
+        <Header />
+        <Nav />
+        </>
+      )}
 
-      </div>
     </div>
+  </div>
 
   );
 }

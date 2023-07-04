@@ -1,15 +1,19 @@
 .mainCss {
   display: flex;
   max-height: 156px;
+  
 }
 
 .searchContainerCss {
+  width: 390px;
   display: flex;
   justify-content: space-around;
   flex-direction: row;
   border-radius: 20px;
   border: 1px solid #EF7F00;
-  height: 38px
+  height: 40px;
+  position: fixed;
+  z-index: 3;
 }
 
 .menuCss {

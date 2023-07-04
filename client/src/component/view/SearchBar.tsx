@@ -38,7 +38,7 @@ const SearchBar = () => {
 
   return (
 
-    <div className="mainCss">
+    <div>
       <div className="searchContainerCss">
         <img src={menuBox} alt='menu' className="menuCss" />
         <input className="searchInputCss" placeholder='정류소 검색'

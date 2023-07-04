@@ -13,4 +13,11 @@ export class BusstationController {
     return data;
   }
 
+  @Get('search')
+  async searchBusStops(): Promise<Bus[]> {
+    const data = await this.busstationService.searchBusStops();
+    console.log('서버 컨트롤러:', data);
+    return data;
+  }
+
 }

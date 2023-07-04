@@ -65,13 +65,16 @@ const busLocationMarker = (lati: number, long: number, busName: string, busNodeI
     const numbersOnly = extractNumbersFromString(infowindow.a.innerText);
     // 클릭한 버스 정류장 번호
     console.log('버정 번호', numbersOnly); // 출력: 8001091
-    socket.emit('buttonClicked', { data: numbersOnly });
     // socket.emit('button', { data: 'test' });
+    
+    socket.emit('buttonClicked', { data: numbersOnly });
 
-
+    setInterval(() => {
+      socket.emit('buttonClicked', { data: numbersOnly });
+    }, 60000);
 
     if (!responseHandlerRegistered) {
-      socket.once('response', (response) => {
+      socket.on('response', (response) => {
         console.log('새로운 응답 도착:', response);
         if (response && response[1]) {
           for (let i = 0; i < response[1].length; i++) {

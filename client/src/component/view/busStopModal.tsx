@@ -58,23 +58,70 @@ const BusChild: React.FC<BusChildProps> = ({ number, div, time, count }) => {
   );
 };
 
-interface BusModalProps {
-  busStopName: string;
-  busStopNumber: string;
-}
-
-const BusModal: React.FC<BusModalProps> = ({ busStopName, busStopNumber }) => {
+// const BusModal: React.FC<BusProps> = ({busStopName, busStopNumber}) => {
+// const BusModal: React.FC = () => {
+  const BusModal: React.FC<BusProps> = ({ busStopName, busStopNumber }) => {
   const userID = localStorage.getItem('userID');
   console.log("모달에서 받은 값: ", busStopName, busStopNumber)
   console.log("모달에서 유저값 ", userID)
 
-  // 나머지 내용 생략
+  const [toggle, setToggle] = useState(false);
+
+  const handleImageClick = async () => {
+    if(toggle){
+      setToggle(false)
+    }
+    else{
+      setToggle(true)
+    }
+
+    try {
+      const response = await axios.post('/favor', {
+        user: userID,
+        favor: toggle
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if(toggle){
+    mark = markPull
+  }
+  else{
+    mark = markNull
+  }
 
   return (
     <div className="busModalWin">
-      {/* 나머지 내용 생략 */}
+      <div className="titleWrap">
+        <div className="titleArea">
+          <p className="title">{busStopName}</p>
+          <img src={mark} alt="bookMark" onClick={handleImageClick} />
+        </div>
+        <div className="titleArea">
+          <p className="busText">{busStopNumber}</p>
+          <p className="busText">{busWay}</p>
+        </div>
+      </div>
+      <div className="divLine"></div>
+      <div className="busInfoWrap">
+        <p className="busTitleWrap">실시간 버스 정보</p>
+        <div className="listScroll">
+          {[...Array(cnt)].map((_, index) => (
+            <BusChild
+              key={index}
+              number={busNumber}
+              div={busDiv}
+              time={busTime}
+              count={busStopCount}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default BusModal;
+export default BusModal

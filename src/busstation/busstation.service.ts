@@ -18,13 +18,14 @@ export class BusstationService {
   }
 
   async searchBusStops(value: string): Promise<Bus[] & Bus2[]> {
-    console.log(typeof(value))
-    const rawData = await this.busstopModel.find({BUSSTOP_NM: ["대전추모공원"]});
-    // const busStops2 = await this.bus2Model.find({ "BUSSTOP_NM": value })
+    const rawData = await this.busstopModel.find({BUSSTOP_NM: value});
+    // console.log(typeof(value))
+    const busStops2 = await this.bus2Model.find({ BUSSTOP_NM: value })
     // console.log('rawData:', rawData);
+    console.dir(rawData)
 
 
     // console.log(value)
-    return rawData;
+    return busStops2;
   }
 }

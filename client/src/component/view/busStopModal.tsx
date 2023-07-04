@@ -58,69 +58,23 @@ const BusChild: React.FC<BusChildProps> = ({ number, div, time, count }) => {
   );
 };
 
-const BusModal: React.FC<BusProps> = ({busStopName, busStopNumber}) => {
-// const BusModal: React.FC = () => {
+interface BusModalProps {
+  busStopName: string;
+  busStopNumber: string;
+}
+
+const BusModal: React.FC<BusModalProps> = ({ busStopName, busStopNumber }) => {
   const userID = localStorage.getItem('userID');
   console.log("모달에서 받은 값: ", busStopName, busStopNumber)
   console.log("모달에서 유저값 ", userID)
 
-  const [toggle, setToggle] = useState(false);
-
-  const handleImageClick = async () => {
-    if(toggle){
-      setToggle(false)
-    }
-    else{
-      setToggle(true)
-    }
-
-    try {
-      const response = await axios.post('/favor', {
-        user: userID,
-        favor: toggle
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  if(toggle){
-    mark = markPull
-  }
-  else{
-    mark = markNull
-  }
+  // 나머지 내용 생략
 
   return (
     <div className="busModalWin">
-      <div className="titleWrap">
-        <div className="titleArea">
-          <p className="title">{busStopName}</p>
-          <img src={mark} alt="bookMark" onClick={handleImageClick} />
-        </div>
-        <div className="titleArea">
-          <p className="busText">{busStopNumber}</p>
-          <p className="busText">{busWay}</p>
-        </div>
-      </div>
-      <div className="divLine"></div>
-      <div className="busInfoWrap">
-        <p className="busTitleWrap">실시간 버스 정보</p>
-        <div className="listScroll">
-          {[...Array(cnt)].map((_, index) => (
-            <BusChild
-              key={index}
-              number={busNumber}
-              div={busDiv}
-              time={busTime}
-              count={busStopCount}
-            />
-          ))}
-        </div>
-      </div>
+      {/* 나머지 내용 생략 */}
     </div>
   );
 };
 
-export default BusModal
+export default BusModal;

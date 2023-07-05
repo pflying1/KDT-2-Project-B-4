@@ -57,7 +57,7 @@ export class SocketBusServerService {
     // console.log(secondlist)
 
     console.log('이건 서비스쪽 ', payload.data);
-    const firstApiUrl = `https://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnThrghRouteList?serviceKey=joKaZp3MojMlG5ctM0OwBqz7tYkkTyJM4FX3Rg3LRKO%2BWTWWEUsE0Q3TH0HAtz%2FRKQMHyLvtcCR9QCLT8ZOUEQ%3D%3D&pageNo=1&numOfRows=10&_type=xml&cityCode=25&nodeid=DJB${payload.data}`;
+    const firstApiUrl = `https://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnThrghRouteList?serviceKey=i7Cd%2BE5PV6rYTmSC4CrnvP8fJVN0f6uDLp%2BO6ZIPUMEHE5eOBUlBUbibOnABF3JFT6LgLkerWvmMzp3%2F8rFwYA%3D%3D&pageNo=1&numOfRows=10&_type=xml&cityCode=25&nodeid=DJB${payload.data}`;
     const firstApiResponse = await this.httpService.get(firstApiUrl).toPromise();
     const data = firstApiResponse.data;
     const json = await parseStringPromise(data, { explicitArray: false, trim: true }) as { response: response };
@@ -69,7 +69,7 @@ export class SocketBusServerService {
     console.log('firstlist', firstlist);
   
     for (let i = 0; i < firstlist.length; i++) {
-      const thirdApiUrl = `https://apis.data.go.kr/1613000/BusLcInfoInqireService/getRouteAcctoBusLcList?serviceKey=joKaZp3MojMlG5ctM0OwBqz7tYkkTyJM4FX3Rg3LRKO%2BWTWWEUsE0Q3TH0HAtz%2FRKQMHyLvtcCR9QCLT8ZOUEQ%3D%3D&pageNo=1&numOfRows=10&_type=xml&cityCode=25&routeId=${firstlist[i][1]}`;
+      const thirdApiUrl = `https://apis.data.go.kr/1613000/BusLcInfoInqireService/getRouteAcctoBusLcList?serviceKey=i7Cd%2BE5PV6rYTmSC4CrnvP8fJVN0f6uDLp%2BO6ZIPUMEHE5eOBUlBUbibOnABF3JFT6LgLkerWvmMzp3%2F8rFwYA%3D%3D&pageNo=1&numOfRows=10&_type=xml&cityCode=25&routeId=${firstlist[i][1]}`;
       const secondApiResponse = await this.httpService.get(thirdApiUrl).toPromise();
       const secondApiData = secondApiResponse.data;
       const json = await parseStringPromise(secondApiData, { explicitArray: false, trim: true }) as { response: response };

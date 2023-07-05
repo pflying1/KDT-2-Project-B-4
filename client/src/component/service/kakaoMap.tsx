@@ -30,12 +30,11 @@ let busStopName = '을지대학병원'; //정류장 이름
 let busStopNumber = '12356' //정류장 번호
 let busWay = '대전시청방면' //버스 방면
 let busNumber: string[] = [];
-let busDiv = '지선'
+let busDiv = '간선'
 let busTime = '6'
 let busStopCount = '4'
 let toggle = false;
-let mark = '';
-let ID;
+let mark = markNull;
 
 let responseHandlerRegistered = false;
 const MapWithMarkers: React.FC<MapProps> = () => {
@@ -71,8 +70,8 @@ const MapWithMarkers: React.FC<MapProps> = () => {
       script.onload = () => {
         window.kakao.maps.load(() => {
           const options = {
-            center: new window.kakao.maps.LatLng(36.35, 127.385),
-            level: 5,
+            center: new window.kakao.maps.LatLng(36.35, 127.383),
+            level: 3,
           };
           const map = new window.kakao.maps.Map(mapContainer.current, options);
 
@@ -91,13 +90,21 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                 // 마커를 표시할 위치입니다
                 let position = new window.kakao.maps.LatLng(gpsLati, gpsLong);
 
+                let imageSrc = 'https://cdn-icons-png.flaticon.com/512/5390/5390754.png'; // 마커이미지의 주소입니다  
+                let imageSize = new window.kakao.maps.Size(35, 35);
+                let imageOption = {offset: new window.kakao.maps.Point(10, 20)}; 
+                let markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
                 // 마커를 생성합니다
                 let marker = new window.kakao.maps.Marker({
                   position: position,
                   clickable: true,
+                  image: markerImage
                 });
+
                 // 마커를 지도에 표시합니다.
                 marker.setMap(map);
+
                 function BusChild(number: string, div: string, time: string, count: string) {
                   let colorVal;
                   let timeVal;
@@ -161,6 +168,43 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                 // 마커에 클릭이벤트를 등록합니다
                 window.kakao.maps.event.addListener(marker, 'click', function () {
 
+                  if (toggle) {
+                    mark = markPull;
+                  }
+                  else {
+                    mark = markNull;
+                  }
+
+                  let content = `
+                    <div class="busModalWin">
+                      <div class="titleWrap">
+                        <div class="titleArea">
+                          <p class="title">${busStopName}</p>
+                          <img src=${mark} alt="bookMark" onClick="${handleImageClick()}" />
+                        </div>
+                        <div class="titleArea">
+                          <p class="busText">${busStopNumber}</p>
+                          <p class="busText">${busWay}</p>
+                        </div>
+                      </div>
+                      <div class="divLine"></div>
+                      <div class="busInfoWrap">
+                        <p class="busTitleWrap">실시간 버스 정보</p>
+                        <div class="listScroll">
+                          ${ BusList(cnt, busNumber, busDiv, busTime, busStopCount)}
+                        </div >
+                      </div >
+                    </div > `;
+
+                  let customOverlay =  new window.kakao.maps.CustomOverlay({
+                    position: position,
+                    content: content,
+                    map: map
+                    // xAnchor: 0,
+                    // yAnchor: 0.3
+                    
+                  });
+
                   // 클릭한 버스 정류장 번호
                   console.log('버정 번호', gpsBusNodeId); // 출력: 8001091
                   // socket.emit('button', { data: 'test' });
@@ -187,6 +231,8 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                           busNumber.push(response[i][2])
                           busMarker(response[i][0], response[i][1], map);
                         }
+
+                      
                       }
                       else {
                         for (let i = 0; i < response.length; i++) {
@@ -199,51 +245,12 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                     });
                     responseHandlerRegistered = true;
                   }
-
-                  if (toggle) {
-                    mark = markPull;
-                  }
-                  else {
-                    mark = markNull;
-                  }
-  
-                  let content = `
-                    <div class="busModalWin">
-                      <div class="titleWrap">
-                        <div class="titleArea">
-                          <p class="title">${busStopName}</p>
-                          <img src=${mark} alt="bookMark" onClick="${handleImageClick()}" />
-                        </div>
-                        <div class="titleArea">
-                          <p class="busText">${busStopNumber}</p>
-                          <p class="busText">${busWay}</p>
-                        </div>
-                      </div>
-                      <div class="divLine"></div>
-                      <div class="busInfoWrap">
-                        <p class="busTitleWrap">실시간 버스 정보</p>
-                        <div class="listScroll">
-                          ${ BusList(cnt, busNumber, busDiv, busTime, busStopCount)}
-                        </div >
-                      </div >
-                    </div > `;
-  
-                  let customOverlay =  new window.kakao.maps.CustomOverlay({
-                    position: position,
-                    content: content,
-                    map: map
-                    // xAnchor: 0,
-                    // yAnchor: 0.3
-                    
-                  });
                   
-
                   customOverlay.setMap(map)
 
                   setInterval(()=>{
                     customOverlay.setMap(null)
                   }, 5000)
-                  
                 });
 
               });

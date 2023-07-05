@@ -70,7 +70,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
       script.onload = () => {
         window.kakao.maps.load(() => {
           const options = {
-            center: new window.kakao.maps.LatLng(36.35, 127.383),
+            center: new window.kakao.maps.LatLng(36.347, 127.387),
             level: 3,
           };
           const map = new window.kakao.maps.Map(mapContainer.current, options);

@@ -34,7 +34,7 @@ let busDiv = '지선'
 let busTime = '6'
 let busStopCount = '4'
 let toggle = false;
-let togglec = false;
+let mark = '';
 
 
 let responseHandlerRegistered = false;
@@ -72,7 +72,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
         window.kakao.maps.load(() => {
           const options = {
             center: new window.kakao.maps.LatLng(36.35, 127.385),
-            level: 7,
+            level: 5,
           };
           const map = new window.kakao.maps.Map(mapContainer.current, options);
 
@@ -80,29 +80,150 @@ const MapWithMarkers: React.FC<MapProps> = () => {
           fetch('http://localhost:3000/busstation')
             .then((response) => response.json())
             .then((data) => {
+              
+              let position:any;
+              let marker:any;
+              let gpsLati 
+              let gpsLong 
+              let gpsBusName
+              let gpsBusNodeId :any
+              let aaaMarker;
+
               data.forEach((item: BusStopData) => {
-                const gpsLati = item.GPS_LATI[0];
-                const gpsLong = item.GPS_LONG[0];
-                const gpsBusName = item.BUSSTOP_NM[0];
-                const gpsBusNodeId = item.BUS_NODE_ID[0];
+                gpsLati = item.GPS_LATI[0];
+                gpsLong = item.GPS_LONG[0];
+                gpsBusName = item.BUSSTOP_NM[0];
+                gpsBusNodeId = item.BUS_NODE_ID[0];
 
                 // 마커를 표시할 위치입니다
-                const position = new window.kakao.maps.LatLng(gpsLati, gpsLong);
+                position = new window.kakao.maps.LatLng(gpsLati, gpsLong);
 
                 // 마커를 생성합니다
-                const marker = new window.kakao.maps.Marker({
+                marker = new window.kakao.maps.Marker({
                   position: position,
                   clickable: true,
                 });
-
                 // 마커를 지도에 표시합니다.
                 marker.setMap(map);
+                
 
+              });
+              
+              window.kakao.maps.event.addListener(map, "click", function (mouseEvent:any) {
+                let latlng = mouseEvent.latLng;
 
+                position = new window.kakao.maps.LatLng(latlng.getLat(), latlng.getLng());
+                // 지도에 마커를 표시합니다 
+                var marker = new window.kakao.maps.Marker({
+                    map: map, 
+                    position: position
+                });
+
+                function BusChild(number: string, div: string, time: string, count: string) {
+                  let colorVal;
+                  let timeVal;
+                
+                  if (div === '지선') {
+                    colorVal = 'green';
+                  } else if (div === '간선') {
+                    colorVal = 'blue';
+                  } else {
+                    colorVal = 'red';
+                  }
+                
+                  if (time === '잠시후 도착') {
+                    timeVal = 'red';
+                  } else if (parseInt(time) <= 5) {
+                    timeVal = 'orange';
+                  } else {
+                    timeVal = 'black';
+                  }
+                
+                  return `
+                    <div class="busInfo">
+                      <div class='busDiv' style='background-color: ${colorVal}'>${div}</div>
+                      <div class='busNumber'>${number}</div>
+                      <div style='color:${timeVal};font-size: 7pt'>${time}분 (${count}정거장 전)</div>
+                    </div>`
+                };
+                
+                function BusList(cnt: number, number: string[], div: string, time: string, count: string) {
+                  let dd = ``;
+                  console.log("버스 번호배열: ", number)
+                
+                  for (let i = 0; i < cnt; i++) {
+                    dd += BusChild(number[i], div, time, count);
+                  }
+                  return dd;
+                }
+                
+                const handleImageClick = async () => {
+                  const userID = localStorage.getItem('userID');
+                
+                  if (toggle) {
+                    toggle = false
+                  }
+                  else {
+                    toggle = true
+                  }
+                
+                  try {
+                    const response = await axios.post('/favor', {
+                      busStopID: busStopNumber,
+                      busStopName: busStopNumber,
+                      user: userID,
+                    });
+                    console.log(response.data);
+                  } catch (error) {
+                    console.error(error);
+                  }
+                };
+                
+                
+
+                if (toggle) {
+                  mark = markPull;
+                }
+                else {
+                  mark = markNull;
+                }
+
+                let content = `
+                <div class="busModalWin">
+                  <div class="titleWrap">
+                    <div class="titleArea">
+                      <p class="title">${busStopName}</p>
+                      <img src=${mark} alt="bookMark" onClick="${handleImageClick()}" />
+                      <div class="close" onclick="${closeOverlay()}" title="닫기"></div>
+                    </div>
+                    <div class="titleArea">
+                      <p class="busText">${busStopNumber}</p>
+                      <p class="busText">${busWay}</p>
+                    </div>
+                  </div>
+                  <div class="divLine"></div>
+                  <div class="busInfoWrap">
+                    <p class="busTitleWrap">실시간 버스 정보</p>
+                    <div class="listScroll">
+                      ${ BusList(cnt, busNumber, busDiv, busTime, busStopCount)}
+                    </div >
+                  </div >
+                </div > `;
+
+                let  customOverlay =  new window.kakao.maps.CustomOverlay({
+                  position: position,
+                  content: content,
+                  map: map
+                  // xAnchor: 0,
+                  // yAnchor: 0.3
+                  
+                });
+                
+                function closeOverlay() {
+                  customOverlay.setMap(null);     
+                }
                 // 마커에 클릭이벤트를 등록합니다
                 window.kakao.maps.event.addListener(marker, 'click', function () {
-                  let mark = '';
-
 
                   // 클릭한 버스 정류장 번호
                   console.log('버정 번호', gpsBusNodeId); // 출력: 8001091
@@ -143,109 +264,15 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                     responseHandlerRegistered = true;
                   }
 
+                  
 
-                  function BusChild(number: string, div: string, time: string, count: string) {
-                    let colorVal;
-                    let timeVal;
-
-                    if (div === '지선') {
-                      colorVal = 'green';
-                    } else if (div === '간선') {
-                      colorVal = 'blue';
-                    } else {
-                      colorVal = 'red';
-                    }
-
-                    if (time === '잠시후 도착') {
-                      timeVal = 'red';
-                    } else if (parseInt(time) <= 5) {
-                      timeVal = 'orange';
-                    } else {
-                      timeVal = 'black';
-                    }
-
-                    return `
-                      <div class="busInfo">
-                        <div class='busDiv' style='background-color: ${colorVal}'>${div}</div>
-                        <div class='busNumber'>${number}</div>
-                        <div style='color:${timeVal};font-size: 7pt'>${time}분 (${count}정거장 전)</div>
-                      </div>`
-                  };
-
-                  function BusList(cnt: number, number: string[], div: string, time: string, count: string) {
-                    let dd = ``;
-                    console.log("버스 번호배열: ", number)
-
-                    for (let i = 0; i < cnt; i++) {
-                      dd += BusChild(number[i], div, time, count);
-                    }
-                    return dd;
-                  }
-
-                  const handleImageClick = async () => {
-                    const userID = localStorage.getItem('userID');
-
-                    if (toggle) {
-                      toggle = false
-                    }
-                    else {
-                      mark = markNull;
-                    }
-
-                    try {
-                      const response = await axios.post('/favor', {
-                        busStopID: busStopNumber,
-                        busStopName: busStopNumber,
-                        user: userID,
-                      });
-                      console.log(response.data);
-                    } catch (error) {
-                      console.error(error);
-                    }
-
-                  };
-                  let content = `
-                  <div class="busModalWin">
-                    <div class="titleWrap">
-                      <div class="titleArea">
-                        <p class="title">${busStopName}</p>
-                        <img src=${mark} alt="bookMark" onClick={${handleImageClick}} />
-                        <button id='cbtn' class="close">X</button>
-                      </div>
-                      <div class="titleArea">
-                        <p class="busText">${busStopNumber}</p>
-                        <p class="busText">${busWay}</p>
-                      </div>
-                    </div>
-                    <div class="divLine"></div>
-                    <div class="busInfoWrap">
-                      <p class="busTitleWrap">실시간 버스 정보</p>
-                      <div class="listScroll">
-                        ${ BusList(cnt, busNumber, busDiv, busTime, busStopCount)}
-                      </div >
-                    </div >
-                  </div > `;
-
-                  if (toggle) {
-                    mark = markPull;
-                  }
-                  else {
-                    mark = markNull;
-                  }
-                  var  customOverlay =  new window.kakao.maps.CustomOverlay({
-                    position: position,
-                    content: content,
-                    // xAnchor: 0,
-                    // yAnchor: 0.3
-                    xAnchor: 0,
-                    yAnchor: 0
-                  });
-
-                  // 커스텀 오버레이를 지도에 표시합니다
-                  customOverlay.setMap(map);
+                  customOverlay.setMap(map)
 
                 });
               });
+                
+                
+
               console.log(data);
             })
             .catch((error) => console.log(error));
@@ -262,3 +289,4 @@ const MapWithMarkers: React.FC<MapProps> = () => {
 };
 
 export default MapWithMarkers;
+

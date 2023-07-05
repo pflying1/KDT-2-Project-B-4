@@ -39,7 +39,7 @@ export class SocketBusServerService {
 
     // 두 번째 API 호출을 수행합니다.
     for (let i = 0; i < firstlist.length; i++) {
-      const secondApiUrl = `http://openapitraffic.daejeon.go.kr/api/rest/busposinfo/getBusPosByRtid?serviceKey=i7Cd%2BE5PV6rYTmSC4CrnvP8fJVN0f6uDLp%2BO6ZIPUMEHE5eOBUlBUbibOnABF3JFT6LgLkerWvmMzp3%2F8rFwYA%3D%3D&busRouteId=${firstlist[0][i]}`;
+      const secondApiUrl = `http://openapitraffic.daejeon.go.kr/api/rest/busposinfo/getBusPosByRtid?serviceKey=W2ZNx9bVB6N8TT8yiKOEeL28g%2By01Tt7ywJzAE%2FrdaL6dEzjW2Cp5s52C0ZtD2JiNNtpyGLw8Z7aaThuRoJQhA%3D%3D&busRouteId=${firstlist[0][i]}`;
       const secondApiResponse = await this.httpService.get(secondApiUrl).toPromise();
       const secondApiData = secondApiResponse.data;
       const json = await parseStringPromise(secondApiData, { explicitArray: false, trim: true }) as { ServiceResult: ServiceResult };

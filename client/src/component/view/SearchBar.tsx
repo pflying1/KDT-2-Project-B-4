@@ -23,7 +23,7 @@ interface BusStopData {
 }
 
 
-const SearchBar = () => {
+const SearchBar = (props:any) => {
   const [isHidden, setIsHidden] = useState(true);
   const [inputValue, setInputValue] = useState('');
   const [result, setResult] = useState<string[]>([]);

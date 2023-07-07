@@ -9,6 +9,10 @@ import axios from 'axios';
 import markNull from '../view/image/bookmarknull.png'
 import markPull from '../view/image/bookmarkPull.png'
 import '../view/css/busStopModalStyles.css';
+import DataTest from '../../busArray.json';
+
+
+
 const socket = io('http://localhost:3000/busSocket');
 
 interface BusStopData {
@@ -99,6 +103,8 @@ const MapWithMarkers: React.FC<MapProps> = () => {
             level: 3,
           };
           const map = new window.kakao.maps.Map(mapContainer.current, options);
+
+          //console.log("DataTest", DataTest.map((x) => {return ''+ x + ''}))
 
           setMapData(map);
           fetch('http://localhost:3000/busstation')

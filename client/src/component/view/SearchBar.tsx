@@ -67,7 +67,7 @@ const SearchBar = () => {
   const resultComponents: ReactNode[] = filterdData.map((item, index) =>
     <p key={index} className='resultComponent' onClick={handleChangeValue}>{item}</p>
   )
-
+ 
   //value 실제 값
   //inputvalue 동기화 역할
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {

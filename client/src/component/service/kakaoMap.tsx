@@ -167,7 +167,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                 };
                 
                 // 마커에 클릭이벤트를 등록합니다
-                window.kakao.maps.event.addListener(marker, 'click', function () {
+                const clickBusStop = window.kakao.maps.event.addListener(marker, 'click', function () {
 
                   if (toggle) {
                     mark = markPull;
@@ -197,7 +197,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                       </div >
                     </div > `;
 
-                  let customOverlay =  new window.kakao.maps.CustomOverlay({
+                  let customOverlay = window.kakao.maps.CustomOverlay({
                     position: position,
                     content: content,
                     map: map
@@ -211,9 +211,9 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                   // socket.emit('button', { data: 'test' });
                   socket.emit('buttonClicked', { data: gpsBusNodeId });
 
-                  setInterval(() => {
-                    socket.emit('buttonClicked', { data: gpsBusNodeId });
-                  }, 10000);
+                  // setInterval(() => {
+                  //   socket.emit('buttonClicked', { data: gpsBusNodeId });
+                  // }, 10000);
 
                   if (!responseHandlerRegistered) {
 
@@ -250,9 +250,9 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                   
                   customOverlay.setMap(map)
 
-                  setInterval(()=>{
+                  /* setInterval(()=>{
                     customOverlay.setMap(null)
-                  }, 5000)
+                  }, 5000) */
                 });
 
               });

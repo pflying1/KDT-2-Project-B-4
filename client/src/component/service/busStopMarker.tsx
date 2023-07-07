@@ -13,7 +13,7 @@ const socket = io('http://localhost:3000/busSocket'); // Socket.IO 서버에 연
  * @param map 마커를 지도에 표시합니다. map이라고 꼭넣어주세요.
  */
 
-
+ let busArray : any = [];
  let responseHandlerRegistered = false;
 const busStopMarker = (lati: number, long: number, busStopName: string , busNodeId: number, map: string | undefined) => {
   console.log("버스 정류장 아이디" + busNodeId);
@@ -93,11 +93,13 @@ const busStopMarker = (lati: number, long: number, busStopName: string , busNode
           console.log('response[i][0]', response[i][0]);
           console.log('response[1][1]', response[i][1]);
           busMarker(response[i][0], response[i][1], map,0);
+          busArray.push(response[i][0],response[i][1]);
         }    
       });
       responseHandlerRegistered = true;
+      return busArray;
     }
-
+    console.log('busArray' , busArray)
   //   let content = BusModal;
   //   var customOverlay = new window.kakao.maps.CustomOverlay({
   //     position: position,
@@ -109,6 +111,7 @@ const busStopMarker = (lati: number, long: number, busStopName: string , busNode
 
   
   })
+  
 }
 export default busStopMarker
 

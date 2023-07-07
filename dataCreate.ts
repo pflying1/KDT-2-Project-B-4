@@ -43,6 +43,7 @@ const firstlist = [
 const fetchData = async () => {
   try {
     const allData = [];
+    const nodenm = [];
     firstlist.forEach(async (element) => {
       console.log(element[1]);
       try {
@@ -54,12 +55,12 @@ const fetchData = async () => {
             return;
           }
           const itemList = result.response.body[0].items[0].item;
+          console.log('itemLIst'+itemList)
           itemList.forEach((item) => {
-            const nodenm = [];
-            nodenm.push([item.gpslati,item.gpslong,item.routenm,item.routetp])
-            console.log(nodenm);
-            allData.push(nodenm);
-            const jsonData = JSON.stringify(allData, null, 2);
+            
+            nodenm.push(item.gpslati,item.gpslong,item.routenm,item.routetp)
+            console.log('nodeenm',nodenm);
+            const jsonData = JSON.stringify(nodenm, null, 2);
             fs.writeFile('busArray.json', jsonData, 'utf8', (error) => {
               if (error) {
                 console.error('Error writing JSON file:', error);

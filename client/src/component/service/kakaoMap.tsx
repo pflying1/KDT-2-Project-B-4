@@ -221,7 +221,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                       busNumber = [];
                       console.log('새로운 응답 도착:', response);
                       cnt = response.length;
-
+                    
                       // if (response && response[1]) {
                       if (busNumber.length === 0) {
                         for (let i = 0; i < response.length; i++) {
@@ -229,21 +229,20 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                           console.log('response[1][1]', response[i][1]);
                           console.log('response[1][2]', response[i][2]);
                           console.log("길이 0 일 때")
-                          busNumber.push(response[i][2])
-                          busMarker(response[i][0], response[i][1], map);
-                        
-                        }
-
-                      
-                      }
-                      else {
-                        for (let i = 0; i < response.length; i++) {
-                          console.log('response[i][0]', response[i][0]);
-                          console.log('response[1][1]', response[i][1]);
-                          console.log('response[1][2]', response[i][2]);
-                          busMarker(response[i][0], response[i][1], map);
+                          // busNumber.push(response[i][2])
+                          busMarker(response[i][0], response[i][1], map, 0);
+                          busArray.push(response[i][0], response[i][1])
                         }
                       }
+                      busNumber = [];
+                      // else {
+                      //   for (let i = 0; i < response.length; i++) {
+                      //     console.log('response[i][0]', response[i][0]);
+                      //     console.log('response[1][1]', response[i][1]);
+                      //     console.log('response[1][2]', response[i][2]);
+                      //     busMarker(response[i][0], response[i][1], map);
+                      //   }
+                      // }
                     });
                     responseHandlerRegistered = true;
                    

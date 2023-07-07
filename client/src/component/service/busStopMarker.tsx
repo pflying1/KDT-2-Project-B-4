@@ -92,7 +92,7 @@ const busStopMarker = (lati: number, long: number, busStopName: string , busNode
         for (let i = 0; i < response.length; i++) {
           console.log('response[i][0]', response[i][0]);
           console.log('response[1][1]', response[i][1]);
-          busMarker(response[i][0], response[i][1], map);
+          busMarker(response[i][0], response[i][1], map,0);
         }    
       });
       responseHandlerRegistered = true;

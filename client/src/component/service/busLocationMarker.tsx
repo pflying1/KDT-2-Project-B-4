@@ -8,7 +8,7 @@
 
 import { markAsUntransferable } from "worker_threads";
 
-const busMarker = (lati: number, long: number, map: string | undefined) => {
+const busMarker = (lati: number, long: number, map: string | undefined, count : 0) => {
   const imageSrc = "https://i.fbcd.co/products/resized/resized-750-500/ad410d08d206d25de623d0a536603684e27e32288e34bf03f6f4c4654668b6bb.jpg", // 마커이미지의 주소입니다    
     imageSize = new window.kakao.maps.Size(35, 30), // 마커이미지의 크기입니다
     imageOption = { offset: new window.kakao.maps.Point(10, 20) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
@@ -22,16 +22,16 @@ const busMarker = (lati: number, long: number, map: string | undefined) => {
     position: markerPosition,
     image: markerImage // 마커이미지 설정 
   });
-  // if (count === 0) {
+  if (count === 0) {
       marker.setMap(map);
       setInterval(() => {
         marker.setMap(null)
       }, 9000);
   //   // 마커가 지도 위에 표시되도록 설정합니다
-  // } else if (count === 1) {
-  //   marker.setMap(null)
-  //   console.log("나 지워졌어")
-  // }
+  } else if (count === 1) {
+    marker.setMap(null)
+    console.log("나 지워졌어")
+  }
 
 }
 

@@ -41,6 +41,28 @@ const MapWithMarkers: React.FC<MapProps> = () => {
   const mapContainer = React.useRef(null);
   const [apiKey, setApiKey] = useState<string | undefined>(undefined);
   const [mapData, setMapData] = useState<string | undefined>(undefined);
+
+  const bookMarkCheck = async () => {
+    const userID = localStorage.getItem('userID');
+  
+    try {
+      const response = await axios.post('/favorCheck', {
+        busStopID: busStopNumber,
+        busStopName: busStopNumber,
+        user: userID,
+      });
+      console.log("데이터 받아왔다ㅏ아ㅏ", response.data);
+    } catch (error) {
+      console.error(error);
+    }
+    if (toggle) {
+      toggle = false
+    }
+    else {
+      toggle = true
+    }
+  };
+
   useEffect(() => {
     let userID = localStorage.getItem('userID');
     if (!userID) {
@@ -146,13 +168,6 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                 const handleImageClick = async () => {
                   const userID = localStorage.getItem('userID');
                 
-                  if (toggle) {
-                    toggle = false
-                  }
-                  else {
-                    toggle = true
-                  }
-                
                   try {
                     const response = await axios.post('/favor', {
                       busStopID: busStopNumber,
@@ -162,6 +177,12 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                     console.log(response.data);
                   } catch (error) {
                     console.error(error);
+                  }
+                  if (toggle) {
+                    toggle = false
+                  }
+                  else {
+                    toggle = true
                   }
                 };
                 

@@ -22,4 +22,20 @@ export class FavorService {
     return userF.save();
 
   }
+
+  async CheckUser(busStopID: string, user: string) {
+    const checker = await this.userModel.findOne({ busStopID, user });
+    let result:boolean;
+  
+    if (checker) {
+      result = true;
+    }
+    else{
+      result = false;
+    }
+
+    
+    return result
+
+  }
 }

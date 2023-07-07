@@ -38,6 +38,7 @@ let mark = markNull;
 
 let busArray : any = [];
 let responseHandlerRegistered = false;
+let prevOverlay:any = null; // 이전 오버레이를 저장하기 위한 변수 선언
 const MapWithMarkers: React.FC<MapProps> = () => {
   const mapContainer = React.useRef(null);
   const [apiKey, setApiKey] = useState<string | undefined>(undefined);
@@ -167,61 +168,65 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                 };
                 
                 // 마커에 클릭이벤트를 등록합니다
-                const clickBusStop = window.kakao.maps.event.addListener(marker, 'click', function () {
-
+                window.kakao.maps.event.addListener(marker, 'click', function () {
+                  if (prevOverlay) {
+                    prevOverlay.setMap(null);
+                    socket.removeListener('response', prevOverlay);
+                  }
+                  
+                  
                   if (toggle) {
                     mark = markPull;
                   }
                   else {
                     mark = markNull;
                   }
-
                   let content = `
-                    <div class="busModalWin">
+                  <div class="busModalWin">
                       <div class="titleWrap">
-                        <div class="titleArea">
-                          <p class="title">${busStopName}</p>
-                          <img src=${mark} alt="bookMark" onClick="${handleImageClick()}" />
-                        </div>
-                        <div class="titleArea">
-                          <p class="busText">${busStopNumber}</p>
-                          <p class="busText">${busWay}</p>
-                        </div>
+                      <div class="titleArea">
+                      <p class="title">${busStopName}</p>
+                      <img src=${mark} alt="bookMark" onClick="${handleImageClick()}" />
                       </div>
-                      <div class="divLine"></div>
-                      <div class="busInfoWrap">
+                      <div class="titleArea">
+                      <p class="busText">${busStopNumber}</p>
+                          <p class="busText">${busWay}</p>
+                          </div>
+                          </div>
+                        <div class="divLine"></div>
+                        <div class="busInfoWrap">
                         <p class="busTitleWrap">실시간 버스 정보</p>
                         <div class="listScroll">
-                          ${ BusList(cnt, busNumber, busDiv, busTime, busStopCount)}
+                        ${ BusList(cnt, busNumber, busDiv, busTime, busStopCount)}
                         </div >
-                      </div >
-                    </div > `;
-
-                  let customOverlay = window.kakao.maps.CustomOverlay({
-                    position: position,
+                        </div >
+                        </div > `;
+                
+                        let customOverlay = new window.kakao.maps.CustomOverlay({
+                      position: position,
                     content: content,
                     map: map
                     // xAnchor: 0,
                     // yAnchor: 0.3
                     
                   });
-
+                  
                   // 클릭한 버스 정류장 번호
                   console.log('버정 번호', gpsBusNodeId); // 출력: 8001091
                   // socket.emit('button', { data: 'test' });
                   socket.emit('buttonClicked', { data: gpsBusNodeId });
 
-                  // setInterval(() => {
-                  //   socket.emit('buttonClicked', { data: gpsBusNodeId });
-                  // }, 10000);
-
-                  if (!responseHandlerRegistered) {
-
-                    socket.on('response', (response) => {
+                  setInterval(() => {
+                    socket.emit('buttonClicked', { data: gpsBusNodeId });
+                  }, 10000);
+                  
+                  // if (responseHandlerRegistered) {
+                    
+                  const clickMarker = socket.on('response', (response) => {
                       busNumber = [];
                       console.log('새로운 응답 도착:', response);
                       cnt = response.length;
-                    
+                      
                       // if (response && response[1]) {
                       if (busNumber.length === 0) {
                         for (let i = 0; i < response.length; i++) {
@@ -236,7 +241,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                       }
                       busNumber = [];
                       // else {
-                      //   for (let i = 0; i < response.length; i++) {
+                        //   for (let i = 0; i < response.length; i++) {
                       //     console.log('response[i][0]', response[i][0]);
                       //     console.log('response[1][1]', response[i][1]);
                       //     console.log('response[1][2]', response[i][2]);
@@ -244,17 +249,16 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                       //   }
                       // }
                     });
-                    responseHandlerRegistered = true;
-                   
-                  }
+                    // responseHandlerRegistered = true;
                   
+                  // }
+                  
+                  prevOverlay = customOverlay; // 현재 열린 오버레이를 저장합니다
                   customOverlay.setMap(map)
-
                   /* setInterval(()=>{
                     customOverlay.setMap(null)
-                  }, 5000) */
+                  })  */
                 });
-
               });
               console.log(data);
             })

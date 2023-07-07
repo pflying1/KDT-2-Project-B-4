@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import markNull from './image/bookmarknull.png'
 import markPull from './image/bookmarkPull.png'
@@ -65,19 +65,40 @@ const BusModal: React.FC<BusProps> = ({busStopName, busStopNumber}) => {
   console.log("모달에서 유저값 ", userID)
 
   const [toggle, setToggle] = useState(false);
+    useEffect(()=>{
+      bookMarkCheck()
+    }, [])
+  const bookMarkCheck = async () => {
+    const userID = localStorage.getItem('userID');
+  
+    try {
+      const response = await axios.post('/favorCheck', {
+        busStopID: busStopNumber,
+        busStopName: busStopNumber,
+        user: userID,
+      });
+      console.log("데이터 받아왔다ㅏ아ㅏ", response.data);
+      if (response.data) {
+        mark = markPull;
+        setToggle(true)
+      }
+      else {
+        mark = markNull;
+        setToggle(false)
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    
+  };
 
   const handleImageClick = async () => {
-    if(toggle){
-      setToggle(false)
-    }
-    else{
-      setToggle(true)
-    }
-
+    setToggle((prevToggle) => !prevToggle); // 이 부분을 비동기 작업 전에 업데이트합니다.
+  
     try {
       const response = await axios.post('/favor', {
         busStopID: busStopNumber,
-        busStopName: busStopNumber,
+        busStopName: busStopName, // 이 부분을 수정합니다.
         user: userID,
       });
       console.log(response.data);
@@ -99,6 +120,7 @@ const BusModal: React.FC<BusProps> = ({busStopName, busStopNumber}) => {
         <div className="titleArea">
           <p className="title">{busStopName}</p>
           <img src={mark} alt="bookMark" onClick={handleImageClick} />
+
         </div>
         <div className="titleArea">
           <p className="busText">{busStopNumber}</p>

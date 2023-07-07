@@ -52,15 +52,18 @@ const MapWithMarkers: React.FC<MapProps> = () => {
         user: userID,
       });
       console.log("데이터 받아왔다ㅏ아ㅏ", response.data);
+      if (response.data) {
+        mark = markPull;
+        toggle = true
+      }
+      else {
+        mark = markNull;
+        toggle = false
+      }
     } catch (error) {
       console.error(error);
     }
-    if (toggle) {
-      toggle = false
-    }
-    else {
-      toggle = true
-    }
+    
   };
 
   useEffect(() => {
@@ -167,35 +170,33 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                 
                 const handleImageClick = async () => {
                   const userID = localStorage.getItem('userID');
-                
-                  try {
-                    const response = await axios.post('/favor', {
-                      busStopID: busStopNumber,
-                      busStopName: busStopNumber,
-                      user: userID,
-                    });
-                    console.log(response.data);
-                  } catch (error) {
-                    console.error(error);
-                  }
+
                   if (toggle) {
                     toggle = false
                   }
                   else {
                     toggle = true
                   }
+                
+                  try {
+                    const response = await axios.post('/favor', {
+                      busStopID: busStopNumber,
+                      busStopName: busStopNumber,
+                      user: userID,
+                      mark: toggle
+                    });
+                    console.log("북마크 클릭했을 때", response.data);
+                  } catch (error) {
+                    console.error(error);
+                  }
+                  
                 };
                 
                 // 마커에 클릭이벤트를 등록합니다
                 window.kakao.maps.event.addListener(marker, 'click', function () {
 
-                  if (toggle) {
-                    mark = markPull;
-                  }
-                  else {
-                    mark = markNull;
-                  }
-
+                  bookMarkCheck()
+                  
                   let content = `
                     <div class="busModalWin">
                       <div class="titleWrap">

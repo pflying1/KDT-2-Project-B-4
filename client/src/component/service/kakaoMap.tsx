@@ -36,6 +36,7 @@ let busStopCount = '4'
 let toggle = false;
 let mark = markNull;
 
+let busArray : any = [];
 let responseHandlerRegistered = false;
 const MapWithMarkers: React.FC<MapProps> = () => {
   const mapContainer = React.useRef(null);
@@ -230,6 +231,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                           console.log("길이 0 일 때")
                           busNumber.push(response[i][2])
                           busMarker(response[i][0], response[i][1], map);
+                        
                         }
 
                       
@@ -244,6 +246,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                       }
                     });
                     responseHandlerRegistered = true;
+                   
                   }
                   
                   customOverlay.setMap(map)

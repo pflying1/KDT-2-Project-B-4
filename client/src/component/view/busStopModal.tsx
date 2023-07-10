@@ -18,10 +18,10 @@ let busStopCount = '4'
 let mark:string;
 
 interface BusChildProps {
-  number: string;
-  div: string;
+  number: string[];
+  div: string[];
   time: string;
-  count: string;
+  count: number;
 }
 
 interface BusProps {
@@ -31,29 +31,30 @@ interface BusProps {
   div: string[];
   time: string;
   count: number;
+  overlay: any
 }
 
 const BusChild: React.FC<BusChildProps> = ({ number, div, time, count }) => {
   let colorVal;
   let timeVal;
 
-  if (div === '마을버스') {
-    div = '마을'
+  if (div[0] === '마을버스') {
+    div[0] = '마을'
     colorVal = 'skyblue';
-  } else if (div === '지선버스') {
-    div = '지선'
+  } else if (div[0] === '지선버스') {
+    div[0] = '지선'
     colorVal = 'green';
-  } else if (div === '간선버스') {
-    div = '간선'
+  } else if (div[0] === '간선버스') {
+    div[0] = '간선'
     colorVal = 'blue';
-  } else if (div === '광역버스') {
-    div = '광역'
+  } else if (div[0] === '광역버스') {
+    div[0] = '광역'
     colorVal = 'orange';
-  } else if (div === '급행버스') {
-    div = '급행'
+  } else if (div[0] === '급행버스') {
+    div[0] = '급행'
     colorVal = 'red';
   } else {
-    div = 'Null'
+    div[0] = 'Null'
     colorVal = 'black';
   }
 
@@ -74,7 +75,7 @@ const BusChild: React.FC<BusChildProps> = ({ number, div, time, count }) => {
   );
 };
 
-const BusModal: React.FC<BusProps> = ({busStopName, busStopNumber,num,div,time,count}) => {
+const BusModal: React.FC<BusProps> = ({busStopName, busStopNumber,num,div,time,count,overlay}) => {
 // const BusModal: React.FC = () => {
   const userID = localStorage.getItem('userID');
   console.log("모달에서 받은 값: ", busStopName, busStopNumber)
@@ -122,6 +123,9 @@ const BusModal: React.FC<BusProps> = ({busStopName, busStopNumber,num,div,time,c
     }
   };
 
+  function closeOverlay() {
+    overlay.setMap(null);     
+}
   useEffect(()=>{
     bookMarkCheck()
   }, [])
@@ -139,7 +143,7 @@ const BusModal: React.FC<BusProps> = ({busStopName, busStopNumber,num,div,time,c
         <div className="titleArea">
           <p className="title">{busStopName}</p>
           <img src={mark} alt="bookMark" onClick={handleImageClick} />
-
+          <div className="close" onClick={closeOverlay} title="닫기"></div>
         </div>
         <div className="titleArea">
           <p className="busText">{busStopNumber}</p>
@@ -153,12 +157,13 @@ const BusModal: React.FC<BusProps> = ({busStopName, busStopNumber,num,div,time,c
           {[...Array(cnt)].map((_, index) => (
             <BusChild
               key={index}
-              number={busNumber}
-              div={busDiv}
-              time={busTime}
-              count={busStopCount}
+              number={num}
+              div={div}
+              time={time}
+              count={count}
             />
           ))}
+   
         </div>
       </div>
     </div>

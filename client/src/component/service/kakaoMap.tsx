@@ -168,48 +168,47 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                 // 마커를 지도에 표시합니다.
                 marker.setMap(map);
 
-                function BusChild(number: string, div: string, time: string, count: string) {
-                  let colorVal;
-                  let timeVal;
+                // function BusChild(number: string, div: string, time: string, count: string) {
+                //   let colorVal;
+                //   let timeVal;
                 
-                  if (div === '마을버스') {
-                    div = '마을'
-                    colorVal = 'skyblue';
-                  } else if (div === '지선버스') {
-                    div = '지선'
-                    colorVal = 'green';
-                  } else if (div === '간선버스') {
-                    div = '간선'
-                    colorVal = 'blue';
-                  } else if (div === '광역버스') {
-                    div = '광역'
-                    colorVal = 'orange';
-                  } else if (div === '급행버스') {
-                    div = '급행'
-                    colorVal = 'red';
-                  } else {
-                    div = 'Null'
-                    colorVal = 'black';
-                  }
+                //   if (div === '마을버스') {
+                //     div = '마을'
+                //     colorVal = 'skyblue';
+                //   } else if (div === '지선버스') {
+                //     div = '지선'
+                //     colorVal = 'green';
+                //   } else if (div === '간선버스') {
+                //     div = '간선'
+                //     colorVal = 'blue';
+                //   } else if (div === '광역버스') {
+                //     div = '광역'
+                //     colorVal = 'orange';
+                //   } else if (div === '급행버스') {
+                //     div = '급행'
+                //     colorVal = 'red';
+                //   } else {
+                //     div = 'Null'
+                //     colorVal = 'black';
+                //   }
                 
-                  if (time === '잠시후 도착') {
-                    timeVal = 'red';
-                  } else if (parseInt(time) <= 5) {
-                    timeVal = 'orange';
-                  } else {
-                    timeVal = 'black';
-                  }
+                //   if (time === '잠시후 도착') {
+                //     timeVal = 'red';
+                //   } else if (parseInt(time) <= 5) {
+                //     timeVal = 'orange';
+                //   } else {
+                //     timeVal = 'black';
+                //   }
                 
-                  return `
-                    <div class="busInfo">
-                      <div class='busDiv' style='background-color: ${colorVal}'>${div}</div>
-                      <div class='busNumber'>${number}</div>
-                      <div style='color:${timeVal};font-size: 7pt'>${time}분 (${count}정거장 전)</div>
-                    </div>`
-                };
+                //   return `
+                //     <div class="busInfo">
+                //       <div class='busDiv' style='background-color: ${colorVal}'>${div}</div>
+                //       <div class='busNumber'>${number}</div>
+                //       <div style='color:${timeVal};font-size: 7pt'>${time}분 (${count}정거장 전)</div>
+                //     </div>`
+                // };
                 
-              
-                
+            
                 
                 // 마커에 클릭이벤트를 등록합니다
                 window.kakao.maps.event.addListener(marker, 'click', function () {
@@ -217,23 +216,22 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                   let a = groupData(DataTest)
                   console.log("a: ", a)
                   
-                
+          
                   
       
                   const content = ReactDOMServer.renderToStaticMarkup(
-                    <BusModal busStopName={busStopName} busStopNumber={busStopNumber} num={busNumber} div={busDiv} time={busTime} count={cnt} />
+                    <div>
+                      <BusModal busStopName={busStopName} busStopNumber={busStopNumber} num={busNumber} div={busDiv} time={busTime} count={cnt} overlay={overlay}/>
+                    </div>
                   );
                   // cnt, busNumber, busDiv, busTime, busStopCount
 
-                  let customOverlay =  new window.kakao.maps.CustomOverlay({
-                    position: position,
+                  var overlay = new  window.kakao.maps.CustomOverlay({
                     content: content,
-                    map: map
-                    // xAnchor: 0,
-                    // yAnchor: 0.3
-                    
-                  });
-
+                    map: map,
+                    position: marker.getPosition()       
+                });
+  
                   // 클릭한 버스 정류장 번호
                   console.log('버정 번호', gpsBusNodeId); // 출력: 8001091
                   // socket.emit('button', { data: 'test' });
@@ -281,11 +279,10 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                   
                   
 
-                  customOverlay.setMap(map)
+                  overlay.setMap(map);
 
-                  setInterval(()=>{
-                    customOverlay.setMap(null)
-                  }, 500000)
+
+                
                 });
 
               });

@@ -8,18 +8,48 @@ import { UserFavorDocument, UserFavor } from './userFavor.schema';
 export class FavorService {
   constructor(@InjectModel(UserFavor.name) private readonly userModel: Model<UserFavorDocument>) {}
 
-  async CreateUser(busStopID: string, busStopName: string, user: string): Promise<UserFavor> {
-    const existingUser = await this.userModel.findOne({ busStopName });
+  async CreateUser(busStopID: string, busStopName: string, user: string, mark:boolean): Promise<UserFavor> {
+    const existingBus = await this.userModel.findOne({ busStopName });
+    const existingUser = await this.userModel.findOne({ user });
     const userInfo = {busStopID, busStopName, user: [user]};
   
-    if (existingUser) {
-      // 이미 해당 사용자 정보가 존재하는 경우 favor 값을 배열에 추가
-      existingUser.user.push(user);
-      return existingUser.save();
+    if(mark){
+      if (existingBus) {
+        // 이미 해당 사용자 정보가 존재하는 경우 favor 값을 배열에 추가
+        if(!existingUser){
+          existingBus.user.push(user);
+          return existingBus.save();
+
+        }
+        
+      }
+  
+      const userF = new this.userModel(userInfo);
+      return userF.save();
+    }
+    else{
+      const updateResult = await this.userModel.updateOne(
+        { busStopID },
+        { $pull: { user: user } }
+      );
+    }
+    
+
+  }
+
+  async CheckUser(busStopID: string, user: string) {
+    const checker = await this.userModel.findOne({ busStopID, user });
+    let result:boolean;
+  
+    if (checker) {
+      result = true;
+    }
+    else{
+      result = false;
     }
 
-    const userF = new this.userModel(userInfo);
-    return userF.save();
+    
+    return result
 
   }
 }

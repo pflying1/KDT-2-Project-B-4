@@ -9,6 +9,10 @@ import axios from 'axios';
 import markNull from '../view/image/bookmarknull.png'
 import markPull from '../view/image/bookmarkPull.png'
 import '../view/css/busStopModalStyles.css';
+import DataTest from '../../busArray.json';
+import ReactDOMServer from 'react-dom/server';
+
+
 const socket = io('http://localhost:3000/busSocket');
 
 interface BusStopData {
@@ -25,24 +29,73 @@ interface BusStopData {
 interface MapProps {
   apiKey?: string;
 }
+
 let cnt = 5; //버스 개수
 let busStopName = '을지대학병원'; //정류장 이름
 let busStopNumber = '12356' //정류장 번호
 let busWay = '대전시청방면' //버스 방면
-let busNumber: string[] = [];
-let busDiv = '간선'
+let busNumber:string[] = [];
+let busDiv:string[] = []
 let busTime = '6'
 let busStopCount = '4'
 let toggle = false;
 let mark = markNull;
 
-let busArray: any = [];
 let responseHandlerRegistered = false;
+
+
+
+
+const handleImageClick = async () => {
+  const userID = localStorage.getItem('userID');
+
+  if (toggle) {
+    toggle = false
+    mark = markNull
+  }
+  else {
+    toggle = true
+    mark = markPull
+  }
+
+  try {
+    const response = await axios.post('/favor', {
+      busStopID: busStopNumber,
+      busStopName: busStopNumber,
+      user: userID,
+      mark: toggle
+    });
+    console.log("북마크 클릭했을 때", response.data);
+  } catch (error) {
+    console.error(error);
+  }
+  
+};
+
+
+
+
 const MapWithMarkers: React.FC<MapProps> = () => {
   const mapContainer = React.useRef(null);
   const [apiKey, setApiKey] = useState<string | undefined>(undefined);
   const [mapData, setMapData] = useState<string | undefined>(undefined);
-  const [state, setState] = useState<number>(0);
+
+
+
+  function groupData(data: any[]): any[][] {
+    const result: any[][] = [];
+  
+    for (let i = 0; i < data.length; i += 4) {
+      const group: any[] = [];
+      for (let j = 0; j < 4; j++) {
+        group.push(data[i + j]);
+      }
+      result.push(group);
+    }
+  
+    return result;
+  }
+
   useEffect(() => {
     let userID = localStorage.getItem('userID');
     if (!userID) {
@@ -81,7 +134,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
           fetch('http://localhost:3000/busstation')
             .then((response) => response.json())
             .then((data) => {
-
+            
 
               data.forEach((item: BusStopData) => {
                 let gpsLati = item.GPS_LATI[0];
@@ -94,11 +147,8 @@ const MapWithMarkers: React.FC<MapProps> = () => {
 
                 let imageSrc = 'https://cdn-icons-png.flaticon.com/512/5390/5390754.png'; // 마커이미지의 주소입니다  
                 let imageSize = new window.kakao.maps.Size(35, 35);
-                let imageOption = { offset: new window.kakao.maps.Point(10, 20) };
+                let imageOption = {offset: new window.kakao.maps.Point(10, 20)}; 
                 let markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-
-
-
 
                 // 마커를 생성합니다
                 let marker = new window.kakao.maps.Marker({
@@ -113,15 +163,27 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                 function BusChild(number: string, div: string, time: string, count: string) {
                   let colorVal;
                   let timeVal;
-
-                  if (div === '지선') {
+                
+                  if (div === '마을버스') {
+                    div = '마을'
+                    colorVal = 'skyblue';
+                  } else if (div === '지선버스') {
+                    div = '지선'
                     colorVal = 'green';
-                  } else if (div === '간선') {
+                  } else if (div === '간선버스') {
+                    div = '간선'
                     colorVal = 'blue';
-                  } else {
+                  } else if (div === '광역버스') {
+                    div = '광역'
+                    colorVal = 'orange';
+                  } else if (div === '급행버스') {
+                    div = '급행'
                     colorVal = 'red';
+                  } else {
+                    div = 'Null'
+                    colorVal = 'black';
                   }
-
+                
                   if (time === '잠시후 도착') {
                     timeVal = 'red';
                   } else if (parseInt(time) <= 5) {
@@ -129,7 +191,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                   } else {
                     timeVal = 'black';
                   }
-
+                
                   return `
                     <div class="busInfo">
                       <div class='busDiv' style='background-color: ${colorVal}'>${div}</div>
@@ -137,149 +199,113 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                       <div style='color:${timeVal};font-size: 7pt'>${time}분 (${count}정거장 전)</div>
                     </div>`
                 };
-
-                function BusList(cnt: number, number: string[], div: string, time: string, count: string) {
+                
+                function BusList(cnt: number, number: string[], div: string[], time: string, count: string) {
                   let dd = ``;
                   console.log("버스 번호배열: ", number)
-
+                
                   for (let i = 0; i < cnt; i++) {
-                    dd += BusChild(number[i], div, time, count);
+                    dd += BusChild(number[i], div[i], time, count);
                   }
                   return dd;
                 }
-
-                const handleImageClick = async () => {
-                  const userID = localStorage.getItem('userID');
-
-                  if (toggle) {
-                    toggle = false
-                  }
-                  else {
-                    toggle = true
-                  }
-
-                  try {
-                    const response = await axios.post('/favor', {
-                      busStopID: busStopNumber,
-                      busStopName: busStopNumber,
-                      user: userID,
-                    });
-                    console.log(response.data);
-                  } catch (error) {
-                    console.error(error);
-                  }
-                };
-
+                
+                
+                
                 // 마커에 클릭이벤트를 등록합니다
-                
-                
                 window.kakao.maps.event.addListener(marker, 'click', function () {
-                  setState(1)
-                  console.log("처음", state)
-                  if (state === 0) {
-                    let a = 0;
 
-                    if (toggle) {
-                      mark = markPull;
-                    }
-                    else {
-                      mark = markNull;
-                    }
-                    const markerDelete = () => {
-                      a = 1;
-                      console.log('닫기 버튼 눌렀을 때 ', a)
-                      return a;
-                    }
-                    let content = `
-                      <div class="busModalWin">
-                      <div class="titleWrap">
-                      <div class="titleArea">
-                      <p class="title">${busStopName}</p>
-                      <img src=${mark} alt="bookMark" onClick="${handleImageClick()}" />
-                      </div>
-                      <div class="titleArea">
-                              <p class="busText">${busStopNumber}</p>
-                              <p class="busText">${busWay}</p>
-                              </div>
-                          </div>
-                          <div class="divLine"></div>
-                          <div class="busInfoWrap">
-                            <p class="busTitleWrap">실시간 버스 정보</p>
-                            <div class="listScroll">
-                            ${BusList(cnt, busNumber, busDiv, busTime, busStopCount)}
-                            </div >
-                            </div >
-                            <div>
-                          <button onclick="${markerDelete}">닫기</button>
-                          </div>
-                        </div > `;
+                  let a = groupData(DataTest)
+                  console.log("a: ", a)
+                  
+                
+                  
+                  // let content = `
+                  //   <div class="busModalWin">
+                  //     <div class="titleWrap">
+                  //       <div class="titleArea">
+                  //         <p class="title">${busStopName}</p>
+                  //         <img src=${mark} alt="bookMark" onClick="${handleImageClick()}" />
+                  //       </div>
+                  //       <div class="titleArea">
+                  //         <p class="busText">${busStopNumber}</p>
+                  //         <p class="busText">${busWay}</p>
+                  //       </div>
+                  //     </div>
+                  //     <div class="divLine"></div>
+                  //     <div class="busInfoWrap">
+                  //       <p class="busTitleWrap">실시간 버스 정보</p>
+                  //       <div class="listScroll">
+                  //         ${ BusList(cnt, busNumber, busDiv, busTime, busStopCount)}
+                  //       </div >
+                  //     </div >
+                  //   </div > `;
 
-                    const infowindow = new window.kakao.maps.InfoWindow({
-                      content: content,
-                      removable: true
+                  const content = ReactDOMServer.renderToStaticMarkup(
+                    <BusModal busStopName={busStopName} busStopNumber={busStopNumber} />
+                  );
 
-                    })
-                    // let customOverlay = new window.kakao.maps.CustomOverlay({
-                    //   position: position,
-                    //   content: content,
-                    //   map: map
-                    //   // xAnchor: 0,
-                    //   // yAnchor: 0.3
-
-                    // });
-
-                    // 클릭한 버스 정류장 번호
-                    console.log('버정 번호', gpsBusNodeId); // 출력: 8001091
-                    // socket.emit('button', { data: 'test' });
-                    socket.emit('buttonClicked', { data: gpsBusNodeId });
-
-                    setInterval(() => {
-                      socket.emit('buttonClicked', { data: gpsBusNodeId });
-                    }, 10000);
-
-                    if (!responseHandlerRegistered) {
-
-                      socket.on('response', (response) => {
-                        busNumber = [];
-                        console.log('새로운 응답 도착:', response);
-                        cnt = response.length;
-
-                        // if (response && response[1]) {
-                        if (busNumber.length === 0) {
-                          for (let i = 0; i < response.length; i++) {
-                            console.log('response[i][0]', response[i][0]);
-                            console.log('response[1][1]', response[i][1]);
-                            console.log('response[1][2]', response[i][2]);
-                            console.log("길이 0 일 때")
-                            // busNumber.push(response[i][2])
-                            busMarker(response[i][0], response[i][1], map, 0);
-                            busArray.push(response[i][0], response[i][1])
-                          }
-                        }
-                        busNumber = [];
-                        return busArray;
-                      });
-                      responseHandlerRegistered = true;
-
-                    }
-                    infowindow.open(map, marker);
-                    setState(1)
-                  } else if (state === 1) {
-
-                    const infowindow = new window.kakao.maps.InfoWindow({
-                      content: null,
-                      removable: true
+                  let customOverlay =  new window.kakao.maps.CustomOverlay({
+                    position: position,
+                    content: content,
+                    map: map
+                    // xAnchor: 0,
+                    // yAnchor: 0.3
                     
-                    })
-                    console.log('출력댐댐')
-                    infowindow.close();
+                  });
+
+                  // 클릭한 버스 정류장 번호
+                  console.log('버정 번호', gpsBusNodeId); // 출력: 8001091
+                  // socket.emit('button', { data: 'test' });
+                  socket.emit('buttonClicked', { data: gpsBusNodeId });
+
+                  setInterval(() => {
+                    socket.emit('buttonClicked', { data: gpsBusNodeId });
+                  }, 10000);
+
+                  if (!responseHandlerRegistered) {
+
+                    socket.on('response', (response) => {
+                      busNumber = [];
+                      busDiv= [];
+                      console.log('새로운 응답 도착:', response);
+                      cnt = response.length;
+
+                      // if (response && response[1]) {
+                      if (busNumber.length === 0) {
+                        for (let i = 0; i < response.length; i++) {
+                          console.log('response[i][0]', response[i][0]);
+                          console.log('response[1][1]', response[i][1]);
+                          console.log('response[1][2]', response[i][2]);
+                          console.log('response[1][3]', response[i][3]);
+                          console.log("길이 0 일 때")
+                          busNumber.push(response[i][2])
+                          busDiv.push(response[i][3])
+                          busMarker(response[i][0], response[i][1], map);
+                        }
+
+                      
+                      }
+                      else {
+                        for (let i = 0; i < response.length; i++) {
+                          console.log('response[i][0]', response[i][0]);
+                          console.log('response[1][1]', response[i][1]);
+                          console.log('response[1][2]', response[i][2]);
+                          console.log('response[1][3]', response[i][3]);
+                          busMarker(response[i][0], response[i][1], map);
+                        }
+                      }
+                    });
+                    responseHandlerRegistered = true;
                   }
+                  
+                  
 
-                  // customOverlay.setMap(map)
+                  customOverlay.setMap(map)
 
-                  // setInterval(()=>{
-                  //   customOverlay.setMap(null)
-                  // }, 5000)
+                  setInterval(()=>{
+                    customOverlay.setMap(null)
+                  }, 500000)
                 });
 
               });
@@ -299,4 +325,3 @@ const MapWithMarkers: React.FC<MapProps> = () => {
 };
 
 export default MapWithMarkers;
-

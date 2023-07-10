@@ -113,6 +113,10 @@
   font-weight: bold;
   margin: 0 10% 0 5%;
 }
+.imgBook{
+  cursor: pointer;
+  z-index: 4;
+}
 
 .close{
   width: 10%;

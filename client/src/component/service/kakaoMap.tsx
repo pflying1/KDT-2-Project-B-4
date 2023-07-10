@@ -30,6 +30,14 @@ interface MapProps {
   apiKey?: string;
 }
 
+
+interface BusChildProps {
+  number: string;
+  div: string;
+  time: string;
+  count: string;
+}
+
 let cnt = 5; //버스 개수
 let busStopName = '을지대학병원'; //정류장 이름
 let busStopNumber = '12356' //정류장 번호
@@ -200,16 +208,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                     </div>`
                 };
                 
-                function BusList(cnt: number, number: string[], div: string[], time: string, count: string) {
-                  let dd = ``;
-                  console.log("버스 번호배열: ", number)
-                
-                  for (let i = 0; i < cnt; i++) {
-                    dd += BusChild(number[i], div[i], time, count);
-                  }
-                  return dd;
-                }
-                
+              
                 
                 
                 // 마커에 클릭이벤트를 등록합니다
@@ -220,30 +219,11 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                   
                 
                   
-                  // let content = `
-                  //   <div class="busModalWin">
-                  //     <div class="titleWrap">
-                  //       <div class="titleArea">
-                  //         <p class="title">${busStopName}</p>
-                  //         <img src=${mark} alt="bookMark" onClick="${handleImageClick()}" />
-                  //       </div>
-                  //       <div class="titleArea">
-                  //         <p class="busText">${busStopNumber}</p>
-                  //         <p class="busText">${busWay}</p>
-                  //       </div>
-                  //     </div>
-                  //     <div class="divLine"></div>
-                  //     <div class="busInfoWrap">
-                  //       <p class="busTitleWrap">실시간 버스 정보</p>
-                  //       <div class="listScroll">
-                  //         ${ BusList(cnt, busNumber, busDiv, busTime, busStopCount)}
-                  //       </div >
-                  //     </div >
-                  //   </div > `;
-
+      
                   const content = ReactDOMServer.renderToStaticMarkup(
-                    <BusModal busStopName={busStopName} busStopNumber={busStopNumber} />
+                    <BusModal busStopName={busStopName} busStopNumber={busStopNumber} num={busNumber} div={busDiv} time={busTime} count={cnt} />
                   );
+                  // cnt, busNumber, busDiv, busTime, busStopCount
 
                   let customOverlay =  new window.kakao.maps.CustomOverlay({
                     position: position,

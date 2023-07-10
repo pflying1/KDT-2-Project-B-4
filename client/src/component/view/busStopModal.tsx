@@ -27,18 +27,34 @@ interface BusChildProps {
 interface BusProps {
   busStopName: string;
   busStopNumber: string;
+  num: string[];
+  div: string[];
+  time: string;
+  count: number;
 }
 
 const BusChild: React.FC<BusChildProps> = ({ number, div, time, count }) => {
   let colorVal;
   let timeVal;
 
-  if (div === '지선') {
+  if (div === '마을버스') {
+    div = '마을'
+    colorVal = 'skyblue';
+  } else if (div === '지선버스') {
+    div = '지선'
     colorVal = 'green';
-  } else if (div === '간선') {
+  } else if (div === '간선버스') {
+    div = '간선'
     colorVal = 'blue';
-  } else {
+  } else if (div === '광역버스') {
+    div = '광역'
+    colorVal = 'orange';
+  } else if (div === '급행버스') {
+    div = '급행'
     colorVal = 'red';
+  } else {
+    div = 'Null'
+    colorVal = 'black';
   }
 
   if (time === '잠시후 도착') {
@@ -48,7 +64,7 @@ const BusChild: React.FC<BusChildProps> = ({ number, div, time, count }) => {
   } else {
     timeVal = 'black';
   }
-
+ 
   return (
     <div className="busInfo">
       <div className='busDiv' style={{ backgroundColor: colorVal }}>{div}</div>
@@ -58,7 +74,7 @@ const BusChild: React.FC<BusChildProps> = ({ number, div, time, count }) => {
   );
 };
 
-const BusModal: React.FC<BusProps> = ({busStopName, busStopNumber}) => {
+const BusModal: React.FC<BusProps> = ({busStopName, busStopNumber,num,div,time,count}) => {
 // const BusModal: React.FC = () => {
   const userID = localStorage.getItem('userID');
   console.log("모달에서 받은 값: ", busStopName, busStopNumber)

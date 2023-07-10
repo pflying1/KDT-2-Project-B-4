@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { BusStopService } from './bus-stop.service';
 
 import { BusStop } from './bus-stop.schema';
@@ -25,4 +25,6 @@ export class BusStopController {
 
     return result;
   }
+
+  
 }

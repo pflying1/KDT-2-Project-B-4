@@ -14,4 +14,6 @@ export class BusLocationController {
     console.log(result);
     return result;
   }
+
+  
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import io from 'socket.io-client';
 import uuid from 'react-uuid';
 // import busStopMarker from './busStopMarker';
@@ -11,6 +11,7 @@ import markPull from '../view/image/bookmarkPull.png'
 import '../view/css/busStopModalStyles.css';
 import DataTest from '../../busArray.json';
 import ReactDOMServer from 'react-dom/server';
+import {SearchContext} from '../view/searchContext';
 
 
 const socket = io('http://localhost:3000/busSocket');
@@ -79,7 +80,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
   const mapContainer = React.useRef(null);
   const [apiKey, setApiKey] = useState<string | undefined>(undefined);
   const [mapData, setMapData] = useState<string | undefined>(undefined);
-
+  const { LatLng } = useContext(SearchContext);
 
 
   function groupData(data: any[]): any[][] {
@@ -116,6 +117,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
   }, []);
 
   useEffect(() => {
+
     if (apiKey) {
       const script = document.createElement('script');
       script.async = true;
@@ -124,10 +126,20 @@ const MapWithMarkers: React.FC<MapProps> = () => {
 
       script.onload = () => {
         window.kakao.maps.load(() => {
-          const options = {
-            center: new window.kakao.maps.LatLng(36.347, 127.387),
-            level: 3,
-          };
+          let options;
+          if(LatLng.length ===0){
+            options = {
+              center: new window.kakao.maps.LatLng(36.347, 127.387),
+              level: 3,
+            };
+
+          }
+          else{
+            options = {
+              center: new window.kakao.maps.LatLng(LatLng[0], LatLng[1]),
+              level: 3,
+            };
+          }
           const map = new window.kakao.maps.Map(mapContainer.current, options);
 
           setMapData(map);
@@ -261,7 +273,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
 
                   setInterval(() => {
                     socket.emit('buttonClicked', { data: gpsBusNodeId });
-                  }, 10000);
+                  }, 5000);
 
                   if (!responseHandlerRegistered) {
 
@@ -315,7 +327,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
         });
       };
     }
-  }, [apiKey]);
+  }, [apiKey, LatLng]);
 
   if (!apiKey) {
     return <div>Loading...</div>;

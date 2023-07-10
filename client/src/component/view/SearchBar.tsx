@@ -1,10 +1,10 @@
-import React, { ReactNode, useState, ChangeEvent, useEffect } from 'react';
+import React, { ReactNode, useState, ChangeEvent, useEffect, useContext } from 'react';
 // import ReactDOM from 'react-dom';
 import menuBox from './image/menu.png';
 import searchBox from './image/search.png';
 import "./css/SearchBarStyle.css";
 import data from '../../data.json'
-
+import { SearchContext } from './searchContext';
 
 interface SearchBarProps {
   postData: BusStopData[];
@@ -29,7 +29,7 @@ const SearchBar = () => {
   const [result, setResult] = useState<string[]>([]);
   //post로 받아온 data 안에
   const [postData, setPostData] = useState<BusStopData[]>([]);
-
+  const {setLatLng} = useContext(SearchContext);
 
 
   //data내에 inpuvalue와 일치하는 요소 찾기
@@ -58,10 +58,16 @@ const SearchBar = () => {
       }
     })
       .then((response: Response) => response.json())
-      .then((data: BusStopData[]) => { console.log(data) })
+      .then((data: BusStopData[]) => { 
+        console.log("검색에서 넘어 온 값: ", data[0].GPS_LATI[0], data[0].GPS_LONG[0]) 
+
+        let re = [data[0].GPS_LATI[0], data[0].GPS_LONG[0]]
+        setLatLng(re);
+      })
       // props.onPostDataChange(data)
       .catch((error) => console.log(error))
-
+    
+    
   }
 
   const resultComponents: ReactNode[] = filterdData.map((item, index) =>

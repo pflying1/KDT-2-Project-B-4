@@ -33,5 +33,10 @@ export class BusStopService {
     return json;
     // }
   }
+  async searchResult(params:any[]) {
+    const coo = params;
+    console.log("서버에서 왔다ㅏㅏㅏ: ", coo)
 
+    return coo
+  }
 }

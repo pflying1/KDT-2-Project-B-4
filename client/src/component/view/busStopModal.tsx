@@ -65,9 +65,8 @@ const BusModal: React.FC<BusProps> = ({busStopName, busStopNumber}) => {
   console.log("모달에서 유저값 ", userID)
 
   const [toggle, setToggle] = useState(false);
-    useEffect(()=>{
-      bookMarkCheck()
-    }, [])
+    
+
   const bookMarkCheck = async () => {
     const userID = localStorage.getItem('userID');
   
@@ -106,6 +105,10 @@ const BusModal: React.FC<BusProps> = ({busStopName, busStopNumber}) => {
       console.error(error);
     }
   };
+
+  useEffect(()=>{
+    bookMarkCheck()
+  }, [])
 
   if(toggle){
     mark = markPull

@@ -34,8 +34,8 @@ let cnt = 5; //버스 개수
 let busStopName = '을지대학병원'; //정류장 이름
 let busStopNumber = '12356' //정류장 번호
 let busWay = '대전시청방면' //버스 방면
-let busNumber: string[] = [];
-let busDiv = '간선'
+let busNumber:string[] = [];
+let busDiv:string[] = []
 let busTime = '6'
 let busStopCount = '4'
 let toggle = false;
@@ -164,12 +164,24 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                   let colorVal;
                   let timeVal;
                 
-                  if (div === '지선') {
+                  if (div === '마을버스') {
+                    div = '마을'
+                    colorVal = 'skyblue';
+                  } else if (div === '지선버스') {
+                    div = '지선'
                     colorVal = 'green';
-                  } else if (div === '간선') {
+                  } else if (div === '간선버스') {
+                    div = '간선'
                     colorVal = 'blue';
-                  } else {
+                  } else if (div === '광역버스') {
+                    div = '광역'
+                    colorVal = 'orange';
+                  } else if (div === '급행버스') {
+                    div = '급행'
                     colorVal = 'red';
+                  } else {
+                    div = 'Null'
+                    colorVal = 'black';
                   }
                 
                   if (time === '잠시후 도착') {
@@ -188,12 +200,12 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                     </div>`
                 };
                 
-                function BusList(cnt: number, number: string[], div: string, time: string, count: string) {
+                function BusList(cnt: number, number: string[], div: string[], time: string, count: string) {
                   let dd = ``;
                   console.log("버스 번호배열: ", number)
                 
                   for (let i = 0; i < cnt; i++) {
-                    dd += BusChild(number[i], div, time, count);
+                    dd += BusChild(number[i], div[i], time, count);
                   }
                   return dd;
                 }
@@ -255,6 +267,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
 
                     socket.on('response', (response) => {
                       busNumber = [];
+                      busDiv= [];
                       console.log('새로운 응답 도착:', response);
                       cnt = response.length;
 
@@ -264,9 +277,10 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                           console.log('response[i][0]', response[i][0]);
                           console.log('response[1][1]', response[i][1]);
                           console.log('response[1][2]', response[i][2]);
+                          console.log('response[1][3]', response[i][3]);
                           console.log("길이 0 일 때")
-                          // busNumber.push(response[i][2])
-                          busNumber.push(a[i][2])
+                          busNumber.push(response[i][2])
+                          busDiv.push(response[i][3])
                           busMarker(response[i][0], response[i][1], map);
                         }
 
@@ -277,6 +291,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                           console.log('response[i][0]', response[i][0]);
                           console.log('response[1][1]', response[i][1]);
                           console.log('response[1][2]', response[i][2]);
+                          console.log('response[1][3]', response[i][3]);
                           busMarker(response[i][0], response[i][1], map);
                         }
                       }

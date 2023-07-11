@@ -232,30 +232,30 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                   
                 
                   
-                  // let content = `
-                  //   <div class="busModalWin">
-                  //     <div class="titleWrap">
-                  //       <div class="titleArea">
-                  //         <p class="title">${busStopName}</p>
-                  //         <img src=${mark} alt="bookMark" onClick="${handleImageClick()}" />
-                  //       </div>
-                  //       <div class="titleArea">
-                  //         <p class="busText">${busStopNumber}</p>
-                  //         <p class="busText">${busWay}</p>
-                  //       </div>
-                  //     </div>
-                  //     <div class="divLine"></div>
-                  //     <div class="busInfoWrap">
-                  //       <p class="busTitleWrap">실시간 버스 정보</p>
-                  //       <div class="listScroll">
-                  //         ${ BusList(cnt, busNumber, busDiv, busTime, busStopCount)}
-                  //       </div >
-                  //     </div >
-                  //   </div > `;
+                  let content = `
+                    <div class="busModalWin">
+                      <div class="titleWrap">
+                        <div class="titleArea">
+                          <p class="title">${busStopName}</p>
+                          <img src=${mark} alt="bookMark" onClick="${handleImageClick()}" />
+                        </div>
+                        <div class="titleArea">
+                          <p class="busText">${busStopNumber}</p>
+                          <p class="busText">${busWay}</p>
+                        </div>
+                      </div>
+                      <div class="divLine"></div>
+                      <div class="busInfoWrap">
+                        <p class="busTitleWrap">실시간 버스 정보</p>
+                        <div class="listScroll">
+                          ${ BusList(cnt, busNumber, busDiv, busTime, busStopCount)}
+                        </div >
+                      </div >
+                    </div > `;
 
-                  const content = ReactDOMServer.renderToStaticMarkup(
-                    <BusModal busStopName={busStopName} busStopNumber={busStopNumber} />
-                  );
+                  // const content = ReactDOMServer.renderToStaticMarkup(
+                  //   <BusModal busStopName={busStopName} busStopNumber={busStopNumber} />
+                  // );
 
                   let customOverlay =  new window.kakao.maps.CustomOverlay({
                     position: position,

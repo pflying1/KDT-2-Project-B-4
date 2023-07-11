@@ -230,8 +230,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                   let a = groupData(DataTest)
                   console.log("a: ", a)
                   
-                
-                  
+                    
                   let content = `
                     <div class="busModalWin">
                       <div class="titleWrap">
@@ -252,6 +251,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                         </div >
                       </div >
                     </div > `;
+              
 
                   // const content = ReactDOMServer.renderToStaticMarkup(
                   //   <BusModal busStopName={busStopName} busStopNumber={busStopNumber} />
@@ -317,7 +317,7 @@ const MapWithMarkers: React.FC<MapProps> = () => {
 
                   setInterval(()=>{
                     customOverlay.setMap(null)
-                  }, 500000)
+                  }, 10000)
                 });
 
               });

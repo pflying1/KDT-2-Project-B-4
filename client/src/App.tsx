@@ -5,9 +5,6 @@ import Map from './component/service/kakaoMap'
 import IntroPage from "./component/view/introPageScreen";
 import Nav from './component/view/nav';
 import Header from "./component/view/header";
-import FavoritesListAll from "./component/view/FavoritesListAll";
-import SocketApp from "./component/view/socketC";
-import BusLocationData from "./component/service/busLocation";
 import {SearchContext} from './component/view/searchContext'
 
 function App() {
@@ -42,13 +39,6 @@ function App() {
         </Routes>
         <Routes>
           <Route path="/main" element={<Map />} />
-        </Routes>
-        <Routes>      
-          <Route path="/chat" element={<SocketApp />} />
-        </Routes>
-        <Routes>          
-          <Route path="/favorite" element={<FavoritesListAll/>} />
-          {/* <Route path="/buslocation" element={<BusLocationData/>} /> */}
         </Routes>
         {[
           "/"

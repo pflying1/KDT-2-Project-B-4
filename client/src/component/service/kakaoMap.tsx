@@ -171,7 +171,6 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                 window.kakao.maps.event.addListener(marker, 'click', function () {
                   if (prevOverlay) {
                     prevOverlay.setMap(null);
-                    socket.removeListener('response', prevOverlay);
                   }
                   
                   
@@ -216,13 +215,13 @@ const MapWithMarkers: React.FC<MapProps> = () => {
                   // socket.emit('button', { data: 'test' });
                   socket.emit('buttonClicked', { data: gpsBusNodeId });
 
-                  setInterval(() => {
+                  const setIntervalHandle = setInterval(() => {
                     socket.emit('buttonClicked', { data: gpsBusNodeId });
                   }, 10000);
                   
                   // if (responseHandlerRegistered) {
-                    
-                  const clickMarker = socket.on('response', (response) => {
+                  
+                  socket.on('response', (response) => {
                       busNumber = [];
                       console.log('새로운 응답 도착:', response);
                       cnt = response.length;

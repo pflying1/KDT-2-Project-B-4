@@ -155,4 +155,5 @@
 - 북마크 컴포넌트 핸들링 작업
 
 ## 2023.7.06 오합지존 발표
-file:///C:/Users/tijun/Downloads/KDT-Project-B-4%EC%A1%B0-BTS.gif
+
+![KDT-Project-B-4조-BTS (1)](https://github.com/pflying1/KDT-2-Project-B-4/assets/124133620/0d0b31a6-63a1-4282-a5f6-3289f5e3d034)

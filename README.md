@@ -1,4 +1,6 @@
 # 4조 오합지존
+
+![KDT-Project-B-4조-BTS (1)](https://github.com/pflying1/KDT-2-Project-B-4/assets/124133620/0d0b31a6-63a1-4282-a5f6-3289f5e3d034)
 ![화면 캡처 2023-07-05 103748](https://github.com/kongukjae/KDT-2-Project-B-4/assets/124134155/163aa8b3-41d4-4e5a-af45-8fe2d56754e1)
 ---
 
@@ -156,4 +158,3 @@
 
 ## 2023.7.06 오합지존 발표
 
-![KDT-Project-B-4조-BTS (1)](https://github.com/pflying1/KDT-2-Project-B-4/assets/124133620/0d0b31a6-63a1-4282-a5f6-3289f5e3d034)

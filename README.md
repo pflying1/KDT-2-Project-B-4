@@ -155,3 +155,4 @@
 - 북마크 컴포넌트 핸들링 작업
 
 ## 2023.7.06 오합지존 발표
+file:///C:/Users/tijun/Downloads/KDT-Project-B-4%EC%A1%B0-BTS.gif
